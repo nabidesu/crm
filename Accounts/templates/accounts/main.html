@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        CRM
+    </title>
+
+    <style>
+        .button {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button1 {
+            background-color: #04AA6D;
+        }
+
+        /* Green */
+        .button2 {
+            background-color: #008CBA;
+        }
+
+        /* Blue */
+        body {
+            background-color: #ebeff5;
+        }
+
+
+        #total-orders {
+            background-color: #4cb4c7;
+        }
+
+
+        #orders-delivered {
+            background-color: #7abecc;
+        }
+
+        #orders-pending {
+            background-color: #7CD1C0;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include 'Accounts/navbar.html' %}
+    <div class='container-fluid'>
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    <hr>
+
+
+    <button class="button button1">Login</button>
+    <button class="button button2">Register</button>
+
+
+    <h5>
+        Our Footer
+    </h5>
+</body>
+
+</html>

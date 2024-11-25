@@ -1,0 +1,74 @@
+__pycache__
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+env/
+venv/
+ENV/
+.venv/
+.Python
+
+# Django specific files
+db.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Local settings
+local_settings.py
+
+# Media and static files
+/media/
+/staticfiles/
+
+# Ignore built distribution files
+*.egg-info/
+*.eggs/
+dist/
+build/
+*.manifest
+
+# Coverage reports
+htmlcov/
+.coverage
+*.cover
+.hypothesis/
+
+# Pytest
+.pytest_cache/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*~
+*.sublime-workspace
+*.sublime-project
+
+# Node and Yarn
+node_modules/
+yarn-debug.log*
+yarn-error.log*
+
+# MacOS specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# JetBrains specific
+.idea/
+
+# Environment variables file
+.env
