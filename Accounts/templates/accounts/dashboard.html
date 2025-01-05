@@ -1,45 +1,155 @@
-{% extends 'Accounts/main.html' %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0d0d11;
+            color: #333;
+        }
 
-{% include 'Accounts/status.html' %}
+        header {
+            background-color: #345980;
+            color: #fff;
+            padding: 15px 20px;
+            text-align: center;
+        }
 
-<br>
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
 
-<div class="row">
-    <div class="col-md-5">
-        <h5>CUSTOMERS:</h5>
-        <hr>
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #e4ebe7;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #8f94e3;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #03203f;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .footer {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #310708;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'Accounts/navbar.html' %}
+    <!-- <div class='container-fluid'>
+        {% block content %}
+
+        {% endblock %}
+    </div> -->
+    <header>
+        <h1>Admin Dashboard</h1>
+    </header>
+    <div class="container">
+
         <div class="card card-body">
-            <a class="btn btn-primary  btn-sm btn-block" href="">Create Customer</a>
-            <table class="table table-sm">
-                <tr>
-                    <th></th>
-                    <th>Customer</th>
-                    <th>Reviews</th>
-                </tr>
-
-            </table>
+            <form method="get">
+                {{myFilter.form}}
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
         </div>
+
+    </div>
+    <div class="container">
+        <h2>Submitted Reviews</h2>
+        {% if reviews %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Phone Number</th>
+                    <th>Review</th>
+                    <th>Emotion</th>
+                    <th>Created At</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in reviews %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.phone_number }}</td>
+                    <td>{{ i.review }}</td>
+                    <td>{{ i.emotion }}</td>
+                    <td>{{ i.created_at|date:"M d, Y H:i" }}</td>
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'remove_review' i.phone_number%}">Remove</a></td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No reviews found.</p>
+        {% endif %}
+
+
     </div>
 
-    <div class="col-md-7">
-        <h5>LAST 5 reviews</h5>
-        <hr>
-        <div class="card card-body">
-            <a class="btn btn-primary  btn-sm btn-block" href="">Create Order</a>
-            <table class="table table-sm">
-                <tr>
 
-                    <th>Status</th>
-                    <th>Update</th>
-                    <th>Remove</th>
-                </tr>
 
-            </table>
-        </div>
-    </div>
+    <footer class="footer">
+        &copy; {{ year }} Your Company Name. All rights reserved.
+    </footer>
+</body>
 
-</div>
-
-{% endblock %}
+</html>

@@ -7,44 +7,86 @@
     </title>
 
     <style>
-        .button {
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-
-        .button1 {
-            background-color: #04AA6D;
-        }
-
-        /* Green */
-        .button2 {
-            background-color: #008CBA;
-        }
-
-        /* Blue */
         body {
-            background-color: #ebeff5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #02022e;
+            color: #333;
         }
 
-
-        #total-orders {
-            background-color: #4cb4c7;
+        header {
+            background-color: #4fac71;
+            color: #fff;
+            padding: 15px 20px;
+            text-align: center;
         }
 
-
-        #orders-delivered {
-            background-color: #7abecc;
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
         }
 
-        #orders-pending {
-            background-color: #7CD1C0;
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #7c9b9f;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #a2b0bf;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #17314d;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .footer {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -59,9 +101,40 @@
     </div>
     <hr>
 
+    <div class="container">
+        <h2>Users
+        </h2>
 
-    <button class="button button1">Login</button>
-    <button class="button button2">Register</button>
+        {% if users %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in users %}
+                <tr>
+                    <td>{{ i.username }}</td>
+                    <td>{{ i.email}}</td>
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'remove_user' i.username%}">Remove</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No users found.</p>
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- <button class="button button1">Login</button> -->
+    <!-- <button class="button button2">Register</button> -->
 
 
     <h5>

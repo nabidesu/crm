@@ -1,4 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login form</title>
+    <style>
+        body {
+            padding: 0px;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: rgb(0, 0, 0);
+
+        }
+
+        .Nav {
+
+            padding: 0px;
+            width: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.2);
+            height: 80px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .Nav li {
+            list-style: none;
+            display: inline;
+        }
+
+        .Nav li a {
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            color: #f2f2f2;
+            display: inline-block;
+            text-align: center;
+            letter-spacing: 1px;
+            transition: all .3s ease-in;
+            font-family: "Play", sans-serif;
+        }
+
+        .Nav li a:hover {
+            background-color: #DDFFD9;
+            background-color: #F0C5AD;
+            color: black;
+        }
+
+        .background {
+            /* background: url("../resources/images/Loginpage.jpg"); */
+            background-repeat: no-repeat;
+            background-color: #ade2a7;
+            background-size: cover;
+            background-blend-mode: darken;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: -1;
+            min-height: 800px;
+
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 500px;
+            margin: 10vh auto;
+            background: transparent;
+            box-shadow: 0 0 25px rgb(27, 72, 42);
+            border-radius: 25px;
+        }
+
+        h2 {
+            font-size: 50px;
+            font-family: serif;
+        }
+
+        form {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            width: 85%;
+        }
+
+        .form-item {
+            display: flex;
+            width: 90%;
+            background: transparent;
+            margin: 10px auto;
+            border-radius: 15px;
+            align-items: center;
+            border-bottom: 1px solid rgb(1, 1, 1);
+        }
+
+        .form-item:hover {
+            border: 2px solid rgb(5, 5, 5);
+
+        }
+
+        input {
+            background: transparent;
+            width: 80%;
+            height: 30px;
+            outline: none;
+            border: none;
+            margin: auto;
+            color: rgb(13, 13, 13);
+            font-size: 17px;
+        }
+
+        button[type="loginn"] {
+            width: 180px;
+            font-size: 20px;
+            margin: 10px auto;
+            padding: 8px;
+            background: rgba(74, 107, 64, 0.72);
+            border: none;
+            color: rgb(11, 11, 11);
+        }
+
+        button[type="loginn"]:hover {
+            background: rgba(4, 84, 44, 0.678);
+        }
+
+
+        button {
+            font-size: 18px;
+            padding: 5px 16px;
+            margin: 5px 15px;
+            width: 180px;
+            background: transparent;
+            color: rgb(11, 11, 11);
+            cursor: pointer;
+            transition: all 0.7s ease;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 5px;
+
+        }
+
+        a {
+            color: rgb(25, 79, 52);
+        }
+
+        a:hover {
+            color: rgb(6, 6, 6);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- for background -->
+    <div class="background"></div>
 
 
 
-<h1>Login</h1>
+    <div class="container">
+        <h2>Login</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <div class="form-item">
+
+                <input type="text" name="username" placeholder="Email or Username">
+            </div>
+
+            <div class="form-item">
+
+                <input type="password" name="password" placeholder="password">
+            </div>
+
+            <button type="submit">LOGIN</button>
+            {% for message in messages %}
+            <p id="messages">{{message}}</p>
+            {% endfor %}
+
+            <p>New User ? <a href="/register"> Create an Account</a></p>
+
+        </form>
+
+
+    </div>
+</body>
+
+</html>

@@ -6,8 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
 </head>
 
 <body>
@@ -15,22 +18,34 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">CRM </a>
+                <a class="navbar-brand" href="#">Moodify </a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="main.html">Home</a></li>
-                <li><a href="customer.html">Customer</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
+
+                <li><a href="/main">Admin</a></li>
+
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/give_review">Review</a></li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="/staff_profile"><i class="fas fa-user-circle " aria-hidden="true"></i> Profile</a></li>
+
+
+                <li><a href="/logout">Logout {{request.user}}</a></li>
+                {% else %}
+                <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+                {% endif %}
             </ul>
         </div>
+
+
     </nav>
 
-    <div class="container">
-    </div>
+
 
 </body>
 

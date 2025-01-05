@@ -1,0 +1,21 @@
+{% if item.review %}
+<h2>Are you sure you want to remove this review?</h2>
+<p>{{ item.review }}</p>
+
+<form action="{% url 'remove_review' item.phone_number %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class=" btn btn-danger">Yes, Remove Review</button>
+    <a href="{% url 'dashboard' %}" class=" btn btn-secondary">Cancel</a>
+</form>
+{% endif %}
+
+{% if item.username %}
+<h2>Are you sure you want to remove this user?</h2>
+<p>{{ item.username }}</p>
+
+<form action="{% url 'remove_user' item.username %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class=" btn btn-danger">Yes, Remove User</button>
+    <a href="{% url 'main' %}" class=" btn btn-secondary">Cancel</a>
+</form>
+{% endif %}

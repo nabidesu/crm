@@ -23,11 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x%4rvym_o-8a*l2%x3bl!l5=-2+__#qzuw!vnu5n38-s=i)wmj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Accounts',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -69,8 +70,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'crm.wsgi.application'
-
-
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'  # For Admin/Staff after login.
+LOGOUT_REDIRECT_URL = '/login/'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
