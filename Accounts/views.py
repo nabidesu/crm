@@ -206,28 +206,35 @@ with open(model_path, 'rb') as file:
     voting_clf = pickle.load(file)
 
 
-def predict_emotion(text):
+# def predict_emotion(text):
 
-    try:
-        if not isinstance(text, str):
-            text = str(text)
-        if not text.strip():
-            return "unknown"
+#     try:
+#         if not isinstance(text, str):
+#             text = str(text)
+#         if not text.strip():
+#             return "unknown"
 
-        clean_text = clean_data(text)
-        print(f"Original text: {text}")
-        print(f"Cleaned text: {clean_text}")
-        text_vector = tfidf_vectorizer.transform([clean_text])
-        prediction = voting_clf.predict(text_vector)
-        mapping = {1: "positive", 0: "neutral", -1: "negative"}
-        predicted_emotion = mapping.get(prediction[0], "unknown")
-        print(f"Predicted emotion: {predicted_emotion}")
-        return predicted_emotion
-    except Exception as e:
-        print(f"Error in predict_emotion: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return "unknown"
+#         clean_text = clean_data(text)
+#         print(f"Original text: {text}")
+#         print(f"Cleaned text: {clean_text}")
+#         text_vector = tfidf_vectorizer.transform([clean_text])
+#         prediction = voting_clf.predict(text_vector)
+#         mapping = {1: "positive", 0: "neutral", -1: "negative"}
+#         predicted_emotion = mapping.get(prediction[0], "unknown")
+#         print(f"Predicted emotion: {predicted_emotion}")
+#         return predicted_emotion
+#     except Exception as e:
+#         print(f"Error in predict_emotion: {str(e)}")
+#         import traceback
+#         traceback.print_exc()
+#         return "unknown"
+    
+def predict_emotion(user_input):
+    clean_input = clean_data(user_input)
+    user_input_tfidf = tfidf_vectorizer.transform([clean_input])
+    prediction = voting_clf.predict(user_input_tfidf)
+    predicted_emotion = prediction[0] 
+    return predicted_emotion    
 
 
 # @allowed_users(allowed_roles=['admin', 'customer'])
