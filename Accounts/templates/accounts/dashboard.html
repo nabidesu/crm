@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,16 +6,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Great+Vibes&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Caveat';
             margin: 0;
             padding: 0;
             background-color: #0d0d11;
-            color: #333;
+            color: #ffffff;
         }
 
-        header {
+        /* header {
+            font-family: 'Great Vibes';
             background-color: #345980;
             color: #fff;
             padding: 15px 20px;
@@ -24,21 +33,25 @@
         header h1 {
             margin: 0;
             font-size: 1.8em;
-        }
+        } */
 
         .container {
-            max-width: 900px;
+            max-width: 750px;
             margin: 20px auto;
             background: #e4ebe7;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding-right: -80px;
+            font-family: 'Caveat';
         }
 
-        h2 {
-            color: #8f94e3;
-            font-size: 1.5em;
+        .container h2 {
+            font-family: 'merienda';
+            color: #F2EFE7;
+            font-size: 35px;
             margin-bottom: 10px;
+            text-align: center;
         }
 
         table {
@@ -49,43 +62,140 @@
 
         table th,
         table td {
-            border: 1px solid #ddd;
+            /* border: 1px solid #ddd; */
             padding: 10px;
             text-align: left;
+            width: 200px;
+            margin-right: 0px;
+            padding-right: 0px;
+            font-family: 'Caveat';
+            font-size: 20px;
+
         }
 
         table th {
-            background-color: #03203f;
+            background-color: #1E201E;
             color: white;
         }
 
         table tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #F2EFE7;
         }
 
         table tr:hover {
-            background-color: #f1f1f1;
+            background-color: none;
         }
 
         .footer {
             text-align: center;
             color: #666;
             font-size: 0.9em;
-            margin-top: 20px;
+            margin-top: 0px;
+            height: 50px;
         }
 
         .btn {
+            font-family: 'Caveat';
             display: inline-block;
             background-color: #310708;
             color: white;
             padding: 10px 15px;
             text-decoration: none;
             border-radius: 5px;
-            font-size: 1em;
+            font-size: 20px;
         }
 
         .btn:hover {
             background-color: #0056b3;
+        }
+
+        .graphsTable tr:hover {
+            background-color: transparent;
+        }
+
+        .container {
+            background-color: #3A6D8C;
+            opacity: 95%;
+
+        }
+
+        .one {
+            background: url("{% static 'images/dashboard.webp' %}") no-repeat center center fixed;
+            background-size: cover;
+            height: 100%;
+            padding-top: 0px;
+            margin-top: 0px;
+        }
+
+        /* Label for the form fields
+        label {
+            font-weight: bold;
+            color: #735220;
+            margin-bottom: 8px;
+            display: block;
+        } */
+
+        /* Style the card */
+        .card {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            opacity: 90%;
+            width: 600px;
+            height: 600px;
+            padding-top: -70px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #3A6D8C;
+            margin-top: -550px;
+        }
+
+        .card-title {
+            font-size: 35px;
+
+            color: #F2EFE7;
+            margin-bottom: 20px;
+            font-family: 'merienda';
+
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #F2EFE7;
+            margin-bottom: 8px;
+            font-family: 'Caveat';
+            display: block;
+
+            font-size: 20px;
+        }
+
+        .form-group input,
+        .form-group select {
+            border: 1px #F2EFE7;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            font-family: 'Caveat';
+            font-size: 20px;
+
+        }
+
+        button.btn-primary {
+            background-color: #7d5a51;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button.btn-primary:hover {
+            background-color: #8f94e3;
+        }
+
+        .merienda {
+            font-family: 'Merienda', cursive;
+            /* font-family: 'Great Vibes', cursive; */
+            color: #345B63;
         }
     </style>
 </head>
@@ -97,58 +207,350 @@
 
         {% endblock %}
     </div> -->
-    <header>
-        <h1>Admin Dashboard</h1>
-    </header>
-    <div class="container">
 
-        <div class="card card-body">
-            <form method="get">
-                {{myFilter.form}}
-                <button class="btn btn-primary" type="submit">Search</button>
-            </form>
-        </div>
-
-    </div>
-    <div class="container">
-        <h2>Submitted Reviews</h2>
-        {% if reviews %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Customer Name</th>
-                    <th>Phone Number</th>
-                    <th>Review</th>
-                    <th>Emotion</th>
-                    <th>Created At</th>
-                    <th>Edit</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in reviews %}
-                <tr>
-                    <td>{{ i.name }}</td>
-                    <td>{{ i.phone_number }}</td>
-                    <td>{{ i.review }}</td>
-                    <td>{{ i.emotion }}</td>
-                    <td>{{ i.created_at|date:"M d, Y H:i" }}</td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'remove_review' i.phone_number%}">Remove</a></td>
-
-                </tr>
-                {% endfor %}
-            </tbody>
+    <div class="one">
+        <table class="graphsTable" style="border: none; border-collapse: collapse;">
+            <td style=" border:  none;">
+                <!-- Graph Containers -->
+                <div class="container mt-4" style="margin-left: 40px; max-width: 750px; height: 420px; color: white;">
+                    <div style="width: 700px; height: 300px; margin-bottom: 50px; margin-right: -100px;">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+            </td>
+            <td style=" border:  none;">
+                <div class="pie container mt-4"
+                    style="margin-left: 40px; max-width: 750px; width: 550px; height: 440px;">
+                    <div style="width:400px; height: 300px; margin-bottom: 50px; margin-left: 50px;">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </td>
         </table>
-        {% else %}
-        <p>No reviews found.</p>
-        {% endif %}
 
+        <table style="border: none; border-collapse: collapse;">
+            <td style=" border:  none;">
+                <div class="container" style="margin-left: 30px; margin-right: -80px; padding-right: -180px;">
+                    <h2>Submitted Reviews</h2>
+                    {% if reviews %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer Email</th>
+                                <th>Review</th>
+                                <th>Emotion</th>
+                                <th>Created At</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in reviews %}
+                            <tr>
+                                <td>{{ i.email }}</td>
+                                <td>{{ i.review }}</td>
+                                <td>{{ i.emotion }}</td>
+                                <td>{{ i.created_at|date:"M d, Y H:i" }}</td>
+                                <td><a class="btn btn-sm btn-danger" href="{% url 'remove_review' i.email%}">Remove</a>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>No reviews found.</p>
+                    {% endif %}
+                </div>
+
+            </td>
+            <td style="height: 10px;">
+
+                <!-- <div class="three"> -->
+                <!-- <td -->
+                <!-- style="border: none; padding-bottom: 400px; width: 200px; height: 100px; background-color: #a59581; border-radius: 20px; margin-right: 0px;"> -->
+                <!-- <div class="container" -->
+                <!-- style="margin-left: 20px; padding-bottom: 100px; width: 350px; height: 100px; background-color: #a59581;"> -->
+                <div class="card" style="margin-left: 90px;">
+                    <div class="card-body" style="margin-bottom:5px">
+                        <h4 class="card-title" style="color: #F2EFE7;">Filter Reviews</h4>
+
+
+                        <!-- Filter Form for Reviews -->
+
+                        <form method="get">
+
+                            <!-- Emotion -->
+
+                            <div class="form-group">
+                                <label for="emotion">Emotion</label>
+                                <select id="emotion" name="emotion" class="form-control">
+                                    <option value="">All</option>
+                                    <option value="positive">Positive</option>
+                                    <option value="neutral">Neutral</option>
+                                    <option value="negative">Negative</option>
+                                </select>
+                            </div>
+
+
+                            <!-- Review -->
+
+                            <div class="form-group ">
+                                <label for="review">Review</label>
+                                <input type="text" id="review" name="review" class="form-control"
+                                    placeholder="Search by review">
+                            </div>
+
+
+                            <!-- Created At (Date Range) -->
+
+                            <div class="form-group ">
+                                <label for="created_at_after">From</label>
+                                <input type="date" id="created_at_after" name="created_at_after" class="form-control">
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="created_at_before">To</label>
+                                <input type="date" id="created_at_before" name="created_at_before" class="form-control">
+                            </div>
+
+                    </div>
+
+                    <!-- Buttons -->
+
+                    <div class="text-right mt-3">
+                        <button type="reset" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+
+                    </form>
+
+
+
+
+
+
+                </div>
+    </div>
+    <!-- </div> -->
+    <!-- </td> -->
+    <!-- </div> -->
+    </td>
+    </table>
 
     </div>
+    <script>
+        // Get the chart element
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var categoryCounts = {
+            Service: "{{category_counts.Service|default:0}}",
+            Food: "{{category_counts.Food|default:0}}",
+            Experience: "{{category_counts.Experience|default:0}}",
+            Ambience: "{{category_counts.Ambience|default:0}}",
+            Hygiene: "{{category_counts.Hygiene|default:0}}",
+            Price: "{{category_counts.Price|default:0}}"
+        };
+        // Create the chart
+        var barData = {
+            labels: ['Service', 'Food', 'Experience', 'Ambience', 'Hygiene', 'Price'],
 
+            datasets: [{
+                label: '',
+                data: [
+                    categoryCounts.Service,
+                    categoryCounts.Food,
+                    categoryCounts.Experience,
+                    categoryCounts.Ambience,
+                    categoryCounts.Hygiene,
+                    categoryCounts.Price
+                ],
+                backgroundColor: [
+                    '#292D53',
+                    '#ACD3A8',
+                    '#ADC5CE',
+                    '#2E5077',
+                    '#3B919B',
+                    '#DFD0B8'
+                ],
+
+                borderColor: 'white',
+                borderWidth: 1
+            }]
+        };
+
+        // Create the bar chart
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: barData,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Most Talked About',
+                        font: {
+                            size: 35,
+                            weight: 'normal',
+                            family: ' merienda'
+                        },
+                        color: '#F2EFE7'
+                    },
+                    legend: {
+
+                    },
+                    labels: {
+                        color: 'white', // White color for legend
+                        font: {
+                            family: 'Caveat',
+                            size: 16,
+                            weight: 'normal' // Set weight to normal
+                        }
+                    },
+                    datalabels: {
+                        anchor: 'end',  // Position the label at the top of the bar
+                        align: 'top',   // Align the label at the top
+                        color: '#F2EFE7',
+                        formatter: function (value) {
+                            return value; // Display the exact number
+                        },
+                        font: {
+                            size: 14,
+                            weight: 'normal',
+                            family: 'Caveat'
+                        }
+
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#F2EFE7',
+                        font: {
+                            family: 'Caveat',
+                            weight: 'normal',
+
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0,0,0,0)',
+                        borderColor: '#F2EFE7'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: 50,
+                    stepSize: 5,
+                    ticks: {
+                        color: '#F2EFE7',
+
+                        font: {
+
+                            family: 'Caveat',
+                            size: 16,
+                            weight: 'normal',
+                        }
+
+                    },
+                    grid: {
+                        color: 'rgba(242, 239, 231, 0.1)',
+                        borderColor: '#F2EFE7',
+                        // Light grid lines
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        var emotionCounts = {
+            positive: Number("{{emotion_counts.positive|default:0}}"),
+            negative: Number("{{emotion_counts.negative|default:0}}"),
+            neutral: Number("{{emotion_counts.neutral|default:0}}"),
+            unknown: Number("{{emotion_counts.unknown|default:0}}")
+        };
+        var total = emotionCounts.positive + emotionCounts.negative + emotionCounts.neutral + emotionCounts.unknown;
+        var ctx = document.getElementById('pieChart').getContext('2d');
+
+        // Create the chart
+
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Positive', 'Negative', 'Neutral', 'Unknown'],
+                datasets: [{
+                    label: 'Reviews Emotions',
+                    data: [emotionCounts.positive, emotionCounts.negative, emotionCounts.neutral, emotionCounts.unknown],
+                    backgroundColor: [
+                        '#A0C878', // Green for positive
+                        '#001F3F', // Maroon for negative
+                        '#F6F8D5', // Grey for neutral
+                        '#2E5077', // Black for unknown
+                    ],
+
+                    borderColor: 'white',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#F2EFE7', // White color for legend
+                            font: {
+                                family: 'Caveat',
+                                size: 16,
+                                weight: 'normal' // Set weight to normal
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Emotion Distribution in Reviews',
+                        font: {
+                            size: 35,
+                            family: 'merienda',
+                            weight: 'normal' // Set weight to normal
+                        },
+                        color: '#F2EFE7'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let value = context.raw;
+                                let percentage = total ? ((value / total) * 100).toFixed(2) : 0;
+                                return `${context.label}: ${percentage}% (${value})`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: '#F2EFE7',
+                        formatter: function (value, context) {
+                            let percentage = total ? ((value / total) * 100).toFixed(2) : 0;
+                            return percentage + "%";
+                        },
+                        font: {
+                            size: 14,
+                            weight: 'normal' // Set weight to normal
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+        function resetForm() {
+            // Reset the form
+            document.querySelector('form').reset();
+
+            // Reload the page to clear filters
+            window.location.href = window.location.pathname; // Reloads the current URL without query parameters
+        }
+    </script>
 
 
     <footer class="footer">
-        &copy; {{ year }} Your Company Name. All rights reserved.
+        &copy; {{ 2025 }} MOODIFY. All rights reserved.
     </footer>
 </body>
 

@@ -1,17 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>
-        CRM
-    </title>
+    <title>CRM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Great+Vibes&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #02022e;
             color: #333;
         }
 
@@ -30,10 +33,9 @@
         .container {
             max-width: 900px;
             margin: 20px auto;
-            background: #7c9b9f;
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 80%;
         }
 
         h2 {
@@ -56,12 +58,12 @@
         }
 
         table th {
-            background-color: #17314d;
+            background-color: #050520;
             color: white;
         }
 
         table tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f0f0f4;
         }
 
         table tr:hover {
@@ -77,7 +79,6 @@
 
         .btn {
             display: inline-block;
-            background-color: #007bff;
             color: white;
             padding: 10px 15px;
             text-decoration: none;
@@ -88,58 +89,148 @@
         .btn:hover {
             background-color: #0056b3;
         }
+
+        .mainTable tr:hover {
+            background-color: transparent;
+            color: inherit;
+        }
+
+        .two tbody td:hover {
+            background-color: #dee8f0;
+        }
+
+        .two {
+            background-color: #9aa1ac;
+        }
+
+        .one {
+            background: url("{% static '' %}") no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            padding-top: 0px;
+            margin-top: 0px;
+        }
+
+        .container-fluid {
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
+
+        .container {
+            background-color: #0e5c80;
+            opacity: 80%;
+        }
+
+        .container h2 {
+            color: white;
+        }
+
+        .merienda {
+            font-family: 'Merienda', cursive;
+            /* font-family: 'Great Vibes', cursive; */
+            color: #c9e2e8;
+            font-size: 35px;
+        }
+
+        .caveat {
+            font-family: 'Caveat', cursive;
+        }
     </style>
 </head>
 
 <body>
-
     {% include 'Accounts/navbar.html' %}
-    <div class='container-fluid'>
-        {% block content %}
+    {% block content %}
+    {% endblock %}
 
-        {% endblock %}
-    </div>
-    <hr>
 
-    <div class="container">
-        <h2>Users
-        </h2>
+    {% load static %}
+    <div class="one"
+        style="background: url('../../../static/images/opt3.jpg') no-repeat center center fixed; background-size: cover; min-height: 100vh; padding-top: 0px;">
 
-        {% if users %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Edit</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in users %}
-                <tr>
-                    <td>{{ i.username }}</td>
-                    <td>{{ i.email}}</td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'remove_user' i.username%}">Remove</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
+        <table class="mainTable" style="border: none; border-collapse: collapse;">
+            <td style="border: none; margin-left: 100px; width: 500px;">
+                <!-- Graph Container -->
+                <div class="container mt-4">
+                    <h2 class="merienda">Reviews Requiring Attention</h2>
+                    {% if reviews %}
+                    {% for review in reviews %}
+                    <div class="caveat"
+                        style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 10px; opacity:80%; font-size: 20px;">
+                        <p>Customer Email: {{ review.email }}</p>
+                        <p>Review: {{ review.review }}</p>
+                        <p>Created At:{{ review.created_at|date:"M d, Y H:i" }}</p>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>No reviews requiring attention.</p>
+                    {% endif %}
+                </div>
+                <div class="container">
+                    <h2 class="merienda">Users</h2>
+                    {% if users %}
+                    <table class="caveat" style="font-size: 20px;">
+                        <thead>
+                            <tr>
+                                <th>UserID</th>
+                                <th>first_name</th>
+                                <th>last_name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in users %}
+                            <tr class="two">
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.first_name }}</td>
+                                <td>{{ i.last_name }}</td>
+                                <td>{{ i.username }}</td>
+                                <td>{{ i.email }}</td>
+                                <td><a class="btn btn-sm btn-danger"
+                                        href="{% url 'remove_user' i.username %}">Remove</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>No users found.</p>
+                    {% endif %}
+                </div>
+            </td>
+            <td style="border: none;">
+                <div>
+                    <div
+                        style="background-color: #0e5c80; width: 400px; height: 550px; border-radius: 10px; margin-left: 80px;opacity: 80%;">
+                        <h1 class="merienda" style="text-align: center;color: white;">
+                            Activity</h1>
+                        <div style="padding: 10px; overflow-y: auto; height: 450px; font-size: 20px;" class="caveat">
+                            {% if activities %}
+                            {% for activity in activities %}
+                            <div
+                                style="background-color: #d5d5d5; color: rgb(72, 72, 72); padding: 10px; margin: 5px; border-radius: 5px;">
+                                <strong>{{ activity.timestamp|date:"M d, Y H:i" }}</strong><br>
+                                {{ activity.description }}
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <p style="color: white; text-align: center;">No recent activities.</p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </td>
         </table>
-        {% else %}
-        <p>No users found.</p>
-        {% endif %}
-
-
     </div>
 
 
-    <!-- <button class="button button1">Login</button> -->
-    <!-- <button class="button button2">Register</button> -->
 
-
-    <h5>
-        Our Footer
-    </h5>
+    <footer class="footer">
+        &copy; {{ 2025 }} MOODIFY. All rights reserved.
+    </footer>
 </body>
 
 </html>

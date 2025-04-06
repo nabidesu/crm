@@ -11,6 +11,43 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
+    <style>
+        /* Make sure navbar items are displayed horizontally */
+        .navbar-nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-left: 0;
+        }
+
+        .navbar-nav li {
+            margin-right: 15px;
+        }
+
+        .navbar-nav li:last-child {
+            margin-right: 0;
+        }
+
+        /* Align the right navbar items */
+        .navbar-right {
+            margin-left: auto;
+        }
+
+        .navbar-inverse {
+            background-color: #192328;
+            border-color: #080808;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navbar-inverse .navbar-nav>li>a {
+            color: #d1d1d1;
+        }
+
+        .navbar-inverse .navbar-nav>li>a:hover {
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,34 +55,24 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Moodify </a>
+                <a class="navbar-brand" href="#">Moodify</a>
             </div>
             <ul class="nav navbar-nav">
-
                 <li><a href="/main">Admin</a></li>
-
                 <li><a href="/dashboard">Dashboard</a></li>
                 <li><a href="/give_review">Review</a></li>
-
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                <li><a href="/staff_profile"><i class="fas fa-user-circle " aria-hidden="true"></i> Profile</a></li>
-
-
-                <li><a href="/logout">Logout {{request.user}}</a></li>
+                <li><a href="/staff_profile"><i class="fas fa-user-circle" aria-hidden="true"></i> Profile</a></li>
+                <li><a href="/logout">Logout {{ request.user }}</a></li>
                 {% else %}
                 <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                 <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-
                 {% endif %}
             </ul>
         </div>
-
-
     </nav>
-
-
 
 </body>
 

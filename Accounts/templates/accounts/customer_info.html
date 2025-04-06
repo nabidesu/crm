@@ -1,0 +1,442 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Information</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Great+Vibes&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
+        body {
+            font-family: 'Caveat';
+            margin: 0;
+            padding: 0;
+            background-color: #0d0d11;
+            color: #333;
+        }
+
+        .one {
+            background: url("{% static 'images/opt3.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            padding-top: 0px;
+            margin-top: 0px;
+        }
+
+        /* Container styling */
+        .container {
+            background-color: #3A6D8C;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 95%;
+            margin: 20px auto;
+
+        }
+
+        /* Table styling */
+        .table-bordered td {
+            background-color: white !important;
+            font-family: 'Caveat';
+            font-size: 18px;
+        }
+
+        .table th {
+            background-color: #130902 !important;
+            color: white !important;
+            font-family: 'Caveat';
+            font-size: 20px;
+        }
+
+        /* Headings */
+        h4 {
+            font-family: 'Great Vibes';
+            color: #F2EFE7;
+            font-size: 35px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Filter Container */
+        .filter-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Filter Form */
+        .filter-form {
+            flex: 1;
+            background-color: #3A6D8C;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #F2EFE7;
+            margin-left: 40px;
+        }
+
+        /* Labels */
+        .filter-form label {
+            font-weight: bold;
+            color: #F2EFE7;
+            font-family: 'Caveat';
+            font-size: 20px;
+        }
+
+        /* Form inputs */
+        .filter-form input,
+        .filter-form select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #F2EFE7;
+            border-radius: 4px;
+            background-color: white;
+            font-family: 'Caveat';
+            font-size: 18px;
+        }
+
+        /* Buttons */
+        .btn {
+            font-family: 'Caveat';
+            background-color: #310708;
+            color: white;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Chart container */
+        .chart-container {
+            background-color: #3A6D8C;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .layout-table {
+            width: 100%;
+            border: none;
+            border-collapse: separate;
+            border-spacing: 20px;
+        }
+
+        .layout-table td {
+            vertical-align: top;
+            border: none;
+            padding: 0;
+        }
+
+        .merienda {
+            font-family: 'Merienda', cursive;
+            /* font-family: 'Great Vibes', cursive; */
+            color: #c9e2e8;
+            font-size: 35px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    {% include 'Accounts/navbar.html' %}
+
+    <div class="one">
+        <div class="container-fluid px-4">
+            <div class="row">
+                <!-- Top section with chart and customer data -->
+                <div class="col-12">
+                    <table class="layout-table">
+                        <tr>
+                            <!-- Line Chart -->
+                            <td>
+                                <div class="chart-container" style="width: 700px; height:400px; margin-top: 20px;">
+                                    <h4 class="merienda">Weekly Registrations</h4>
+                                    <canvas id="myChart">
+                                        <style> </style>
+                                    </canvas>
+                                </div>
+                            </td>
+
+                            <!-- Customer Data Section -->
+                            <td>
+                                <div class="container" style="width: 700px; height:540px">
+                                    <h4 class="merienda" style="margin-top: -30px;">Customer Data</h4>
+                                    <div class="filter-container" style="width: 600px; height:200px; margin-top:0px ;">
+                                        <!-- Customer Filter Form -->
+                                        <div class="filter-form" style="width: 600px; height:200px; margin-top:0px;">
+                                            <form method="get">
+                                                <div class="row" style="width: 700px">
+                                                    <!-- Email -->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="customerEmail">Email</label>
+                                                            <input type="text" id="customerEmail" name="customerEmail"
+                                                                class="form-control" placeholder="Search by email">
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Activity Status -->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="activityStatus">Activity Status</label>
+                                                            <select id="activityStatus" name="activityStatus"
+                                                                class="form-control">
+                                                                <option value="">All</option>
+                                                                <option value="1">Active</option>
+                                                                <option value="0">Inactive</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Token Number -->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group"
+                                                            style="margin-left: 40px;  padding-right: -60px;">
+                                                            <label for="tokenNumber">Token Number</label>
+                                                            <input type="text" id="tokenNumber" name="tokenNumber"
+                                                                class="form-control" placeholder="Search by token">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 text-right"
+                                                        style="margin-left: -190px; margin-top: -50px;">
+                                                        <button type="reset" class="btn btn-secondary"
+                                                            onclick="resetForm()"
+                                                            style="padding: 10px; width: 102px;">Reset</button>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            style="padding: 10px; width: 102px;">Search</button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Buttons -->
+                                                <div class="row">
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Customer Table -->
+                                    <div class="table-responsive">
+                                        <table id="customerTable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Customer Email</th>
+                                                    <th>No of Days</th>
+                                                    <th>Charge per Day</th>
+                                                    <th>Activity Status</th>
+                                                    <th>Token Number</th>
+                                                    <th>Email Verified</th>
+                                                    <th>Admin User ID</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for customer in customers %}
+                                                <tr>
+                                                    <td>{{ customer.customerEmail }}</td>
+                                                    <td>{{ customer.noOfDays }}</td>
+                                                    <td>{{ customer.chargeperDay }}</td>
+                                                    <td>{{ customer.activityStatus }}</td>
+                                                    <td>{{ customer.tokenNumber }}</td>
+                                                    <td>{{ customer.email_verified }}</td>
+                                                    <td>{{ customer.adminUserID }}</td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="8">No customer data available.</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Delivery Status Section (below the first row) -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="container">
+                        <h4 class="merienda">Delivery Status</h4>
+                        <!-- Status Filter Form -->
+                        <div class="filter-container">
+                            <div class="filter-form">
+                                <form method="get">
+                                    <div class="row">
+                                        <!-- Delivery Status -->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="deliveryStatus">Delivery Status</label>
+                                                <select id="deliveryStatus" name="deliveryStatus" class="form-control">
+                                                    <option value="">All</option>
+                                                    <option value="delivered">Delivered</option>
+                                                    <option value="failed">Failed</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Is Valid -->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="isValid">Is Valid</label>
+                                                <select id="isValid" name="isValid" class="form-control">
+                                                    <option value="">All</option>
+                                                    <option value="true">True</option>
+                                                    <option value="false">False</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Timestamp Range -->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="timestamp_after">From</label>
+                                                <input type="date" id="timestamp_after" name="timestamp_after"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="timestamp_before">To</label>
+                                                <input type="date" id="timestamp_before" name="timestamp_before"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <!-- Customer Email -->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="customerEmail">Customer Email</label>
+                                                <input type="text" id="customerEmail" name="customerEmail"
+                                                    class="form-control" placeholder="Search by email">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="row">
+                                        <div class="col-md-12 text-right"
+                                            style="margin-left: -650px; margin-top: -50px;">
+                                            <button type="reset" class="btn btn-secondary"
+                                                onclick="resetForm()">Reset</button>
+                                            <button type="submit" class="btn btn-primary">Search</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Status Table -->
+                        <div class="table-responsive">
+                            <table id="deliveryTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Status ID</th>
+                                        <th>Timestamp</th>
+                                        <th>Delivery Status</th>
+                                        <th>Is Valid</th>
+                                        <th>Customer Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for status in status %}
+                                    <tr>
+                                        <td>{{ status.statusID }}</td>
+                                        <td>{{ status.timestamp|date:"Y-m-d H:i" }}</td>
+                                        <td>{{ status.deliveryStatus }}</td>
+                                        <td>{{ status.isValid }}</td>
+                                        <td>{{ status.customerEmail.customerEmail }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5">No delivery status records available.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var weeks = JSON.parse('{{ weeks_json|escapejs }}'); // Weekly labels
+        var counts = JSON.parse('{{ counts_json|escapejs }}');
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: weeks,
+                datasets: [{
+                    label: 'Weekly Registrations',
+                    data: counts,
+                    backgroundColor: 'rgba(1,1,1, 0.5)',
+                    borderColor: 'white',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'black'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Weeks',
+                            color: 'black'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+
+                        ticks: {
+                            color: 'black',
+                            stepSize: 1
+                        },
+                        title: {
+                            display: true,
+                            text: 'Customers Registered',
+                            color: 'black'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'black'
+                        }
+                    }
+                }
+            }
+        });
+        function resetForm() {
+            // Reset the form
+            document.querySelector('form').reset();
+
+            // Reload the page to clear filters
+            window.location.href = window.location.pathname; // Reloads the current URL without query parameters
+        }
+
+
+
+    </script>
+</body>
+
+</html>

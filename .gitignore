@@ -72,3 +72,7 @@ Desktop.ini
 
 # Environment variables file
 .env
+
+#AI Model
+*.pkl
+ml_models\

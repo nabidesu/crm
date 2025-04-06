@@ -1,26 +1,21 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login form</title>
+    <title>Registration form</title>
     <style>
         body {
             padding: 0px;
-            margin: 0;
+            margin: 0px;
             font-family: Arial, Helvetica, sans-serif;
             color: rgb(255, 255, 255);
-            background: url("{% static 'images/register.webp' %}") no-repeat center center fixed;
-            background-size: cover;
-            min-height: 100vh;
-            padding-top: 0px;
-            margin-top: 0px;
+            box-sizing: border-box;
+
         }
 
         .Nav {
-
             padding: 0px;
             width: 100%;
             overflow: hidden;
@@ -29,6 +24,14 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
+        }
+
+        input[type="text"] {
+            color: white;
+        }
+
+        input[type="tel"] {
+            color: white;
         }
 
         .Nav li {
@@ -50,15 +53,15 @@
         }
 
         .Nav li a:hover {
-            background-color: #000000;
+            background-color: #DDFFD9;
             background-color: #F0C5AD;
             color: black;
         }
 
         .background {
-            /* background: url("../resources/images/Loginpage.jpg"); */
+            background: url("../accounts/hotel.jpg");
+            background-color: rgb(3, 54, 82);
             background-repeat: no-repeat;
-            background-color: #ade2a7;
             background-size: cover;
             background-blend-mode: darken;
             position: absolute;
@@ -67,14 +70,15 @@
             left: 0;
             right: 0;
             z-index: -1;
+            filter: blur(2px);
             min-height: 800px;
-            background: url("{% static 'images/login.webp' %}") no-repeat center center fixed;
+            background: url("{% static 'images/register.webp' %}") no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             padding-top: 0px;
             margin-top: 0px;
-
         }
+
 
         .container {
             display: flex;
@@ -82,18 +86,21 @@
             align-items: center;
             text-align: center;
             width: 500px;
+            opacity: 250%;
             margin: 10vh auto;
-            background: transparent;
-            box-shadow: 0 0 25px rgb(0, 0, 0);
+            box-shadow: 0 0 15px rgb(0, 0, 0);
             border-radius: 25px;
-            background-color: rgb(14, 16, 33);
+            background-color: rgb(33, 14, 14);
             opacity: 70%;
+        }
+
+        ::placeholder {
+            color: rgb(162, 162, 162);
         }
 
         h2 {
             font-size: 50px;
             font-family: serif;
-            color: white;
         }
 
         form {
@@ -104,13 +111,14 @@
         }
 
         .form-item {
+            color: white;
             display: flex;
             width: 90%;
             background: transparent;
             margin: 10px auto;
             border-radius: 15px;
             align-items: center;
-            border-bottom: 1px solid rgb(1, 1, 1);
+            border: 1px solid rgb(1, 1, 1);
         }
 
         .form-item:hover {
@@ -125,22 +133,22 @@
             outline: none;
             border: none;
             margin: auto;
-            color: rgb(13, 13, 13);
+            color: rgb(255, 255, 255);
             font-size: 17px;
         }
 
-        button[type="loginn"] {
+        button[type="Register"] {
             width: 180px;
             font-size: 20px;
             margin: 10px auto;
             padding: 8px;
-            background: rgba(74, 107, 64, 0.72);
+            background: rgba(2, 2, 2, 0.72);
             border: none;
-            color: rgb(11, 11, 11);
+            color: rgb(250, 248, 248);
         }
 
-        button[type="loginn"]:hover {
-            background: rgba(4, 84, 44, 0.678);
+        button[type="Register"]:hover {
+            background: rgba(249, 244, 111, 0.678);
         }
 
 
@@ -150,24 +158,24 @@
             margin: 5px 15px;
             width: 180px;
             background: transparent;
-            color: rgb(255, 255, 255);
+            color: white;
             cursor: pointer;
             transition: all 0.7s ease;
-            margin-left: 130px;
+            margin-left: 120px;
         }
 
         p {
             font-size: 18px;
             margin: 5px;
-
+            color: aliceblue;
         }
 
         a {
-            color: rgb(25, 79, 52);
+            color: rgb(194, 194, 194);
         }
 
         a:hover {
-            color: rgb(255, 255, 255);
+            color: rgb(255, 0, 0);
         }
     </style>
 </head>
@@ -177,34 +185,48 @@
     <!-- for background -->
     <div class="background"></div>
 
-
-
+    <!-- for form container -->
     <div class="container">
-        <h2>Login</h2>
-        <form method="post" action="{% url 'login' %}">
+        <h2>Registration</h2>
+        <form method="post">
             {% csrf_token %}
-
             <div class="form-item">
+                
+                <input class="place">
 
-                <input type="text" name="username">
+                {{form.customerEmail }}
+            </div>
+
+            <div class="form-item" style="color: white;">
+                <input class="place">
+
+                {{form.roomType }}
+
             </div>
 
             <div class="form-item">
+                <input class="place">
 
-                <input type="password" name="password">
+                {{form.noOfDays }}
             </div>
 
-            <button type="submit">LOGIN</button>
-            {% for message in messages %}
-            <p id="messages">{{message}}</p>
-            {% endfor %}
 
-            <p>New User ? <a href="/register"> Create an Account</a></p>
+            {{form.errors}}
+            <button type="submit">REGISTER</button>
+
+
 
         </form>
 
-
     </div>
+
+    <!-- var form_fields = document.getElementsByTagName('input') -->
+
 </body>
 
 </html>
+<!-- <form method="POST" action="{% url 'register' %}">
+
+    {{ form.as_p}}
+    <input type="submit" name="'create user">
+</form> -->

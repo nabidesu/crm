@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +53,11 @@
         <div class="row">
             <div class="col-md-4 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img class="rounded-circle mt-5" src="https://i.imgur.com/0eg0aG0.jpg" width="90">
+
+                    <img class="rounded-circle mt-5" src="media/{{ user.StaffProfile.profile_picture }}" width="90" />
+
+
+
                     <span class="font-weight-bold">{{ user.username }}</span>
                     <span class="text-black-50">{{ user.email }}</span>
 
@@ -70,10 +77,22 @@
 
                         <div class="row mt-2">
                             <div class="col-md-6">
+                                <label for="username">First Name:</label>
+                                <input type="text" name="firstname" class="form-control" placeholder="firstname"
+                                    value="{{ user.first_name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="username">Last Name:</label>
+                                <input type="text" name="username" class="form-control" placeholder="lastname"
+                                    value="{{ user.last_name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="username">User Name:</label>
                                 <input type="text" name="username" class="form-control" placeholder="Username"
                                     value="{{ user.username }}">
                             </div>
                             <div class="col-md-6">
+                                <label for="username">Email:</label>
                                 <input type="email" name="email" class="form-control" placeholder="Email"
                                     value="{{ user.email }}">
                             </div>

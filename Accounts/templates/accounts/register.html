@@ -1,3 +1,5 @@
+{% load static %}
+
 <html lang="en">
 
 <head>
@@ -9,8 +11,13 @@
             padding: 0px;
             margin: 0px;
             font-family: Arial, Helvetica, sans-serif;
-            color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
             box-sizing: border-box;
+            background: url("{% static 'images/reg.webp' %}") no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            padding-top: 0px;
+            margin-top: 0px;
         }
 
         .Nav {
@@ -51,7 +58,7 @@
         }
 
         .Nav li a:hover {
-            background-color: #DDFFD9;
+            background-color: #000000;
             background-color: #F0C5AD;
             color: black;
         }
@@ -79,14 +86,16 @@
             align-items: center;
             text-align: center;
             width: 500px;
-            opacity: 250%;
+            opacity: 70%;
             margin: 10vh auto;
-            box-shadow: 0 0 15px rgb(179, 200, 74);
+            box-shadow: black;
             border-radius: 25px;
+            background-color: rgb(33, 14, 14);
+
         }
 
         ::placeholder {
-            color: rgb(191, 227, 112);
+            color: rgb(0, 0, 0);
         }
 
         h2 {
@@ -161,19 +170,25 @@
         }
 
         a {
-            color: rgb(232, 240, 75);
+            color: rgb(0, 0, 0);
         }
 
         a:hover {
             color: rgb(255, 0, 0);
         }
+
+        ::placeholder {
+            color: #bdbdbd;
+            /* Light grey color for placeholder text */
+        }
+
+        .place {
+            color: gray;
+        }
     </style>
 </head>
 
 <body>
-
-    <!-- for background -->
-    <div class="background"></div>
 
     <!-- for form container -->
     <div class="container">
@@ -181,30 +196,36 @@
         <form method="post">
             {% csrf_token %}
             <div class="form-item">
-
-                {{form.username}}
+                <input class="place">
+                {{ form.first_name }}
             </div>
-
+            <div class="form-item">
+                <input class="place">
+                {{ form.last_name }}
+            </div>
+            <div class="form-item">
+                <input class="place">
+                {{ form.username }}
+            </div>
             <div class="form-item" style="color: white;">
-
-                {{form.email}}
-
-            </div>
-
-            <div class="form-item">
-
-                {{form.password1}}
+                <input class="place">
+                {{ form.email }}
             </div>
             <div class="form-item">
-
-                {{form.password2}}
+                <input class="place">
+                {{ form.password1 }}
             </div>
+            <div class="form-item">
+                <input class="place">
+                {{ form.password2 }}
+            </div>
+
 
             {{form.errors}}
-            <button type="submit">REGISTER</button>
+            <button type="submit" style="margin-left: 120px">REGISTER</button>
 
 
-            <p>Already have an account ? <a href="/login">Login </a></p>
+            <p style="margin-left: 40px;">Already have an account ? <a href="/login">Login </a></p>
 
         </form>
 

@@ -1,105 +1,450 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title></title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Great+Vibes&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
+        /* Asymmetrical background container */
+        .angled-bg-container {
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            background-color: #ebe4d4;
+        }
+
+        /* Background image with angled edges */
+        .angled-bg {
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            background: url("{% static 'images/bgg.jpg' %}") center center;
+            background-size: contain;
+            clip-path: polygon(0 25%, 100% 0, 100% 75%, 0 100%);
+            z-index: 1;
+
+        }
+
+        .form-one {
+            top: 750px;
+            bottom: 750px;
+            background: url("{% static 'images/bgg.jpg' %}") center center;
+            background-size: contain;
+            clip-path: polygon(0 25%, 100% 0, 100% 85%, 0 100%);
+            z-index: 1;
+            background-repeat: no-repeat;
+            height: 900px;
+        }
+
+        /* Content that sits on top */
+        .content-overlay {
+            position: relative;
+            z-index: 2;
+            padding: 25px 0;
+        }
+
+        /* Message styles */
+        .error-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .warning-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .info-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* Content wrapper */
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 10px;
+            padding-top: -5px;
+        }
+
+        /* Form input styles */
+        .form-input {
+            width: 50%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 2px solid #345B63;
+            border-radius: 5px;
+            background-color: #ebe4d4;
+            font-size: 16px;
+            font-family: 'Caveat', cursive;
+            transition: all 0.3s ease;
+        }
+
+        .form-textarea {
+            height: 80px;
+            resize: vertical;
+            width: 70%;
+        }
+
+        /* Testimonial section */
+        .testimonial-section {
+            flex: 1;
+            padding-right: 170px;
+            min-width: 300px;
+            margin-left: 200px;
+            padding-top: 10px;
+        }
+
+        /* Form section */
+        .form-section {
+            flex: 1;
+            padding-left: 20px;
+            min-width: 280px;
+            padding-top: 120px;
+            margin-right: 200px;
+        }
+
+        
+        .merienda {
+            font-family: 'Merienda', cursive;
+            /* font-family: 'Great Vibes', cursive; */
+            color: #345B63;
+        }
+
+        .caveat {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Testimonial cards */
+        .testimonial-card {
+            background-color: #6A9AB0;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            padding: 25px;
+
+        }
+
+        /* Form container */
+        .form-container {
+            background-color: #6A9AB0;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            color: black;
+            margin-right: -100px;
+            margin-top: -20px;
+            margin-left: 100px;
+        }
+
+        .review-type-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin: 0 10px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #345B63;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: #6A9AB0;
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .toggle-label {
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            color: #345B63;
+        }
+
+        .review-section {
+            display: none;
+        }
+
+        .review-section.active {
+            display: block;
+        }
+    </style>
 </head>
 
-<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f5f5f5;">
-    <div style="display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 20px;">
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #ebe4d4;">
+    <!-- {% include 'Accounts/navbar.html' %}
+    {% block content %}
+    {% endblock %} -->
 
+    <div class="angled-bg-container">
+        <div class="angled-bg"></div>
+        <div class="content-overlay">
+            <div class="content-wrapper">
+                <!-- Message Display Section -->
+                {% if messages %}
+                <div style="width: 100%; padding: 10px; margin-bottom: 20px;">
+                    {% for message in messages %}
+                    <div class="
+                            {% if message.tags == 'error' %}
+                                error-message
+                            {% elif message.tags == 'success' %}
+                                success-message
+                            {% elif message.tags == 'warning' %}
+                                warning-message
+                            {% else %}
+                                info-message
+                            {% endif %}
+                        ">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-        <div style="flex: 1; padding-right: 20px; min-width: 300px;">
-            <h1 style="text-align: center; color: #333;">What people have to say about us</h1>
+                <div class="testimonial-section">
+                    <h1 class="merienda" style="text-align: center; font-size: 50px;">What people have to say about
+                        us</h1>
 
-            <!-- Testimonial 1 -->
-            {% for i in reviews %}
-            <div
-                style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 20px 0; padding: 15px;">
-                <h3 style="margin: 0; color: #000;">{{i.name}}</h3>
-                <p style="color: #666; font-size: 14px; line-height: 1.6;">{{i.review}}</p>
-
-
+                    <!-- Testimonials -->
+                    {% for i in reviews %}
+                    <div class="testimonial-card">
+                        <p class="caveat" style="color: #345B63; font-size: 20px; line-height: 0.2;font-weight: bold;">
+                            {{i.review}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
             </div>
-            {% endfor %}
-
-            <!-- 
-            <div
-                style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 20px 0; padding: 15px;">
-                <h3 style="margin: 0; color: #000;">{{i.name}}</h3>
-                <p style="color: #666; font-size: 14px; line-height: 1.6;">
-                    {{i.review}}
-                </p>
-            </div> -->
-
-            <!-- Testimonial 3
-            <div
-                style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 20px 0; padding: 15px;">
-                <h3 style="margin: 0; color: #000;">Satya Nadella</h3>
-                <p style="color: #666; font-size: 14px; line-height: 1.6;">
-                    Tortor dignissim convallis aenean et tortor at. At ultrices mi tempus
-                    imperdiet nulla malesuada. Id cursus metus aliquam eleifend mi. Quis
-                    ipsum suspendisse ultrices gravida dictum fusce ut.
-                </p>
-            </div>
-
-             Testimonial 4 -->
-            <!-- <div
-                style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 20px 0; padding: 15px;">
-                <h3 style="margin: 0; color: #000;">Dan Schulman</h3>
-                <p style="color: #666; font-size: 14px; line-height: 1.6;">
-                    Quam pellentesque nec nam aliquam sem et tortor. Vestibulum morbi
-                    blandit cursus risus at ultrices mi tempus imperdiet.
-                </p>
-            </div> -->
-            <!-- </div> -->
 
             <!-- Form Section -->
-            <div style="flex: 1; padding-left: 20px; min-width: 300px;">
-                <h2 style="text-align: center; color: #333;">Share your experience</h2>
-                <div
-                    style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 20px;">
+            <div class="form-one">
+                <div class="form-section">
+                    <h2 class="merienda" style="text-align: center; font-size: 50px;padding-top: -10px;">Share your
+                        experience</h2>
+                    <div class="form-container">
+                        <form method="POST" action="{% url 'give_review' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
 
-
-                    <form method="POST" action="{% url 'give_review' %}">
-                        {% csrf_token %}
-                        <!-- Name Field -->
-                        <div style="margin-bottom: 15px;">
-
-                            <label for="name"
-                                style="display: block; font-weight: bold; margin-bottom: 5px;">Name</label>
-                            {{form.name}}
-
-                        </div>
-
-                        <!-- Phone Number Field -->
-                        <div style="margin-bottom: 15px;">
-                            <label for="phone" style="display: block; font-weight: bold; margin-bottom: 5px;">Phone
-                                Number</label>
-                            {{form.phone_number}}
-                            <!-- Review Field -->
+                            <!-- Email Field -->
                             <div style="margin-bottom: 15px;">
-                                <label for="review"
-                                    style="display: block; font-weight: bold; margin-bottom: 5px;">Review</label>
-                                {{form.review}}
+                                <label for="name" class="caveat"
+                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #345B63;">Email</label>
+                                {{form.email}}
+                            </div>
 
+                            <!-- Review Type Toggle -->
+                            <div class="review-type-toggle">
+                                <span class="toggle-label">Text Review</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="reviewTypeToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span class="toggle-label">Voice Review</span>
+                            </div>
+
+                            <!-- Text Review Section -->
+                            <div id="textReviewSection" class="review-section active">
                                 <div style="margin-bottom: 15px;">
-                                    <label for="review"
-                                        style="display: block; font-weight: bold; margin-bottom: 5px;">Emotion</label>
-                                    {{form.emotion}}
+                                    <label for="review" class="caveat"
+                                        style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #345B63;">Review</label>
+                                    {{form.review}}
+                                </div>
+                            </div>
 
-                                    <!-- Submit Button -->
-                                    <button type="submit"
-                                        style="width: 100%; padding: 10px; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer;">
-                                        Submit
+                            <!-- Voice Review Section -->
+                            <div id="voiceReviewSection" class="review-section">
+                                <div style="margin-bottom: 15px;">
+                                    <label class="caveat"
+                                        style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #345B63;">
+                                        Record Your Review
+                                    </label>
+                                    <button type="button" id="startRecording" class="caveat"
+                                        style="padding: 8px; background-color:#13162c; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px;">
+                                        ▶ Start Recording
                                     </button>
-                                    {{form.errors}}
-                    </form>
+                                    <button type="button" id="stopRecording" disabled class="caveat"
+                                        style="padding: 8px; background-color: #345B63; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px; width:100px">
+                                        ⏹ Stop Recording
+                                    </button>
+                                    <audio id="audioPlayer" controls style="display: none; margin-top: 10px;"></audio>
+                                    <input type="file" id="audioFile" name="audio" accept="audio/*"
+                                        style="display: none;">
+                                    <p id="recordingStatus" class="caveat"
+                                        style="font-size: 20px; color: #345B63; margin-top: 5px;"></p>
+                                </div>
+                            </div>
 
+                            <!-- Immediate Attention Checkbox -->
+                            <div style="margin-bottom: 15px;">
+                                <label for="responseAlert" class="caveat"
+                                    style="display: inline-flex; align-items: center; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #345B63;">
+                                    Requires immediate attention ?
+                                </label>
+                                {{ form.responseAlert }}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="caveat"
+                                style="width: 50%; padding: 10px; background-color: #345B63; color: #fff; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; font-size: 30px;">
+                                Submit
+                            </button>
+
+                            <!-- Display Form Errors -->
+                            <div style="color: red; margin-top: 10px;">
+                                {{form.errors}}
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-        </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Toggle between text and audio review
+                    const reviewTypeToggle = document.getElementById('reviewTypeToggle');
+                    const textReviewSection = document.getElementById('textReviewSection');
+                    const voiceReviewSection = document.getElementById('voiceReviewSection');
+
+                    if (reviewTypeToggle) {
+                        reviewTypeToggle.addEventListener('change', function () {
+                            textReviewSection.classList.toggle('active', !this.checked);
+                            voiceReviewSection.classList.toggle('active', this.checked);
+
+                            // Clear the non-active input
+                            if (this.checked) {
+                                document.getElementById('id_review').value = '';
+                            } else {
+                                const audioFile = document.getElementById('audioFile');
+                                if (audioFile) audioFile.value = '';
+                                const audioPlayer = document.getElementById('audioPlayer');
+                                if (audioPlayer) {
+                                    audioPlayer.src = '';
+                                    audioPlayer.style.display = 'none';
+                                }
+                            }
+                        });
+                    }
+
+                    // Audio recording functionality
+                    let mediaRecorder;
+                    let audioChunks = [];
+
+                    document.getElementById('startRecording')?.addEventListener('click', async function () {
+                        try {
+                            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                            mediaRecorder = new MediaRecorder(stream);
+                            audioChunks = [];
+
+                            mediaRecorder.ondataavailable = event => {
+                                if (event.data.size > 0) {
+                                    audioChunks.push(event.data);
+                                }
+                            };
+
+                            mediaRecorder.onstop = () => {
+                                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                                const audioUrl = URL.createObjectURL(audioBlob);
+
+                                // Update audio player
+                                const audioPlayer = document.getElementById('audioPlayer');
+                                audioPlayer.src = audioUrl;
+                                audioPlayer.style.display = 'block';
+
+                                // Create file and assign to hidden input
+                                const file = new File([audioBlob], `recording_${Date.now()}.wav`, {
+                                    type: 'audio/wav'
+                                });
+
+                                const dataTransfer = new DataTransfer();
+                                dataTransfer.items.add(file);
+                                document.getElementById('audioFile').files = dataTransfer.files;
+
+                                // Clean up
+                                stream.getTracks().forEach(track => track.stop());
+                            };
+
+                            mediaRecorder.start();
+                            document.getElementById('stopRecording').disabled = false;
+                            this.disabled = true;
+
+                        } catch (error) {
+                            console.error('Recording error:', error);
+                            alert('Could not access microphone. Please check permissions.');
+                        }
+                    });
+
+                    document.getElementById('stopRecording')?.addEventListener('click', function () {
+                        if (mediaRecorder && mediaRecorder.state === 'recording') {
+                            mediaRecorder.stop();
+                            this.disabled = true;
+                            document.getElementById('startRecording').disabled = false;
+                        }
+                    });
+                });
+
+            </script>
 </body>
 
 </html>
