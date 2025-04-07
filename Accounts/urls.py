@@ -18,5 +18,5 @@ urlpatterns = [
          name='register_customer'),
     path('confirmation/', views.confirmation_page, name='confirmation'),
     path('customer_info/', views.customer_info, name='customer_info'),
-    
+
 ]
