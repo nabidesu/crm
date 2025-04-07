@@ -228,13 +228,13 @@ with open(model_path, 'rb') as file:
 #         import traceback
 #         traceback.print_exc()
 #         return "unknown"
-    
+
 def predict_emotion(user_input):
     clean_input = clean_data(user_input)
     user_input_tfidf = tfidf_vectorizer.transform([clean_input])
     prediction = voting_clf.predict(user_input_tfidf)
-    predicted_emotion = prediction[0] 
-    return predicted_emotion    
+    predicted_emotion = prediction[0]
+    return predicted_emotion
 
 
 # @allowed_users(allowed_roles=['admin', 'customer'])
@@ -336,6 +336,17 @@ def dashboard(request):
     reviews = Reviews.objects.all()
     myFilter = ReviewFilter(request.GET, queryset=reviews)
     reviews = myFilter.qs
+
+    limit = request.GET.get('limit', 'all')
+
+    if limit != 'all':
+        try:
+            limit_val = int(limit)
+            # Order by creation date (newest first) before limiting
+            reviews = reviews.order_by('-created_at')[:limit_val]
+        except ValueError:
+            # If limit is not a valid integer, ignore it
+            pass
     emotion_counts = {
         'positive': reviews.filter(emotion='positive').count(),
         'negative': reviews.filter(emotion='negative').count(),
