@@ -22,19 +22,6 @@
             color: #ffffff;
         }
 
-        /* header {
-            font-family: 'Great Vibes';
-            background-color: #345980;
-            color: #fff;
-            padding: 15px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 1.8em;
-        } */
-
         .container {
             max-width: 750px;
             margin: 20px auto;
@@ -62,7 +49,6 @@
 
         table th,
         table td {
-            /* border: 1px solid #ddd; */
             padding: 10px;
             text-align: left;
             width: 200px;
@@ -70,7 +56,6 @@
             padding-right: 0px;
             font-family: 'Caveat';
             font-size: 20px;
-
         }
 
         table th {
@@ -82,8 +67,21 @@
             background-color: #F2EFE7;
         }
 
-        table tr:hover {
-            background-color: none;
+        .table-responsive {
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        thead th {
+            position: sticky;
+            top: 0;
+            background-color: #1E201E;
+            z-index: 10;
+        }
+
+        .reviews-table-wrapper {
+            min-height: 600px;
+            margin-bottom: 20px;
         }
 
         .footer {
@@ -114,48 +112,76 @@
         }
 
         .container {
-            background-color: #3A6D8C;
+            background-color: #bdb5aa;
             opacity: 95%;
-
+            width: 300px;
         }
 
         .one {
-            background: url("{% static 'images/dashboard.webp' %}") no-repeat center center fixed;
+            /* background: url("{% static 'images/dashboardImg1.jpg' %}") no-repeat center center fixed; */
+            background-color: #bdb5aa;
             background-size: cover;
             height: 100%;
             padding-top: 0px;
             margin-top: 0px;
         }
 
-        /* Label for the form fields
-        label {
-            font-weight: bold;
-            color: #735220;
-            margin-bottom: 8px;
-            display: block;
-        } */
+        /* Layout table */
+        .dashboard-layout {
+            width: 100%;
+            border: none;
+            border-collapse: collapse;
+            background-color: #bdb5aa;
+        }
 
-        /* Style the card */
-        .card {
+        .dashboard-layout td {
+            border: none;
+            vertical-align: top;
+        }
+
+        /* Reviews and filter section - side by side layout */
+        .reviews-filter-container {
+            display: flex;
+            justify-content: space-between;
+            background-color: #bdb5aa;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 1400px;
+            gap: 20px;
+        }
+
+        /* Reviews container */
+        .reviews-container {
+            width: 65%;
+            min-height: 600px;
+            background-color: #9f9280;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        /* Filter card */
+        .filter-card {
             border: 2px solid #ddd;
             border-radius: 10px;
-            padding: 10px;
+            padding: 15px;
             opacity: 90%;
-            width: 600px;
-            height: 600px;
-            padding-top: -70px;
+            width: 30%;
+            height: auto;
+            min-height: 600px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: #3A6D8C;
-            margin-top: -550px;
+            background-color: #9f9280;
         }
 
         .card-title {
             font-size: 35px;
-
             color: #F2EFE7;
             margin-bottom: 20px;
             font-family: 'merienda';
+        }
 
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
         }
 
         .form-group label {
@@ -164,19 +190,18 @@
             margin-bottom: 8px;
             font-family: 'Caveat';
             display: block;
-
             font-size: 20px;
         }
 
         .form-group input,
         .form-group select {
-            border: 1px #F2EFE7;
-            padding: 10px;
+            border: 1px solid #F2EFE7;
+            padding: 5px;
             border-radius: 5px;
             width: 100%;
             font-family: 'Caveat';
             font-size: 20px;
-
+            background-color: #fff;
         }
 
         button.btn-primary {
@@ -194,160 +219,173 @@
 
         .merienda {
             font-family: 'Merienda', cursive;
-            /* font-family: 'Great Vibes', cursive; */
             color: #345B63;
+        }
+
+        .filter-form {
+            display: flex;
+            flex-direction: column;
+            height: auto;
+        }
+
+        .form-buttons {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        /* Reviews table wrapper */
+        .reviews-table-wrapper {
+            min-height: 200px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .reviews-filter-container {
+                flex-direction: column;
+            }
+
+            .reviews-container,
+            .filter-card {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
     {% include 'Accounts/navbar.html' %}
-    <!-- <div class='container-fluid'>
-        {% block content %}
-
-        {% endblock %}
-    </div> -->
 
     <div class="one">
         <table class="graphsTable" style="border: none; border-collapse: collapse;">
-            <td style=" border:  none;">
-                <!-- Graph Containers -->
-                <div class="container mt-4" style="margin-left: 40px; max-width: 750px; height: 420px; color: white;">
-                    <div style="width: 700px; height: 300px; margin-bottom: 50px; margin-right: -100px;">
-                        <canvas id="myChart"></canvas>
+            <tr>
+                <td style="border: none;">
+                    <!-- Graph Containers -->
+                    <div class="container mt-4"
+                        style="margin-left: 400px; max-width: 750px; height: 420px; color: white;">
+                        <div style="width: 700px; height: 300px; margin-bottom: 50px; margin-right: -100px;">
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td style=" border:  none;">
+                </td>
+            </tr>
+        </table>
+
+        <div style="background-color: #bdb5aa;">
+            <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+                <!-- Pie Chart -->
                 <div class="pie container mt-4"
-                    style="margin-left: 40px; max-width: 750px; width: 550px; height: 440px;">
-                    <div style="width:400px; height: 300px; margin-bottom: 50px; margin-left: 50px;">
+                    style="max-width: 600px; width: 100%; background-color: #bdb5aa; color: #0056b3; padding: 80px; border-radius: 10px; margin-left: 40px;">
+                    <div
+                        style="width: 100%; height: 300px; display: flex; justify-content: center; align-items: center;">
                         <canvas id="pieChart"></canvas>
                     </div>
                 </div>
-            </td>
-        </table>
 
-        <table style="border: none; border-collapse: collapse;">
-            <td style=" border:  none;">
-                <div class="container" style="margin-left: 30px; margin-right: -80px; padding-right: -180px;">
-                    <h2>Submitted Reviews</h2>
+                <!-- Image -->
+                <div>
+                    <img src="{% static 'images/dashboardImg2.jpg' %}" alt="Image"
+                        style="width: 100%; max-width: 800px; height: 600px; width: 800px; padding-left: -200px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews and Filter Container - Side by Side Layout -->
+        <div class="reviews-filter-container">
+            <!-- Reviews section -->
+            <div class="reviews-container">
+                <h2>Submitted Reviews</h2>
+                <div class="reviews-table-wrapper">
                     {% if reviews %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Customer Email</th>
-                                <th>Review</th>
-                                <th>Emotion</th>
-                                <th>Created At</th>
-                                <th>Edit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in reviews %}
-                            <tr>
-                                <td>{{ i.email }}</td>
-                                <td>{{ i.review }}</td>
-                                <td>{{ i.emotion }}</td>
-                                <td>{{ i.created_at|date:"M d, Y H:i" }}</td>
-                                <td><a class="btn btn-sm btn-danger" href="{% url 'remove_review' i.email%}">Remove</a>
-                                </td>
-
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Customer Email</th>
+                                    <th>Review</th>
+                                    <th>Emotion</th>
+                                    <th>Created At</th>
+                                    <th>Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in reviews %}
+                                <tr>
+                                    <td>{{ i.email }}</td>
+                                    <td>{{ i.review }}</td>
+                                    <td>{{ i.emotion }}</td>
+                                    <td>{{ i.created_at|date:"M d, Y H:i" }}</td>
+                                    <td><a class="btn btn-sm btn-danger"
+                                            href="{% url 'remove_review' i.email %}">Remove</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                     {% else %}
                     <p>No reviews found.</p>
                     {% endif %}
                 </div>
+            </div>
 
-            </td>
-            <td style="height: 10px;">
+            <!-- Filter section -->
+            <div class="filter-card">
+                <div class="card-body">
+                    <h4 class="card-title">Filter Reviews</h4>
 
-                <!-- <div class="three"> -->
-                <!-- <td -->
-                <!-- style="border: none; padding-bottom: 400px; width: 200px; height: 100px; background-color: #a59581; border-radius: 20px; margin-right: 0px;"> -->
-                <!-- <div class="container" -->
-                <!-- style="margin-left: 20px; padding-bottom: 100px; width: 350px; height: 100px; background-color: #a59581;"> -->
-                <div class="card" style="margin-left: 90px;">
-                    <div class="card-body" style="margin-bottom:5px">
-                        <h4 class="card-title" style="color: #F2EFE7;">Filter Reviews</h4>
+                    <!-- Filter Form for Reviews -->
+                    <form method="get" class="filter-form">
+                        <!-- Emotion -->
+                        <div class="form-group">
+                            <label for="limit">Show</label>
+                            <select id="limit" name="limit" class="form-control">
+                                <option value="all">All Reviews</option>
+                                <option value="10">Top 10</option>
+                                <option value="5">Top 5</option>
+                            </select>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="emotion">Emotion</label>
+                            <select id="emotion" name="emotion" class="form-control">
+                                <option value="">All</option>
+                                <option value="positive">Positive</option>
+                                <option value="neutral">Neutral</option>
+                                <option value="negative">Negative</option>
+                            </select>
+                        </div>
 
-                        <!-- Filter Form for Reviews -->
+                        <!-- Review -->
+                        <div class="form-group">
+                            <label for="review">Review</label>
+                            <input type="text" id="review" name="review" class="form-control"
+                                placeholder="Search by review">
+                        </div>
 
-                        <form method="get">
+                        <!-- Created At (Date Range) -->
+                        <div class="form-group">
+                            <label for="created_at_after">From</label>
+                            <input type="date" id="created_at_after" name="created_at_after" class="form-control">
+                        </div>
 
-                            <!-- Emotion -->
+                        <div class="form-group">
+                            <label for="created_at_before">To</label>
+                            <input type="date" id="created_at_before" name="created_at_before" class="form-control">
+                        </div>
 
-                            <div class="form-group">
-                                <label for="limit">Show</label>
-                                <select id="limit" name="limit" class="form-control">
-                                    <option value="all">All Reviews</option>
-                                    <option value="10">Top 10</option>
-                                    <option value="5">Top 5</option>
-                                </select>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="emotion">Emotion</label>
-                                <select id="emotion" name="emotion" class="form-control">
-                                    <option value="">All</option>
-                                    <option value="positive">Positive</option>
-                                    <option value="neutral">Neutral</option>
-                                    <option value="negative">Negative</option>
-                                </select>
-                            </div>
-
-
-                            <!-- Review -->
-
-                            <div class="form-group ">
-                                <label for="review">Review</label>
-                                <input type="text" id="review" name="review" class="form-control"
-                                    placeholder="Search by review">
-                            </div>
-
-
-                            <!-- Created At (Date Range) -->
-
-                            <div class="form-group ">
-                                <label for="created_at_after">From</label>
-                                <input type="date" id="created_at_after" name="created_at_after" class="form-control">
-                            </div>
-
-                            <div class="form-group ">
-                                <label for="created_at_before">To</label>
-                                <input type="date" id="created_at_before" name="created_at_before" class="form-control">
-                            </div>
-
-                    </div>
-
-                    <!-- Buttons -->
-
-                    <div class="text-right mt-3">
-                        <button type="reset" class="btn btn-secondary" onclick="resetForm()">Reset</button>
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-
+                        <!-- Buttons -->
+                        <div class="form-buttons">
+                            <button type="reset" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
                     </form>
-
-
-
-
-
-
                 </div>
+            </div>
+        </div>
     </div>
-    <!-- </div> -->
-    <!-- </td> -->
-    <!-- </div> -->
-    </td>
-    </table>
 
-    </div>
     <script>
         // Get the chart element
         var ctx = document.getElementById('myChart').getContext('2d');
@@ -382,7 +420,7 @@
                     '#DFD0B8'
                 ],
 
-                borderColor: 'white',
+                borderColor: 'black',
                 borderWidth: 1
             }]
         };
@@ -402,13 +440,13 @@
                             weight: 'normal',
                             family: ' merienda'
                         },
-                        color: '#F2EFE7'
+                        color: 'black'
                     },
                     legend: {
 
                     },
                     labels: {
-                        color: 'white', // White color for legend
+                        color: 'black', // White color for legend
                         font: {
                             family: 'Caveat',
                             size: 16,
@@ -434,7 +472,7 @@
             scales: {
                 x: {
                     ticks: {
-                        color: '#F2EFE7',
+                        color: 'black',
                         font: {
                             family: 'Caveat',
                             weight: 'normal',
@@ -443,7 +481,7 @@
                     },
                     grid: {
                         color: 'rgba(0,0,0,0)',
-                        borderColor: '#F2EFE7'
+                        borderColor: 'black'
                     }
                 },
                 y: {
@@ -452,10 +490,9 @@
                     max: 50,
                     stepSize: 5,
                     ticks: {
-                        color: '#F2EFE7',
+                        color: 'black',
 
                         font: {
-
                             family: 'Caveat',
                             size: 16,
                             weight: 'normal',
@@ -464,7 +501,7 @@
                     },
                     grid: {
                         color: 'rgba(242, 239, 231, 0.1)',
-                        borderColor: '#F2EFE7',
+                        borderColor: 'black',
                         // Light grid lines
                     }
                 }
@@ -482,7 +519,6 @@
         var ctx = document.getElementById('pieChart').getContext('2d');
 
         // Create the chart
-
         var pieChart = new Chart(ctx, {
             type: 'pie',
             data: {
@@ -507,7 +543,7 @@
                     legend: {
                         position: 'top',
                         labels: {
-                            color: '#F2EFE7', // White color for legend
+                            color: 'black', // White color for legend
                             font: {
                                 family: 'Caveat',
                                 size: 16,
@@ -519,11 +555,11 @@
                         display: true,
                         text: 'Emotion Distribution in Reviews',
                         font: {
-                            size: 35,
+                            size: 37,
                             family: 'merienda',
                             weight: 'normal' // Set weight to normal
                         },
-                        color: '#F2EFE7'
+                        color: 'black'
                     },
                     tooltip: {
                         callbacks: {
@@ -549,6 +585,7 @@
             },
             plugins: [ChartDataLabels]
         });
+
         function resetForm() {
             // Reset the form
             document.querySelector('form').reset();
@@ -557,7 +594,6 @@
             window.location.href = window.location.pathname; // Reloads the current URL without query parameters
         }
     </script>
-
 
     <footer class="footer">
         &copy; {{ 2025 }} MOODIFY. All rights reserved.

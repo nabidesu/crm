@@ -16,6 +16,7 @@
             margin: 0;
             padding: 0;
             color: #333;
+            background-color: #070200;
         }
 
         header {
@@ -58,7 +59,7 @@
         }
 
         table th {
-            background-color: #050520;
+            background-color: #8d6e57;
             color: white;
         }
 
@@ -96,11 +97,11 @@
         }
 
         .two tbody td:hover {
-            background-color: #dee8f0;
+            background-color: #e5d4ab;
         }
 
         .two {
-            background-color: #9aa1ac;
+            background-color: #755547;
         }
 
         .one {
@@ -109,6 +110,7 @@
             min-height: 100vh;
             padding-top: 0px;
             margin-top: 0px;
+            margin-bottom: 0px;
         }
 
         .container-fluid {
@@ -116,10 +118,6 @@
             padding-bottom: 0px;
         }
 
-        .container {
-            background-color: #0e5c80;
-            opacity: 80%;
-        }
 
         .container h2 {
             color: white;
@@ -138,7 +136,7 @@
     </style>
 </head>
 
-<body>
+<body style="background-color:#857870;">
     {% include 'Accounts/navbar.html' %}
     {% block content %}
     {% endblock %}
@@ -146,84 +144,88 @@
 
     {% load static %}
     <div class="one"
-        style="background: url('../../../static/images/opt3.jpg') no-repeat center center fixed; background-size: cover; min-height: 100vh; padding-top: 0px;">
+        style="background: url('../../../static/images/mainnnn.jpg') no-repeat center center fixed; background-size: cover; min-height: 100vh; padding-top: 0px;">
 
 
         <table class="mainTable" style="border: none; border-collapse: collapse;">
-            <td style="border: none; margin-left: 100px; width: 500px;">
+            <td style="border: none; margin-left: 100px; width: 600px;">
                 <!-- Graph Container -->
                 <div class="container mt-4">
-                    <h2 class="merienda">Reviews Requiring Attention</h2>
-                    {% if reviews %}
-                    {% for review in reviews %}
-                    <div class="caveat"
-                        style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 10px; opacity:80%; font-size: 20px;">
-                        <p>Customer Email: {{ review.email }}</p>
-                        <p>Review: {{ review.review }}</p>
-                        <p>Created At:{{ review.created_at|date:"M d, Y H:i" }}</p>
-                    </div>
-                    {% endfor %}
-                    {% else %}
-                    <p>No reviews requiring attention.</p>
-                    {% endif %}
-                </div>
-                <div class="container">
-                    <h2 class="merienda">Users</h2>
-                    {% if users %}
-                    <table class="caveat" style="font-size: 20px;">
-                        <thead>
-                            <tr>
-                                <th>UserID</th>
-                                <th>first_name</th>
-                                <th>last_name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Edit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in users %}
-                            <tr class="two">
-                                <td>{{ i.id }}</td>
-                                <td>{{ i.first_name }}</td>
-                                <td>{{ i.last_name }}</td>
-                                <td>{{ i.username }}</td>
-                                <td>{{ i.email }}</td>
-                                <td><a class="btn btn-sm btn-danger"
-                                        href="{% url 'remove_user' i.username %}">Remove</a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}
-                    <p>No users found.</p>
-                    {% endif %}
-                </div>
-            </td>
-            <td style="border: none;">
-                <div>
-                    <div
-                        style="background-color: #0e5c80; width: 400px; height: 550px; border-radius: 10px; margin-left: 80px;opacity: 80%;">
-                        <h1 class="merienda" style="text-align: center;color: white;">
-                            Activity</h1>
-                        <div style="padding: 10px; overflow-y: auto; height: 450px; font-size: 20px;" class="caveat">
-                            {% if activities %}
-                            {% for activity in activities %}
-                            <div
-                                style="background-color: #d5d5d5; color: rgb(72, 72, 72); padding: 10px; margin: 5px; border-radius: 5px;">
-                                <strong>{{ activity.timestamp|date:"M d, Y H:i" }}</strong><br>
-                                {{ activity.description }}
+                    <div class="row">
+                        <!-- Reviews Requiring Attention -->
+                        <div class="col-md-6"
+                            style="background-color: #857870; opacity: 100%; margin-left: -100px; margin-right: 100px;">
+                            <h2 class="merienda">Reviews Requiring Attention</h2>
+                            {% if reviews %}
+                            {% for review in reviews %}
+                            <div class="caveat"
+                                style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 10px; opacity: 100%; font-size: 20px;">
+                                <p>Customer Email: {{ review.email }}</p>
+                                <p>Review: {{ review.review }}</p>
+                                <p>Created At: {{ review.created_at|date:"M d, Y H:i" }}</p>
                             </div>
                             {% endfor %}
                             {% else %}
-                            <p style="color: white; text-align: center;">No recent activities.</p>
+                            <p>No reviews requiring attention.</p>
                             {% endif %}
                         </div>
 
+                        <!-- Activity Section -->
+                        <div class="col-md-6">
+                            <div style="background-color: #857870; height: 550px; border-radius: 10px; opacity:100%;">
+                                <h1 class="merienda" style="text-align: center; color: white;">Activity</h1>
+                                <div style="padding: 10px; overflow-y: auto; height: 450px; font-size: 20px;"
+                                    class="caveat">
+                                    {% if activities %}
+                                    {% for activity in activities %}
+                                    <div
+                                        style="background-color: #d5d5d5; color: rgb(72, 72, 72); padding: 10px; margin: 5px; border-radius: 5px;">
+                                        <strong>{{ activity.timestamp|date:"M d, Y H:i" }}</strong><br>
+                                        {{ activity.description }}
+                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <p style="color: white; text-align: center;">No recent activities.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </td>
         </table>
+
+    </div>
+    <div class="container" style="background-color: #6a4c3f; margin-top: 100px;">
+        <h2 class="merienda" style="color: #dccec6;">Users</h2>
+        {% if users %}
+        <table class="caveat" style="font-size: 20px;">
+            <thead>
+                <tr>
+                    <th>UserID</th>
+                    <th>first_name</th>
+                    <th>last_name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in users %}
+                <tr class="two">
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.first_name }}</td>
+                    <td>{{ i.last_name }}</td>
+                    <td>{{ i.username }}</td>
+                    <td>{{ i.email }}</td>
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'remove_user' i.username %}">Remove</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No users found.</p>
+        {% endif %}
     </div>
 
 

@@ -13,19 +13,19 @@
             width: 100%;
             min-height: 100vh;
             overflow: hidden;
-            background-color: #ebe4d4;
+            background-color: #7E6957;
         }
 
         /* Background image with angled edges */
         .angled-bg {
             position: absolute;
-            top: -50px;
-            left: -50px;
-            right: -50px;
+            top: 50px;
+            left: 50px;
+            right: 50px;
             bottom: -50px;
-            background: url("{% static 'images/bgg.jpg' %}") center center;
-            background-size: contain;
-            clip-path: polygon(0 25%, 100% 0, 100% 75%, 0 100%);
+            background: url("{% static 'images/giverev.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
             z-index: 1;
 
         }
@@ -33,12 +33,13 @@
         .form-one {
             top: 750px;
             bottom: 750px;
-            background: url("{% static 'images/bgg.jpg' %}") center center;
-            background-size: contain;
-            clip-path: polygon(0 25%, 100% 0, 100% 85%, 0 100%);
+            background-color: #7E6957;
+            /* background: url("{% static 'images/side.jpg' %}");  */
+            background-size: fit;
             z-index: 1;
             background-repeat: no-repeat;
-            height: 900px;
+            
+           
         }
 
         /* Content that sits on top */
@@ -81,7 +82,7 @@
             border-radius: 5px;
             margin-bottom: 10px;
             background-color: #d1ecf1;
-            color: #0c5460;
+            color: #33220a;
             border: 1px solid #bee5eb;
         }
 
@@ -100,7 +101,7 @@
             width: 50%;
             padding: 10px;
             margin: 5px 0;
-            border: 2px solid #345B63;
+            border: 2px solid #33220a;
             border-radius: 5px;
             background-color: #ebe4d4;
             font-size: 16px;
@@ -118,7 +119,7 @@
         .testimonial-section {
             flex: 1;
             padding-right: 170px;
-            min-width: 300px;
+            min-width: 200px;
             margin-left: 200px;
             padding-top: 10px;
         }
@@ -127,12 +128,12 @@
         .form-section {
             flex: 1;
             padding-left: 20px;
-            min-width: 280px;
+            min-width: 170px;
             padding-top: 120px;
-            margin-right: 200px;
+            margin-right: 100px;
         }
 
-        
+
         .merienda {
             font-family: 'Merienda', cursive;
             /* font-family: 'Great Vibes', cursive; */
@@ -145,24 +146,26 @@
 
         /* Testimonial cards */
         .testimonial-card {
-            background-color: #6A9AB0;
-            border-radius: 20px;
+            background-color: #847868;
+            border-radius: 60px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
-            padding: 25px;
+            margin: 15px 0;
+            padding: 15px;
 
         }
 
         /* Form container */
         .form-container {
-            background-color: #6A9AB0;
+            background-color: #847868;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            padding: 30px;
+            
             color: black;
-            margin-right: -100px;
+            margin-right: -30px;
             margin-top: -20px;
-            margin-left: 100px;
+            margin-left: 10px;
+            width: 800px;
         }
 
         .review-type-toggle {
@@ -192,7 +195,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #345B63;
+            background-color: #33220a;
             transition: .4s;
             border-radius: 34px;
         }
@@ -210,7 +213,7 @@
         }
 
         input:checked+.toggle-slider {
-            background-color: #6A9AB0;
+            background-color: #33220a;
         }
 
         input:checked+.toggle-slider:before {
@@ -220,7 +223,7 @@
         .toggle-label {
             font-family: 'Caveat', cursive;
             font-size: 24px;
-            color: #345B63;
+            color: #33220a;
         }
 
         .review-section {
@@ -263,14 +266,15 @@
                 </div>
                 {% endif %}
 
+                <h1 class="merienda" style="text-align: center; font-size: 40px; color: #b09e85;">What
+                    people have to say about
+                    us</h1>
                 <div class="testimonial-section">
-                    <h1 class="merienda" style="text-align: center; font-size: 50px;">What people have to say about
-                        us</h1>
 
                     <!-- Testimonials -->
                     {% for i in reviews %}
                     <div class="testimonial-card">
-                        <p class="caveat" style="color: #345B63; font-size: 20px; line-height: 0.2;font-weight: bold;">
+                        <p class="caveat" style="color: #33220a; font-size: 30px; line-height: 0.2;font-weight: bold;">
                             {{i.review}}</p>
                     </div>
                     {% endfor %}
@@ -281,7 +285,9 @@
             <!-- Form Section -->
             <div class="form-one">
                 <div class="form-section">
-                    <h2 class="merienda" style="text-align: center; font-size: 50px;padding-top: -10px;">Share your
+                    <h2 class="merienda"
+                        style="text-align: center; font-size: 50px;padding-top: -10px; color: #33220a;">
+                        Share your
                         experience</h2>
                     <div class="form-container">
                         <form method="POST" action="{% url 'give_review' %}" enctype="multipart/form-data">
@@ -290,7 +296,7 @@
                             <!-- Email Field -->
                             <div style="margin-bottom: 15px;">
                                 <label for="name" class="caveat"
-                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #345B63;">Email</label>
+                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">Email</label>
                                 {{form.email}}
                             </div>
 
@@ -308,7 +314,7 @@
                             <div id="textReviewSection" class="review-section active">
                                 <div style="margin-bottom: 15px;">
                                     <label for="review" class="caveat"
-                                        style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #345B63;">Review</label>
+                                        style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">Review</label>
                                     {{form.review}}
                                 </div>
                             </div>
@@ -317,29 +323,29 @@
                             <div id="voiceReviewSection" class="review-section">
                                 <div style="margin-bottom: 15px;">
                                     <label class="caveat"
-                                        style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #345B63;">
+                                        style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">
                                         Record Your Review
                                     </label>
                                     <button type="button" id="startRecording" class="caveat"
-                                        style="padding: 8px; background-color:#13162c; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px;">
+                                        style="padding: 8px; background-color:#33220a; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px;">
                                         ▶ Start Recording
                                     </button>
                                     <button type="button" id="stopRecording" disabled class="caveat"
-                                        style="padding: 8px; background-color: #345B63; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px; width:100px">
+                                        style="padding: 8px; background-color: #5d4019; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px; width:100px">
                                         ⏹ Stop Recording
                                     </button>
                                     <audio id="audioPlayer" controls style="display: none; margin-top: 10px;"></audio>
                                     <input type="file" id="audioFile" name="audio" accept="audio/*"
                                         style="display: none;">
                                     <p id="recordingStatus" class="caveat"
-                                        style="font-size: 20px; color: #345B63; margin-top: 5px;"></p>
+                                        style="font-size: 20px; color: #33220a; margin-top: 5px;"></p>
                                 </div>
                             </div>
 
                             <!-- Immediate Attention Checkbox -->
                             <div style="margin-bottom: 15px;">
                                 <label for="responseAlert" class="caveat"
-                                    style="display: inline-flex; align-items: center; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #345B63;">
+                                    style="display: inline-flex; align-items: center; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">
                                     Requires immediate attention ?
                                 </label>
                                 {{ form.responseAlert }}
@@ -347,7 +353,7 @@
 
                             <!-- Submit Button -->
                             <button type="submit" class="caveat"
-                                style="width: 50%; padding: 10px; background-color: #345B63; color: #fff; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; font-size: 30px;">
+                                style="width: 50%; padding: 10px; background-color: #33220a; color: #fff; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; font-size: 30px;">
                                 Submit
                             </button>
 

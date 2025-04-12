@@ -19,25 +19,30 @@
             font-family: 'Caveat';
             margin: 0;
             padding: 0;
-            background-color: #0d0d11;
+            background-color: #313131;
             color: #333;
         }
 
         .one {
-            background: url("{% static 'images/opt3.jpg' %}") no-repeat center center fixed;
-            background-size: cover;
             min-height: 100vh;
             padding-top: 0px;
             margin-top: 0px;
+            background: url("{% static 'images/customerInfo2.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-left: -50px;
+            margin-right: 0px;
+            padding: 20px;
+            margin-bottom: -20px;
         }
 
         /* Container styling */
         .container {
-            background-color: #3A6D8C;
+            background-color: #988776;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            opacity: 95%;
+            opacity: 100%;
             margin: 20px auto;
 
         }
@@ -75,7 +80,7 @@
         /* Filter Form */
         .filter-form {
             flex: 1;
-            background-color: #3A6D8C;
+            background-color: #585835;
             padding: 15px;
             border-radius: 8px;
             border: 1px solid #F2EFE7;
@@ -112,12 +117,14 @@
         }
 
         .btn:hover {
-            background-color: #0056b3;
+            background-color: #310708;
         }
 
         /* Chart container */
         .chart-container {
-            background-color: #3A6D8C;
+            margin-left: 40px;
+            margin-right: 20px;
+            background-color: #5a4d41;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
@@ -140,7 +147,7 @@
         .merienda {
             font-family: 'Merienda', cursive;
             /* font-family: 'Great Vibes', cursive; */
-            color: #c9e2e8;
+            color: #c7c7c7;
             font-size: 35px;
         }
     </style>
@@ -153,215 +160,91 @@
     <div class="one">
         <div class="container-fluid px-4">
             <div class="row">
-                <!-- Top section with chart and customer data -->
-                <div class="col-12">
-                    <table class="layout-table">
-                        <tr>
-                            <!-- Line Chart -->
-                            <td>
-                                <div class="chart-container" style="width: 700px; height:400px; margin-top: 20px;">
-                                    <h4 class="merienda">Weekly Registrations</h4>
-                                    <canvas id="myChart">
-                                        <style> </style>
-                                    </canvas>
-                                </div>
-                            </td>
-
-                            <!-- Customer Data Section -->
-                            <td>
-                                <div class="container" style="width: 700px; height:540px">
-                                    <h4 class="merienda" style="margin-top: -30px;">Customer Data</h4>
-                                    <div class="filter-container" style="width: 600px; height:200px; margin-top:0px ;">
-                                        <!-- Customer Filter Form -->
-                                        <div class="filter-form" style="width: 600px; height:200px; margin-top:0px;">
-                                            <form method="get">
-                                                <div class="row" style="width: 700px">
-                                                    <!-- Email -->
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="customerEmail">Email</label>
-                                                            <input type="text" id="customerEmail" name="customerEmail"
-                                                                class="form-control" placeholder="Search by email">
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Activity Status -->
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="activityStatus">Activity Status</label>
-                                                            <select id="activityStatus" name="activityStatus"
-                                                                class="form-control">
-                                                                <option value="">All</option>
-                                                                <option value="1">Active</option>
-                                                                <option value="0">Inactive</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Token Number -->
-                                                    <div class="col-md-4">
-                                                        <div class="form-group"
-                                                            style="margin-left: 40px;  padding-right: -60px;">
-                                                            <label for="tokenNumber">Token Number</label>
-                                                            <input type="text" id="tokenNumber" name="tokenNumber"
-                                                                class="form-control" placeholder="Search by token">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 text-right"
-                                                        style="margin-left: -190px; margin-top: -50px;">
-                                                        <button type="reset" class="btn btn-secondary"
-                                                            onclick="resetForm()"
-                                                            style="padding: 10px; width: 102px;">Reset</button>
-                                                        <button type="submit" class="btn btn-primary"
-                                                            style="padding: 10px; width: 102px;">Search</button>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Buttons -->
-                                                <div class="row">
-
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                    <!-- Customer Table -->
-                                    <div class="table-responsive">
-                                        <table id="customerTable" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Customer Email</th>
-                                                    <th>No of Days</th>
-                                                    <th>Charge per Day</th>
-                                                    <th>Activity Status</th>
-                                                    <th>Token Number</th>
-                                                    <th>Email Verified</th>
-                                                    <th>Admin User ID</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for customer in customers %}
-                                                <tr>
-                                                    <td>{{ customer.customerEmail }}</td>
-                                                    <td>{{ customer.noOfDays }}</td>
-                                                    <td>{{ customer.chargeperDay }}</td>
-                                                    <td>{{ customer.activityStatus }}</td>
-                                                    <td>{{ customer.tokenNumber }}</td>
-                                                    <td>{{ customer.email_verified }}</td>
-                                                    <td>{{ customer.adminUserID }}</td>
-                                                </tr>
-                                                {% empty %}
-                                                <tr>
-                                                    <td colspan="8">No customer data available.</td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                <!-- Line Chart -->
+                <div class="col-md-6">
+                    <div class="chart-container" style="width: 100%; height: 400px; margin-top: 20px;">
+                        <h4 class="merienda">Weekly Registrations</h4>
+                        <canvas id="myChart"></canvas>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Delivery Status Section (below the first row) -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="container">
-                        <h4 class="merienda">Delivery Status</h4>
-                        <!-- Status Filter Form -->
-                        <div class="filter-container">
-                            <div class="filter-form">
-                                <form method="get">
-                                    <div class="row">
-                                        <!-- Delivery Status -->
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="deliveryStatus">Delivery Status</label>
-                                                <select id="deliveryStatus" name="deliveryStatus" class="form-control">
-                                                    <option value="">All</option>
-                                                    <option value="delivered">Delivered</option>
-                                                    <option value="failed">Failed</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                <!-- Customer Data Section -->
+                <div class="col-md-6">
+                    <div class="container"
+                        style="height: 580px; padding: 20px; background-color: #5a4d41; width: 700px;">
+                        <h4 class="merienda">Customer Data</h4>
 
-                                        <!-- Is Valid -->
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="isValid">Is Valid</label>
-                                                <select id="isValid" name="isValid" class="form-control">
-                                                    <option value="">All</option>
-                                                    <option value="true">True</option>
-                                                    <option value="false">False</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <!-- Timestamp Range -->
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="timestamp_after">From</label>
-                                                <input type="date" id="timestamp_after" name="timestamp_after"
-                                                    class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="timestamp_before">To</label>
-                                                <input type="date" id="timestamp_before" name="timestamp_before"
-                                                    class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <!-- Customer Email -->
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="customerEmail">Customer Email</label>
-                                                <input type="text" id="customerEmail" name="customerEmail"
-                                                    class="form-control" placeholder="Search by email">
-                                            </div>
+                        <!-- Filter Form -->
+                        <div class="filter-form"
+                            style="background-color: #5a4d41; padding: 15px; border-radius: 5px; color: #867c70;">
+                            <form method="get">
+                                <div class="row">
+                                    <!-- Email -->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="customerEmail">Email</label>
+                                            <input type="text" id="customerEmail" name="customerEmail"
+                                                class="form-control" placeholder="Search by email">
                                         </div>
                                     </div>
 
-                                    <!-- Buttons -->
-                                    <div class="row">
-                                        <div class="col-md-12 text-right"
-                                            style="margin-left: -650px; margin-top: -50px;">
-                                            <button type="reset" class="btn btn-secondary"
-                                                onclick="resetForm()">Reset</button>
-                                            <button type="submit" class="btn btn-primary">Search</button>
+                                    <!-- Activity Status -->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="activityStatus">Activity Status</label>
+                                            <select id="activityStatus" name="activityStatus" class="form-control">
+                                                <option value="">All</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">Inactive</option>
+                                            </select>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+
+                                    <!-- Token Number -->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="tokenNumber">Token Number</label>
+                                            <input type="text" id="tokenNumber" name="tokenNumber" class="form-control"
+                                                placeholder="Search by token">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-right mt-2">
+                                    <button type="reset" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </form>
                         </div>
 
-                        <!-- Delivery Status Table -->
-                        <div class="table-responsive">
-                            <table id="deliveryTable" class="table table-bordered table-striped">
+                        <!-- Customer Table -->
+                        <div class="table-responsive mt-3">
+                            <table id="customerTable" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Status ID</th>
-                                        <th>Timestamp</th>
-                                        <th>Delivery Status</th>
-                                        <th>Is Valid</th>
                                         <th>Customer Email</th>
+                                        <th>No of Days</th>
+                                        <th>Charge per Day</th>
+                                        <th>Activity Status</th>
+                                        <th>Token Number</th>
+                                        <th>Email Verified</th>
+                                        <th>Admin User ID</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for status in status %}
+                                    {% for customer in customers %}
                                     <tr>
-                                        <td>{{ status.statusID }}</td>
-                                        <td>{{ status.timestamp|date:"Y-m-d H:i" }}</td>
-                                        <td>{{ status.deliveryStatus }}</td>
-                                        <td>{{ status.isValid }}</td>
-                                        <td>{{ status.customerEmail.customerEmail }}</td>
+                                        <td>{{ customer.customerEmail }}</td>
+                                        <td>{{ customer.noOfDays }}</td>
+                                        <td>{{ customer.chargeperDay }}</td>
+                                        <td>{{ customer.activityStatus }}</td>
+                                        <td>{{ customer.tokenNumber }}</td>
+                                        <td>{{ customer.email_verified }}</td>
+                                        <td>{{ customer.adminUserID }}</td>
                                     </tr>
                                     {% empty %}
                                     <tr>
-                                        <td colspan="5">No delivery status records available.</td>
+                                        <td colspan="7">No customer data available.</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -371,6 +254,114 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+
+    <!-- Delivery Status Section (below the first row) -->
+    <div class="row mt-4" style="background-color: #5A4D41;">
+        <div class="col-12">
+            <div class="container" style="background-color: #585835;">
+                <h4 class="merienda">Delivery Status</h4>
+                <!-- Status Filter Form -->
+                <div class="filter-container">
+                    <div class="filter-form">
+                        <form method="get">
+                            <div class="row">
+                                <!-- Delivery Status -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="deliveryStatus">Delivery Status</label>
+                                        <select id="deliveryStatus" name="deliveryStatus" class="form-control">
+                                            <option value="">All</option>
+                                            <option value="delivered">Delivered</option>
+                                            <option value="failed">Failed</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Is Valid -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="isValid">Is Valid</label>
+                                        <select id="isValid" name="isValid" class="form-control">
+                                            <option value="">All</option>
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Timestamp Range -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="timestamp_after">From</label>
+                                        <input type="date" id="timestamp_after" name="timestamp_after"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="timestamp_before">To</label>
+                                        <input type="date" id="timestamp_before" name="timestamp_before"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <!-- Customer Email -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="customerEmail">Customer Email</label>
+                                        <input type="text" id="customerEmail" name="customerEmail" class="form-control"
+                                            placeholder="Search by email">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="row">
+                                <div class="col-md-12 text-right" style="margin-left: -650px; margin-top: -50px;">
+                                    <button type="reset" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Delivery Status Table -->
+                <div class="table-responsive">
+                    <table id="deliveryTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Status ID</th>
+                                <th>Timestamp</th>
+                                <th>Delivery Status</th>
+                                <th>Is Valid</th>
+                                <th>Customer Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for status in status %}
+                            <tr>
+                                <td>{{ status.statusID }}</td>
+                                <td>{{ status.timestamp|date:"Y-m-d H:i" }}</td>
+                                <td>{{ status.deliveryStatus }}</td>
+                                <td>{{ status.isValid }}</td>
+                                <td>{{ status.customerEmail.customerEmail }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5">No delivery status records available.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
     </div>
 
     <script>
@@ -395,32 +386,32 @@
                 scales: {
                     x: {
                         ticks: {
-                            color: 'black'
+                            color: 'white'
                         },
                         title: {
                             display: true,
                             text: 'Weeks',
-                            color: 'black'
+                            color: 'white'
                         }
                     },
                     y: {
                         beginAtZero: true,
 
                         ticks: {
-                            color: 'black',
+                            color: 'white',
                             stepSize: 1
                         },
                         title: {
                             display: true,
                             text: 'Customers Registered',
-                            color: 'black'
+                            color: 'white'
                         }
                     }
                 },
                 plugins: {
                     legend: {
                         labels: {
-                            color: 'black'
+                            color: 'white'
                         }
                     }
                 }

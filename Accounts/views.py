@@ -333,26 +333,36 @@ def give_review(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin', 'staff'])
 def dashboard(request):
+    # Start with all reviews
     reviews = Reviews.objects.all()
-    myFilter = ReviewFilter(request.GET, queryset=reviews)
-    reviews = myFilter.qs
 
+    # Apply the filter first
+    myFilter = ReviewFilter(request.GET, queryset=reviews)
+    filtered_reviews = myFilter.qs
+
+    # Then apply limit to the filtered reviews
     limit = request.GET.get('limit', 'all')
+    display_reviews = filtered_reviews
 
     if limit != 'all':
         try:
             limit_val = int(limit)
             # Order by creation date (newest first) before limiting
-            reviews = reviews.order_by('-created_at')[:limit_val]
+            display_reviews = filtered_reviews.order_by(
+                '-created_at')[:limit_val]
         except ValueError:
             # If limit is not a valid integer, ignore it
             pass
+
+    # Calculate emotion counts based on the filtered reviews (not limited ones)
     emotion_counts = {
-        'positive': reviews.filter(emotion='positive').count(),
-        'negative': reviews.filter(emotion='negative').count(),
-        'neutral': reviews.filter(emotion='neutral').count(),
-        'unknown': reviews.filter(emotion='unknown').count(),
+        'positive': filtered_reviews.filter(emotion='positive').count(),
+        'negative': filtered_reviews.filter(emotion='negative').count(),
+        'neutral': filtered_reviews.filter(emotion='neutral').count(),
+        'unknown': filtered_reviews.filter(emotion='unknown').count(),
     }
+
+    # Categories calculation based on filtered reviews
     categories = {
         'Service': ['service', 'support', 'help', 'assist', 'staff'],
         'Food': ['food', 'meal', 'dish', 'taste', 'yummy'],
@@ -361,18 +371,24 @@ def dashboard(request):
         'Hygiene': ['hygiene', 'clean', 'sanitary', 'cleanliness', 'dirty'],
         'Price': ['price', 'cost', 'expensive', 'cheap', 'costly'],
     }
+
     category_counts = {category: 0 for category in categories}
 
-    # Count occurrences of each category-related word in the reviews
-    for review in reviews:
+    # Count occurrences of each category-related word in the filtered reviews
+    for review in filtered_reviews:
         # Convert review text to lowercase for case-insensitive matching
         review_text = review.review.lower()
         for category, keywords in categories.items():
             category_counts[category] += sum(
                 keyword in review_text for keyword in keywords)
 
-    context = {'reviews': reviews, 'myFilter': myFilter,
-               'emotion_counts': emotion_counts, 'category_counts': category_counts, }
+    context = {
+        'reviews': display_reviews,
+        'myFilter': myFilter,
+        'emotion_counts': emotion_counts,
+        'category_counts': category_counts,
+    }
+
     return render(request, 'Accounts/dashboard.html', context)
 
 
