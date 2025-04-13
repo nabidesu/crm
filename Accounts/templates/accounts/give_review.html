@@ -8,38 +8,43 @@
         @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Great+Vibes&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
 
+        body {
+            background: url("{% static 'images/1.jpg' %}");
+            background-color: #201f27;
+        }
+
         /* Asymmetrical background container */
-        .angled-bg-container {
+        /* .angled-bg-container {
             width: 100%;
             min-height: 100vh;
             overflow: hidden;
-            background-color: #7E6957;
+            background-color: none;
+            background: url("{% static 'images/1.jpg' %}");
+
         }
 
         /* Background image with angled edges */
-        .angled-bg {
+        /* .angled-bg {
             position: absolute;
             top: 50px;
             left: 50px;
             right: 50px;
             bottom: -50px;
-            background: url("{% static 'images/giverev.jpg' %}");
             background-size: cover;
             background-repeat: no-repeat;
             z-index: 1;
 
-        }
-
-        .form-one {
+        } */
+        */ .form-one {
             top: 750px;
             bottom: 750px;
-            background-color: #7E6957;
+            background-color: none;
             /* background: url("{% static 'images/side.jpg' %}");  */
             background-size: fit;
             z-index: 1;
             background-repeat: no-repeat;
-            
-           
+
+
         }
 
         /* Content that sits on top */
@@ -101,9 +106,9 @@
             width: 50%;
             padding: 10px;
             margin: 5px 0;
-            border: 2px solid #33220a;
+            border: 2px solid #201f27;
             border-radius: 5px;
-            background-color: #ebe4d4;
+            background-color: #AEBBC3;
             font-size: 16px;
             font-family: 'Caveat', cursive;
             transition: all 0.3s ease;
@@ -146,7 +151,7 @@
 
         /* Testimonial cards */
         .testimonial-card {
-            background-color: #847868;
+            background-color: #AEBBC3;
             border-radius: 60px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin: 15px 0;
@@ -156,11 +161,11 @@
 
         /* Form container */
         .form-container {
-            background-color: #847868;
+            background-color: #6B7984;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 30px;
-            
+
             color: black;
             margin-right: -30px;
             margin-top: -20px;
@@ -195,7 +200,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #33220a;
+            background-color: #201f27;
             transition: .4s;
             border-radius: 34px;
         }
@@ -213,7 +218,7 @@
         }
 
         input:checked+.toggle-slider {
-            background-color: #33220a;
+            background-color: #201f27;
         }
 
         input:checked+.toggle-slider:before {
@@ -223,7 +228,7 @@
         .toggle-label {
             font-family: 'Caveat', cursive;
             font-size: 24px;
-            color: #33220a;
+            color: #201f27;
         }
 
         .review-section {
@@ -236,20 +241,25 @@
     </style>
 </head>
 
-<body style="margin: 0; font-family: Arial, sans-serif; background-color: #ebe4d4;">
+
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: none;">
     <!-- {% include 'Accounts/navbar.html' %}
     {% block content %}
     {% endblock %} -->
+    <h1 class="merienda"
+        style="text-align: center; font-size: 40px; color: #201f27;  margin: 40px; padding: 30px; width: 700px; margin-top: 30px; border-radius: 10px;">
+        What
+        people have to say about
+        us</h1>
 
-    <div class="angled-bg-container">
-        <div class="angled-bg"></div>
-        <div class="content-overlay">
-            <div class="content-wrapper">
-                <!-- Message Display Section -->
-                {% if messages %}
-                <div style="width: 100%; padding: 10px; margin-bottom: 20px;">
-                    {% for message in messages %}
-                    <div class="
+
+    <div class="content-overlay">
+        <div class="content-wrapper">
+            <!-- Message Display Section -->
+            {% if messages %}
+            <div style="width: 100%; padding: 10px; margin-bottom: 20px;">
+                {% for message in messages %}
+                <div class="
                             {% if message.tags == 'error' %}
                                 error-message
                             {% elif message.tags == 'success' %}
@@ -260,197 +270,195 @@
                                 info-message
                             {% endif %}
                         ">
-                        {{ message }}
-                    </div>
-                    {% endfor %}
+                    {{ message }}
                 </div>
-                {% endif %}
-
-                <h1 class="merienda" style="text-align: center; font-size: 40px; color: #b09e85;">What
-                    people have to say about
-                    us</h1>
-                <div class="testimonial-section">
-
-                    <!-- Testimonials -->
-                    {% for i in reviews %}
-                    <div class="testimonial-card">
-                        <p class="caveat" style="color: #33220a; font-size: 30px; line-height: 0.2;font-weight: bold;">
-                            {{i.review}}</p>
-                    </div>
-                    {% endfor %}
-                </div>
-                <br>
+                {% endfor %}
             </div>
+            {% endif %}
 
-            <!-- Form Section -->
-            <div class="form-one">
-                <div class="form-section">
+
+            <div class="testimonial-section">
+
+                <!-- Testimonials -->
+                {% for i in reviews %}
+                <div class="testimonial-card">
+                    <p class="caveat" style="color: #201f27; font-size: 30px; line-height: 0.2;font-weight: bold;">
+                        {{i.review}}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <br>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-one">
+            <div class="form-section">
+
+                <div class="form-container">
                     <h2 class="merienda"
-                        style="text-align: center; font-size: 50px;padding-top: -10px; color: #33220a;">
+                        style="text-align: center; font-size: 50px;padding-top: -10px; color: #201f27;">
                         Share your
                         experience</h2>
-                    <div class="form-container">
-                        <form method="POST" action="{% url 'give_review' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+                    <form method="POST" action="{% url 'give_review' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-                            <!-- Email Field -->
+                        <!-- Email Field -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="name" class="caveat"
+                                style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #201f27;">Email</label>
+                            {{form.email}}
+                        </div>
+
+                        <!-- Review Type Toggle -->
+                        <div class="review-type-toggle">
+                            <span class="toggle-label">Text Review</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="reviewTypeToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Voice Review</span>
+                        </div>
+
+                        <!-- Text Review Section -->
+                        <div id="textReviewSection" class="review-section active">
                             <div style="margin-bottom: 15px;">
-                                <label for="name" class="caveat"
-                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">Email</label>
-                                {{form.email}}
+                                <label for="review" class="caveat"
+                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #201f27;">Review</label>
+                                {{form.review}}
                             </div>
+                        </div>
 
-                            <!-- Review Type Toggle -->
-                            <div class="review-type-toggle">
-                                <span class="toggle-label">Text Review</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="reviewTypeToggle">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                                <span class="toggle-label">Voice Review</span>
-                            </div>
-
-                            <!-- Text Review Section -->
-                            <div id="textReviewSection" class="review-section active">
-                                <div style="margin-bottom: 15px;">
-                                    <label for="review" class="caveat"
-                                        style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">Review</label>
-                                    {{form.review}}
-                                </div>
-                            </div>
-
-                            <!-- Voice Review Section -->
-                            <div id="voiceReviewSection" class="review-section">
-                                <div style="margin-bottom: 15px;">
-                                    <label class="caveat"
-                                        style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">
-                                        Record Your Review
-                                    </label>
-                                    <button type="button" id="startRecording" class="caveat"
-                                        style="padding: 8px; background-color:#33220a; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px;">
-                                        ▶ Start Recording
-                                    </button>
-                                    <button type="button" id="stopRecording" disabled class="caveat"
-                                        style="padding: 8px; background-color: #5d4019; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px; width:100px">
-                                        ⏹ Stop Recording
-                                    </button>
-                                    <audio id="audioPlayer" controls style="display: none; margin-top: 10px;"></audio>
-                                    <input type="file" id="audioFile" name="audio" accept="audio/*"
-                                        style="display: none;">
-                                    <p id="recordingStatus" class="caveat"
-                                        style="font-size: 20px; color: #33220a; margin-top: 5px;"></p>
-                                </div>
-                            </div>
-
-                            <!-- Immediate Attention Checkbox -->
+                        <!-- Voice Review Section -->
+                        <div id="voiceReviewSection" class="review-section">
                             <div style="margin-bottom: 15px;">
-                                <label for="responseAlert" class="caveat"
-                                    style="display: inline-flex; align-items: center; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">
-                                    Requires immediate attention ?
+                                <label class="caveat"
+                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #201f27;">
+                                    Record Your Review
                                 </label>
-                                {{ form.responseAlert }}
+                                <button type="button" id="startRecording" class="caveat"
+                                    style="padding: 8px; background-color:#201f27; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px;">
+                                    ▶ Start Recording
+                                </button>
+                                <button type="button" id="stopRecording" disabled class="caveat"
+                                    style="padding: 8px; background-color: #201f27; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px; width:100px">
+                                    ⏹ Stop Recording
+                                </button>
+                                <audio id="audioPlayer" controls style="display: none; margin-top: 10px;"></audio>
+                                <input type="file" id="audioFile" name="audio" accept="audio/*" style="display: none;">
+                                <p id="recordingStatus" class="caveat"
+                                    style="font-size: 20px; color: #201f27; margin-top: 5px;"></p>
                             </div>
+                        </div>
 
-                            <!-- Submit Button -->
-                            <button type="submit" class="caveat"
-                                style="width: 50%; padding: 10px; background-color: #33220a; color: #fff; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; font-size: 30px;">
-                                Submit
-                            </button>
+                        <!-- Immediate Attention Checkbox -->
+                        <div style="margin-bottom: 15px;">
+                            <label for="responseAlert" class="caveat"
+                                style="display: inline-flex; align-items: center; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">
+                                Requires immediate attention ?
+                            </label>
+                            {{ form.responseAlert }}
+                        </div>
 
-                            <!-- Display Form Errors -->
-                            <div style="color: red; margin-top: 10px;">
-                                {{form.errors}}
-                            </div>
-                        </form>
-                    </div>
+                        <!-- Submit Button -->
+                        <button type="submit" class="caveat"
+                            style="width: 50%; padding: 10px; background-color: #201f27; color: #fff; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; font-size: 30px;">
+                            Submit
+                        </button>
+
+                        <!-- Display Form Errors -->
+                        <div style="color: red; margin-top: 10px;">
+                            {{form.errors}}
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    // Toggle between text and audio review
-                    const reviewTypeToggle = document.getElementById('reviewTypeToggle');
-                    const textReviewSection = document.getElementById('textReviewSection');
-                    const voiceReviewSection = document.getElementById('voiceReviewSection');
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Toggle between text and audio review
+                const reviewTypeToggle = document.getElementById('reviewTypeToggle');
+                const textReviewSection = document.getElementById('textReviewSection');
+                const voiceReviewSection = document.getElementById('voiceReviewSection');
 
-                    if (reviewTypeToggle) {
-                        reviewTypeToggle.addEventListener('change', function () {
-                            textReviewSection.classList.toggle('active', !this.checked);
-                            voiceReviewSection.classList.toggle('active', this.checked);
+                if (reviewTypeToggle) {
+                    reviewTypeToggle.addEventListener('change', function () {
+                        textReviewSection.classList.toggle('active', !this.checked);
+                        voiceReviewSection.classList.toggle('active', this.checked);
 
-                            // Clear the non-active input
-                            if (this.checked) {
-                                document.getElementById('id_review').value = '';
-                            } else {
-                                const audioFile = document.getElementById('audioFile');
-                                if (audioFile) audioFile.value = '';
-                                const audioPlayer = document.getElementById('audioPlayer');
-                                if (audioPlayer) {
-                                    audioPlayer.src = '';
-                                    audioPlayer.style.display = 'none';
-                                }
+                        // Clear the non-active input
+                        if (this.checked) {
+                            document.getElementById('id_review').value = '';
+                        } else {
+                            const audioFile = document.getElementById('audioFile');
+                            if (audioFile) audioFile.value = '';
+                            const audioPlayer = document.getElementById('audioPlayer');
+                            if (audioPlayer) {
+                                audioPlayer.src = '';
+                                audioPlayer.style.display = 'none';
                             }
-                        });
+                        }
+                    });
+                }
+
+                // Audio recording functionality
+                let mediaRecorder;
+                let audioChunks = [];
+
+                document.getElementById('startRecording')?.addEventListener('click', async function () {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        mediaRecorder = new MediaRecorder(stream);
+                        audioChunks = [];
+
+                        mediaRecorder.ondataavailable = event => {
+                            if (event.data.size > 0) {
+                                audioChunks.push(event.data);
+                            }
+                        };
+
+                        mediaRecorder.onstop = () => {
+                            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                            const audioUrl = URL.createObjectURL(audioBlob);
+
+                            // Update audio player
+                            const audioPlayer = document.getElementById('audioPlayer');
+                            audioPlayer.src = audioUrl;
+                            audioPlayer.style.display = 'block';
+
+                            // Create file and assign to hidden input
+                            const file = new File([audioBlob], `recording_${Date.now()}.wav`, {
+                                type: 'audio/wav'
+                            });
+
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(file);
+                            document.getElementById('audioFile').files = dataTransfer.files;
+
+                            // Clean up
+                            stream.getTracks().forEach(track => track.stop());
+                        };
+
+                        mediaRecorder.start();
+                        document.getElementById('stopRecording').disabled = false;
+                        this.disabled = true;
+
+                    } catch (error) {
+                        console.error('Recording error:', error);
+                        alert('Could not access microphone. Please check permissions.');
                     }
-
-                    // Audio recording functionality
-                    let mediaRecorder;
-                    let audioChunks = [];
-
-                    document.getElementById('startRecording')?.addEventListener('click', async function () {
-                        try {
-                            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                            mediaRecorder = new MediaRecorder(stream);
-                            audioChunks = [];
-
-                            mediaRecorder.ondataavailable = event => {
-                                if (event.data.size > 0) {
-                                    audioChunks.push(event.data);
-                                }
-                            };
-
-                            mediaRecorder.onstop = () => {
-                                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                                const audioUrl = URL.createObjectURL(audioBlob);
-
-                                // Update audio player
-                                const audioPlayer = document.getElementById('audioPlayer');
-                                audioPlayer.src = audioUrl;
-                                audioPlayer.style.display = 'block';
-
-                                // Create file and assign to hidden input
-                                const file = new File([audioBlob], `recording_${Date.now()}.wav`, {
-                                    type: 'audio/wav'
-                                });
-
-                                const dataTransfer = new DataTransfer();
-                                dataTransfer.items.add(file);
-                                document.getElementById('audioFile').files = dataTransfer.files;
-
-                                // Clean up
-                                stream.getTracks().forEach(track => track.stop());
-                            };
-
-                            mediaRecorder.start();
-                            document.getElementById('stopRecording').disabled = false;
-                            this.disabled = true;
-
-                        } catch (error) {
-                            console.error('Recording error:', error);
-                            alert('Could not access microphone. Please check permissions.');
-                        }
-                    });
-
-                    document.getElementById('stopRecording')?.addEventListener('click', function () {
-                        if (mediaRecorder && mediaRecorder.state === 'recording') {
-                            mediaRecorder.stop();
-                            this.disabled = true;
-                            document.getElementById('startRecording').disabled = false;
-                        }
-                    });
                 });
 
-            </script>
+                document.getElementById('stopRecording')?.addEventListener('click', function () {
+                    if (mediaRecorder && mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                        this.disabled = true;
+                        document.getElementById('startRecording').disabled = false;
+                    }
+                });
+            });
+
+        </script>
 </body>
 
 </html>

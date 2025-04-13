@@ -55,12 +55,14 @@
         table td {
             border: 1px solid #ddd;
             padding: 10px;
+            color: black;
             text-align: left;
         }
 
         table th {
-            background-color: #8d6e57;
+            background-color: #425258;
             color: white;
+            color: black;
         }
 
         table tr:nth-child(even) {
@@ -101,7 +103,7 @@
         }
 
         .two {
-            background-color: #755547;
+            background-color: #9aaeb5;
         }
 
         .one {
@@ -110,7 +112,8 @@
             min-height: 100vh;
             padding-top: 0px;
             margin-top: 0px;
-            margin-bottom: 0px;
+            margin-bottom: -200px;
+            background-color: #526e79;
         }
 
         .container-fluid {
@@ -120,13 +123,13 @@
 
 
         .container h2 {
-            color: white;
+            color: rgb(0, 0, 0);
         }
 
         .merienda {
             font-family: 'Merienda', cursive;
             /* font-family: 'Great Vibes', cursive; */
-            color: #c9e2e8;
+            color: #000000;
             font-size: 35px;
         }
 
@@ -136,30 +139,35 @@
     </style>
 </head>
 
-<body style="background-color:#857870;">
+<body style="background-color:#526e79;">
     {% include 'Accounts/navbar.html' %}
     {% block content %}
     {% endblock %}
 
 
     {% load static %}
-    <div class="one"
-        style="background: url('../../../static/images/mainnnn.jpg') no-repeat center center fixed; background-size: cover; min-height: 100vh; padding-top: 0px;">
+
+    <div class="container mt-4"
+        style="margin-bottom: -10px; background-color: #C3C7C6;margin-left: 0px; margin-right: 0px; padding-left: 350px;">
+        <h2 style="margin-top: -10px; font-size: 28px;margin-left: -200px; color: black;">Admin Dashboard - Making the
+            Imposible Look Routine Since 2015</h2>
+    </div>
+    <div class="one">
 
 
         <table class="mainTable" style="border: none; border-collapse: collapse;">
-            <td style="border: none; margin-left: 100px; width: 600px;">
+            <td style="border: none; width: 1500px;">
                 <!-- Graph Container -->
                 <div class="container mt-4">
-                    <div class="row">
+                    <div class="row" style="width: 1100px;">
                         <!-- Reviews Requiring Attention -->
                         <div class="col-md-6"
-                            style="background-color: #857870; opacity: 100%; margin-left: -100px; margin-right: 100px;">
+                            style="background-color: #C3C7C6; opacity: 100%; margin-left: -200px;border-radius: 10px; width: 800px; margin-right: 100px;">
                             <h2 class="merienda">Reviews Requiring Attention</h2>
                             {% if reviews %}
                             {% for review in reviews %}
                             <div class="caveat"
-                                style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 10px; opacity: 100%; font-size: 20px;">
+                                style="background-color: #9AAEB5; padding: 15px; border-radius: 5px; margin-bottom: 10px; opacity: 100%; font-size: 20px; width: 500px;">
                                 <p>Customer Email: {{ review.email }}</p>
                                 <p>Review: {{ review.review }}</p>
                                 <p>Created At: {{ review.created_at|date:"M d, Y H:i" }}</p>
@@ -169,64 +177,78 @@
                             <p>No reviews requiring attention.</p>
                             {% endif %}
                         </div>
-
-                        <!-- Activity Section -->
-                        <div class="col-md-6">
-                            <div style="background-color: #857870; height: 550px; border-radius: 10px; opacity:100%;">
-                                <h1 class="merienda" style="text-align: center; color: white;">Activity</h1>
-                                <div style="padding: 10px; overflow-y: auto; height: 450px; font-size: 20px;"
-                                    class="caveat">
-                                    {% if activities %}
-                                    {% for activity in activities %}
-                                    <div
-                                        style="background-color: #d5d5d5; color: rgb(72, 72, 72); padding: 10px; margin: 5px; border-radius: 5px;">
-                                        <strong>{{ activity.timestamp|date:"M d, Y H:i" }}</strong><br>
-                                        {{ activity.description }}
-                                    </div>
-                                    {% endfor %}
-                                    {% else %}
-                                    <p style="color: white; text-align: center;">No recent activities.</p>
-                                    {% endif %}
-                                </div>
-                            </div>
+                        <div class="col-md-6" style="margin-right: 0px;">
+                            <img src="{% static 'images/mainImage1.jpg' %}" alt="Image"
+                                style="max-width: 1230px; height: 570px; width: 700px;margin-right:-300px ; border-radius: 10px;">
                         </div>
+
                     </div>
                 </div>
             </td>
         </table>
 
     </div>
-    <div class="container" style="background-color: #6a4c3f; margin-top: 100px;">
-        <h2 class="merienda" style="color: #dccec6;">Users</h2>
-        {% if users %}
-        <table class="caveat" style="font-size: 20px;">
-            <thead>
-                <tr>
-                    <th>UserID</th>
-                    <th>first_name</th>
-                    <th>last_name</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Edit</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in users %}
-                <tr class="two">
-                    <td>{{ i.id }}</td>
-                    <td>{{ i.first_name }}</td>
-                    <td>{{ i.last_name }}</td>
-                    <td>{{ i.username }}</td>
-                    <td>{{ i.email }}</td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'remove_user' i.username %}">Remove</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>No users found.</p>
-        {% endif %}
+    <div class="container" style="margin-top: 100px; width: 1500px;">
+        <div class="row">
+            <!-- Users Table -->
+            <div class="col-md-6">
+                <div style="background-color: #C3C7C6; padding: 20px; border-radius: 10px; margin-left: -250px;">
+                    <h2 class="merienda" style="color: #000000;">Users</h2>
+                    {% if users %}
+                    <table class="table table-bordered caveat" style="font-size: 20px; color: white;">
+                        <thead>
+                            <tr>
+                                <th>UserID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in users %}
+                            <tr class="two">
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.first_name }}</td>
+                                <td>{{ i.last_name }}</td>
+                                <td>{{ i.username }}</td>
+                                <td>{{ i.email }}</td>
+                                <td><a class="btn btn-sm btn-danger"
+                                        href="{% url 'remove_user' i.username %}">Remove</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p style="color: white;">No users found.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Activity Section -->
+            <div class="col-md-6">
+                <div
+                    style="background-color: #C3C7C6; height: 100%; border-radius: 10px; opacity:100%; padding: 20px; margin-right: -200px">
+                    <h1 class="merienda" style="text-align: center; color: rgb(0, 0, 0);">Activity</h1>
+                    <div style="padding: 10px; overflow-y: auto; height: 450px; font-size: 20px;" class="caveat">
+                        {% if activities %}
+                        {% for activity in activities %}
+                        <div
+                            style="background-color: #9AAEB5; color: rgb(72, 72, 72); padding: 10px; margin: 5px; border-radius: 5px;">
+                            <strong>{{ activity.timestamp|date:"M d, Y H:i" }}</strong><br>
+                            {{ activity.description }}
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p style="color: white; text-align: center;">No recent activities.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 
 
 
