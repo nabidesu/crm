@@ -43,12 +43,6 @@ os.environ["FFPROBE_BINARY"] = r"D:\ffmpeg\ffmpeg\bin\ffprobe.exe"
 AudioSegment.converter = r"D:\ffmpeg\ffmpeg\bin\ffmpeg.exe"
 AudioSegment.ffprobe = r"D:\ffmpeg\ffmpeg\bin\ffprobe.exe"
 
-# from .utils import load_model_and_vectorizer
-# from .preprocessing import clean_data
-# Create your views here.
-print("FFMPEG_BINARY path:", os.environ.get("FFMPEG_BINARY"))
-print("FFPROBE_BINARY path:", os.environ.get("FFPROBE_BINARY"))
-
 
 @unauthenticated_user
 def registerPage(request):
@@ -69,8 +63,8 @@ def registerPage(request):
 
             messages.success(request, "Account created successfully!"+username)
             return redirect('login')
-    else:
-        print("form errors:", form.errors)
+        else:
+            print("form errors:", form.errors)
     context = {'form': form}
     return render(request, 'Accounts/register.html', context)
 

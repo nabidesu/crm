@@ -5,37 +5,15 @@
 
 <head>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Great+Vibes&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
         body {
             background: url("{% static 'images/1.jpg' %}");
             background-color: #201f27;
         }
 
-        /* Asymmetrical background container */
-        /* .angled-bg-container {
-            width: 100%;
-            min-height: 100vh;
-            overflow: hidden;
-            background-color: none;
-            background: url("{% static 'images/1.jpg' %}");
 
-        }
-
-        /* Background image with angled edges */
-        /* .angled-bg {
-            position: absolute;
-            top: 50px;
-            left: 50px;
-            right: 50px;
-            bottom: -50px;
-            background-size: cover;
-            background-repeat: no-repeat;
-            z-index: 1;
-
-        } */
-        */ .form-one {
+        .form-one {
             top: 750px;
             bottom: 750px;
             background-color: none;
@@ -139,14 +117,16 @@
         }
 
 
-        .merienda {
-            font-family: 'Merienda', cursive;
+        .pagefont {
+            font-family: "Thasadith", sans-serif, bold;
             /* font-family: 'Great Vibes', cursive; */
             color: #345B63;
+            font-weight: bold;
         }
 
         .caveat {
-            font-family: 'Caveat', cursive;
+            font-family: 'roboto', sans-serif;
+            font-size: 15px;
         }
 
         /* Testimonial cards */
@@ -169,7 +149,7 @@
             color: black;
             margin-right: -30px;
             margin-top: -20px;
-            margin-left: 10px;
+            margin-left: 310px;
             width: 800px;
         }
 
@@ -226,8 +206,8 @@
         }
 
         .toggle-label {
-            font-family: 'Caveat', cursive;
-            font-size: 24px;
+            font-family: 'Caveat';
+            font-size: 20px;
             color: #201f27;
         }
 
@@ -246,8 +226,8 @@
     <!-- {% include 'Accounts/navbar.html' %}
     {% block content %}
     {% endblock %} -->
-    <h1 class="merienda"
-        style="text-align: center; font-size: 40px; color: #201f27;  margin: 40px; padding: 30px; width: 700px; margin-top: 30px; border-radius: 10px;">
+    <h1 class="pagefont"
+        style="text-align: center; font-size: 40px; color: #201f27;  margin: 40px; padding: 30px; width: 700px; margin-top: 30px; border-radius: 10px;margin-left: 350px;">
         What
         people have to say about
         us</h1>
@@ -282,7 +262,7 @@
                 <!-- Testimonials -->
                 {% for i in reviews %}
                 <div class="testimonial-card">
-                    <p class="caveat" style="color: #201f27; font-size: 30px; line-height: 0.2;font-weight: bold;">
+                    <p class="caveat" style="color: #201f27; font-size: 25px; line-height: 0.2;font-weight: normal;">
                         {{i.review}}</p>
                 </div>
                 {% endfor %}
@@ -295,8 +275,8 @@
             <div class="form-section">
 
                 <div class="form-container">
-                    <h2 class="merienda"
-                        style="text-align: center; font-size: 50px;padding-top: -10px; color: #201f27;">
+                    <h2 class="pagefont"
+                        style="text-align: center; font-size: 40px;padding-top: -10px; color: #201f27;">
                         Share your
                         experience</h2>
                     <form method="POST" action="{% url 'give_review' %}" enctype="multipart/form-data">
@@ -305,7 +285,7 @@
                         <!-- Email Field -->
                         <div style="margin-bottom: 15px;">
                             <label for="name" class="caveat"
-                                style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #201f27;">Email</label>
+                                style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">Email</label>
                             {{form.email}}
                         </div>
 
@@ -323,7 +303,7 @@
                         <div id="textReviewSection" class="review-section active">
                             <div style="margin-bottom: 15px;">
                                 <label for="review" class="caveat"
-                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #201f27;">Review</label>
+                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">Review</label>
                                 {{form.review}}
                             </div>
                         </div>
@@ -332,7 +312,7 @@
                         <div id="voiceReviewSection" class="review-section">
                             <div style="margin-bottom: 15px;">
                                 <label class="caveat"
-                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #201f27;">
+                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">
                                     Record Your Review
                                 </label>
                                 <button type="button" id="startRecording" class="caveat"
@@ -353,7 +333,7 @@
                         <!-- Immediate Attention Checkbox -->
                         <div style="margin-bottom: 15px;">
                             <label for="responseAlert" class="caveat"
-                                style="display: inline-flex; align-items: center; font-weight: bold; margin-bottom: 3px; font-size: 30px; color: #33220a;">
+                                style="display: inline-flex; align-items: center; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">
                                 Requires immediate attention ?
                             </label>
                             {{ form.responseAlert }}

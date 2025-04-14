@@ -6,78 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration form</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
         body {
             padding: 0px;
             margin: 0px;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: "Thasadith", sans-serif;
             color: rgb(255, 255, 255);
             box-sizing: border-box;
-
-        }
-
-        .Nav {
-            padding: 0px;
-            width: 100%;
-            overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.2);
-            height: 80px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        input[type="text"] {
-            color: white;
-        }
-
-        input[type="tel"] {
-            color: white;
-        }
-
-        .Nav li {
-            list-style: none;
-            display: inline;
-        }
-
-        .Nav li a {
-            text-decoration: none;
-            padding: 14px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            color: #f2f2f2;
-            display: inline-block;
-            text-align: center;
-            letter-spacing: 1px;
-            transition: all .3s ease-in;
-            font-family: "Play", sans-serif;
-        }
-
-        .Nav li a:hover {
-            background-color: #DDFFD9;
-            background-color: #F0C5AD;
-            color: black;
-        }
-
-        .background {
-            background: url("../accounts/hotel.jpg");
-            background-color: rgb(3, 54, 82);
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-blend-mode: darken;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: -1;
-            filter: blur(2px);
-            min-height: 800px;
-            background: url("{% static 'images/register.webp' %}") no-repeat center center fixed;
+            background: url("{% static 'images/customerreg.jpg' %}") no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             padding-top: 0px;
             margin-top: 0px;
         }
+
+
 
 
         .container {
@@ -86,20 +29,16 @@
             align-items: center;
             text-align: center;
             width: 500px;
-            opacity: 250%;
             margin: 10vh auto;
-            box-shadow: 0 0 15px rgb(0, 0, 0);
+            background: transparent;
+            box-shadow: 0 0 25px rgb(255, 254, 254);
             border-radius: 25px;
-            background-color: rgb(33, 14, 14);
+            background-color: rgb(14, 16, 33);
             opacity: 70%;
         }
 
-        ::placeholder {
-            color: rgb(162, 162, 162);
-        }
-
         h2 {
-            font-size: 50px;
+            font-size: 45px;
             font-family: serif;
         }
 
@@ -118,11 +57,11 @@
             margin: 10px auto;
             border-radius: 15px;
             align-items: center;
-            border: 1px solid rgb(1, 1, 1);
+            border: 1px solid rgb(188, 209, 217);
         }
 
         .form-item:hover {
-            border: 2px solid rgb(5, 5, 5);
+            border: 2px solid rgb(39, 60, 108);
 
         }
 
@@ -145,10 +84,11 @@
             background: rgba(2, 2, 2, 0.72);
             border: none;
             color: rgb(250, 248, 248);
+            align-items: center;
         }
 
         button[type="Register"]:hover {
-            background: rgba(249, 244, 111, 0.678);
+            background: rgba(111, 178, 249, 0.678);
         }
 
 
@@ -161,7 +101,7 @@
             color: white;
             cursor: pointer;
             transition: all 0.7s ease;
-            margin-left: 120px;
+            align-items: center;
         }
 
         p {
@@ -170,12 +110,15 @@
             color: aliceblue;
         }
 
-        a {
-            color: rgb(194, 194, 194);
+
+
+        ::placeholder {
+            color: lightgray;
+            /* Light grey color for placeholder text */
         }
 
-        a:hover {
-            color: rgb(255, 0, 0);
+        .place {
+            color: lightgray;
         }
     </style>
 </head>
@@ -187,32 +130,32 @@
 
     <!-- for form container -->
     <div class="container">
-        <h2>Registration</h2>
+        <h2>Customer Registration</h2>
         <form method="post">
             {% csrf_token %}
-            <div class="form-item">
-                
-                <input class="place">
+            <div class="form-item" style="color: white;">
+
+
 
                 {{form.customerEmail }}
             </div>
 
             <div class="form-item" style="color: white;">
-                <input class="place">
+
 
                 {{form.roomType }}
 
             </div>
 
-            <div class="form-item">
-                <input class="place">
+            <div class="form-item" style="color: white;"">
+                
 
                 {{form.noOfDays }}
             </div>
 
 
             {{form.errors}}
-            <button type="submit">REGISTER</button>
+            <button type=" submit">REGISTER</button>
 
 
 

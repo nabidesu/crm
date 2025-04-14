@@ -12,69 +12,15 @@
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
             color: rgb(255, 255, 255);
-            background: url("{% static 'images/register.webp' %}") no-repeat center center fixed;
+            background: url("{% static 'images/login.jpg' %}") no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             padding-top: 0px;
             margin-top: 0px;
         }
 
-        .Nav {
 
-            padding: 0px;
-            width: 100%;
-            overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.2);
-            height: 80px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
 
-        .Nav li {
-            list-style: none;
-            display: inline;
-        }
-
-        .Nav li a {
-            text-decoration: none;
-            padding: 14px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            color: #f2f2f2;
-            display: inline-block;
-            text-align: center;
-            letter-spacing: 1px;
-            transition: all .3s ease-in;
-            font-family: "Play", sans-serif;
-        }
-
-        .Nav li a:hover {
-            background-color: #000000;
-            background-color: #F0C5AD;
-            color: black;
-        }
-
-        .background {
-            /* background: url("../resources/images/Loginpage.jpg"); */
-            background-repeat: no-repeat;
-            background-color: #ade2a7;
-            background-size: cover;
-            background-blend-mode: darken;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: -1;
-            min-height: 800px;
-            background: url("{% static 'images/login.webp' %}") no-repeat center center fixed;
-            background-size: cover;
-            min-height: 100vh;
-            padding-top: 0px;
-            margin-top: 0px;
-
-        }
 
         .container {
             display: flex;
@@ -84,7 +30,7 @@
             width: 500px;
             margin: 10vh auto;
             background: transparent;
-            box-shadow: 0 0 25px rgb(0, 0, 0);
+            box-shadow: 0 0 25px rgb(255, 254, 254);
             border-radius: 25px;
             background-color: rgb(14, 16, 33);
             opacity: 70%;
@@ -110,11 +56,11 @@
             margin: 10px auto;
             border-radius: 15px;
             align-items: center;
-            border-bottom: 1px solid rgb(1, 1, 1);
+            border-bottom: 1px solid rgb(113, 161, 197);
         }
 
         .form-item:hover {
-            border: 2px solid rgb(5, 5, 5);
+            border: 2px solid rgb(60, 93, 110);
 
         }
 
@@ -125,7 +71,7 @@
             outline: none;
             border: none;
             margin: auto;
-            color: rgb(13, 13, 13);
+            color: rgb(231, 231, 231);
             font-size: 17px;
         }
 
@@ -163,11 +109,11 @@
         }
 
         a {
-            color: rgb(25, 79, 52);
+            color: rgb(173, 234, 243);
         }
 
         a:hover {
-            color: rgb(255, 255, 255);
+            color: rgb(72, 169, 189);
         }
     </style>
 </head>
@@ -184,14 +130,14 @@
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
 
-            <div class="form-item">
+            <div class="form-item" style="color: white;">
 
-                <input type="text" name="username">
+                <input type="text" name="username" placeholder="username">
             </div>
 
-            <div class="form-item">
+            <div class="form-item" style="color: white;" >
 
-                <input type="password" name="password">
+                <input type="password" name="password"placeholder="password">
             </div>
 
             <button type="submit">LOGIN</button>

@@ -13,72 +13,15 @@
             font-family: Arial, Helvetica, sans-serif;
             color: rgb(255, 255, 255);
             box-sizing: border-box;
-            background: url("{% static 'images/reg.webp' %}") no-repeat center center fixed;
+            background: url("{% static 'images/register.webp' %}") no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             padding-top: 0px;
             margin-top: 0px;
         }
 
-        .Nav {
-            padding: 0px;
-            width: 100%;
-            overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.2);
-            height: 80px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
 
-        input[type="text"] {
-            color: white;
-        }
 
-        input[type="tel"] {
-            color: white;
-        }
-
-        .Nav li {
-            list-style: none;
-            display: inline;
-        }
-
-        .Nav li a {
-            text-decoration: none;
-            padding: 14px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            color: #f2f2f2;
-            display: inline-block;
-            text-align: center;
-            letter-spacing: 1px;
-            transition: all .3s ease-in;
-            font-family: "Play", sans-serif;
-        }
-
-        .Nav li a:hover {
-            background-color: #000000;
-            background-color: #F0C5AD;
-            color: black;
-        }
-
-        .background {
-            background: url("../accounts/hotel.jpg");
-            background-color: rgb(3, 54, 82);
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-blend-mode: darken;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: -1;
-            filter: blur(2px);
-            min-height: 800px;
-
-        }
 
         .container {
             display: flex;
@@ -86,16 +29,12 @@
             align-items: center;
             text-align: center;
             width: 500px;
-            opacity: 70%;
             margin: 10vh auto;
-            box-shadow: black;
+            background: transparent;
+            box-shadow: 0 0 25px rgb(255, 254, 254);
             border-radius: 25px;
-            background-color: rgb(33, 14, 14);
-
-        }
-
-        ::placeholder {
-            color: rgb(0, 0, 0);
+            background-color: rgb(14, 16, 33);
+            opacity: 70%;
         }
 
         h2 {
@@ -118,11 +57,11 @@
             margin: 10px auto;
             border-radius: 15px;
             align-items: center;
-            border: 1px solid rgb(1, 1, 1);
+            border: 1px solid rgb(188, 209, 217);
         }
 
         .form-item:hover {
-            border: 2px solid rgb(5, 5, 5);
+            border: 2px solid rgb(39, 60, 108);
 
         }
 
@@ -148,7 +87,7 @@
         }
 
         button[type="Register"]:hover {
-            background: rgba(249, 244, 111, 0.678);
+            background: rgba(111, 178, 249, 0.678);
         }
 
 
@@ -170,20 +109,20 @@
         }
 
         a {
-            color: rgb(0, 0, 0);
+            color: rgb(208, 200, 200);
         }
 
         a:hover {
-            color: rgb(255, 0, 0);
+            color: rgb(148, 153, 255);
         }
 
         ::placeholder {
-            color: #bdbdbd;
+            color: lightgray;
             /* Light grey color for placeholder text */
         }
 
         .place {
-            color: gray;
+            color: lightgray;
         }
     </style>
 </head>
@@ -195,28 +134,28 @@
         <h2>Registration</h2>
         <form method="post">
             {% csrf_token %}
-            <div class="form-item">
-                <input class="place">
+            <div class="form-item" style="color: white;">
+
                 {{ form.first_name }}
             </div>
-            <div class="form-item">
-                <input class="place">
+            <div class="form-item" style="color: white;">
+
                 {{ form.last_name }}
             </div>
-            <div class="form-item">
-                <input class="place">
+            <div class="form-item" style="color: white;">
+
                 {{ form.username }}
             </div>
             <div class="form-item" style="color: white;">
-                <input class="place">
+
                 {{ form.email }}
             </div>
-            <div class="form-item">
-                <input class="place">
+            <div class="form-item" style="color: white;">
+
                 {{ form.password1 }}
             </div>
-            <div class="form-item">
-                <input class="place">
+            <div class="form-item" style="color: white;">
+
                 {{ form.password2 }}
             </div>
 

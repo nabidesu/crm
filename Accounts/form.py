@@ -59,6 +59,19 @@ class ReviewForm(ModelForm):
 
 
 class CreateUserForm(UserCreationForm):
+    first_name = forms.CharField(widget=forms.TextInput(
+        attrs={'placeholder': 'First Name'}))
+    last_name = forms.CharField(widget=forms.TextInput(
+        attrs={'placeholder': 'Last Name'}))
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'placeholder': 'Username'}))
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={'placeholder': 'Email Address'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'Password'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'Confirm Password'}))
+
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username',
@@ -66,12 +79,26 @@ class CreateUserForm(UserCreationForm):
 
 
 class EditProfileForm(forms.ModelForm):
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'placeholder': 'Username'}))
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={'placeholder': 'Email Address'}))
+
     class Meta:
         model = User
         fields = ['username', 'email']
 
 
 class CustomerForm(forms.ModelForm):
+    customerEmail = forms.EmailField(widget=forms.EmailInput(
+        attrs={'placeholder': 'Email Address'}))
+    noOfDays = forms.IntegerField(widget=forms.NumberInput(
+        attrs={'placeholder': 'Number of Days'}))
+    roomType = forms.ChoiceField(
+        choices=[('', 'Select Room Type')] + list(Customer.ROOM_CHOICES),
+        widget=forms.Select(attrs={'placeholder': 'Select Room Type'})
+    )
+
     class Meta:
         model = Customer
         fields = ['customerEmail', 'roomType', 'noOfDays']
