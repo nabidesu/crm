@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -7,9 +8,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+
         body {
-            background: url("{% static 'images/1.jpg' %}");
-            background-color: #201f27;
+            /* background: url("{% static 'images/1.jpg' %}"); */
+            background-color: #c1d8df;
+
+
         }
 
 
@@ -32,42 +36,18 @@
             padding: 25px 0;
         }
 
-        /* Message styles */
-        .error-message {
+        .form-error-container {
             padding: 10px;
             border-radius: 5px;
-            margin-bottom: 10px;
+            margin: 15px 0;
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
+            font-family: 'thasadith';
+            font-size: 18px;
         }
 
-        .success-message {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
 
-        .warning-message {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-        }
-
-        .info-message {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            background-color: #d1ecf1;
-            color: #33220a;
-            border: 1px solid #bee5eb;
-        }
 
         /* Content wrapper */
         .content-wrapper {
@@ -88,7 +68,7 @@
             border-radius: 5px;
             background-color: #AEBBC3;
             font-size: 16px;
-            font-family: 'Caveat', cursive;
+            font-family: 'thasadith';
             transition: all 0.3s ease;
         }
 
@@ -101,8 +81,8 @@
         /* Testimonial section */
         .testimonial-section {
             flex: 1;
-            padding-right: 170px;
-            min-width: 200px;
+            padding-right: 400px;
+            min-width: 0px;
             margin-left: 200px;
             padding-top: 10px;
         }
@@ -111,45 +91,40 @@
         .form-section {
             flex: 1;
             padding-left: 20px;
-            min-width: 170px;
+            min-width: 70px;
             padding-top: 120px;
             margin-right: 100px;
         }
 
 
-        .pagefont {
-            font-family: "Thasadith", sans-serif, bold;
-            /* font-family: 'Great Vibes', cursive; */
-            color: #345B63;
-            font-weight: bold;
-        }
 
-        .caveat {
-            font-family: 'roboto', sans-serif;
-            font-size: 15px;
+
+        .thasadith {
+            font-family: 'Thasadith';
+
         }
 
         /* Testimonial cards */
         .testimonial-card {
             background-color: #AEBBC3;
-            border-radius: 60px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+
             margin: 15px 0;
             padding: 15px;
-
+            box-shadow: 0 0 25px rgb(59, 82, 102);
+            border: 3px solid rgb(76, 110, 123);
         }
 
         /* Form container */
         .form-container {
-            background-color: #6B7984;
+            background-color: #435d6c;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 30px;
-
             color: black;
             margin-right: -30px;
             margin-top: -20px;
-            margin-left: 310px;
+            margin-left: 200px;
             width: 800px;
         }
 
@@ -206,7 +181,7 @@
         }
 
         .toggle-label {
-            font-family: 'Caveat';
+            font-family: 'thasadith';
             font-size: 20px;
             color: #201f27;
         }
@@ -218,43 +193,85 @@
         .review-section.active {
             display: block;
         }
+
+        /* Error popup styles */
+        #errorPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #errorPopupOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .error-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f5c6cb;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            font-family: 'roboto', sans-serif;
+        }
+
+        .error-popup-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            color: #721c24;
+        }
+
+        .error-popup-message {
+            font-size: 16px;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .error-popup-icon {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 40px;
+        }
     </style>
 </head>
 
 
-<body style="margin: 0; font-family: Arial, sans-serif; background-color: none;">
-    <!-- {% include 'Accounts/navbar.html' %}
-    {% block content %}
-    {% endblock %} -->
-    <h1 class="pagefont"
-        style="text-align: center; font-size: 40px; color: #201f27;  margin: 40px; padding: 30px; width: 700px; margin-top: 30px; border-radius: 10px;margin-left: 350px;">
-        What
-        people have to say about
-        us</h1>
+<body style="margin: 0; ">
+
+    <img src="{% static 'images/1.jpg' %}" alt="Background Image"
+        style="width: 100%; height: 160%; position: absolute; top: 0; left: 0; z-index: -1; opacity: 0.5;background-repeat: repeat;">
+
+
+    <h1 class="thasadith"
+        style="font-size: 40px;margin-left: 50px; color: rgb(18, 18, 18); padding: 20px; margin-top: 40px;">
+        Discover reviews from guests who’ve enjoyed our comfort, and care.</h1>
+
 
 
     <div class="content-overlay">
         <div class="content-wrapper">
-            <!-- Message Display Section -->
-            {% if messages %}
-            <div style="width: 100%; padding: 10px; margin-bottom: 20px;">
-                {% for message in messages %}
-                <div class="
-                            {% if message.tags == 'error' %}
-                                error-message
-                            {% elif message.tags == 'success' %}
-                                success-message
-                            {% elif message.tags == 'warning' %}
-                                warning-message
-                            {% else %}
-                                info-message
-                            {% endif %}
-                        ">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
+
 
 
             <div class="testimonial-section">
@@ -262,29 +279,27 @@
                 <!-- Testimonials -->
                 {% for i in reviews %}
                 <div class="testimonial-card">
-                    <p class="caveat" style="color: #201f27; font-size: 25px; line-height: 0.2;font-weight: normal;">
+                    <p class="thasadith" style="color: #080808; font-size: 25px; line-height: 0.2;font-weight: normal;">
                         {{i.review}}</p>
                 </div>
                 {% endfor %}
             </div>
-            <br>
+
         </div>
 
         <!-- Form Section -->
         <div class="form-one">
             <div class="form-section">
+                <h2 class="thasadith" style="text-align: center; font-size: 40px;padding-bottom: 5px; color: #201f27;">
+                    We value your feedback – tell us about your stay.</h2>
+                <div class="form-container" style="padding-top:50px;">
 
-                <div class="form-container">
-                    <h2 class="pagefont"
-                        style="text-align: center; font-size: 40px;padding-top: -10px; color: #201f27;">
-                        Share your
-                        experience</h2>
                     <form method="POST" action="{% url 'give_review' %}" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         <!-- Email Field -->
                         <div style="margin-bottom: 15px;">
-                            <label for="name" class="caveat"
+                            <label for="name" class="thasadith"
                                 style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">Email</label>
                             {{form.email}}
                         </div>
@@ -302,7 +317,7 @@
                         <!-- Text Review Section -->
                         <div id="textReviewSection" class="review-section active">
                             <div style="margin-bottom: 15px;">
-                                <label for="review" class="caveat"
+                                <label for="review" class="thasadith"
                                     style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">Review</label>
                                 {{form.review}}
                             </div>
@@ -311,7 +326,7 @@
                         <!-- Voice Review Section -->
                         <div id="voiceReviewSection" class="review-section">
                             <div style="margin-bottom: 15px;">
-                                <label class="caveat"
+                                <label class="thasadith"
                                     style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">
                                     Record Your Review
                                 </label>
@@ -332,7 +347,7 @@
 
                         <!-- Immediate Attention Checkbox -->
                         <div style="margin-bottom: 15px;">
-                            <label for="responseAlert" class="caveat"
+                            <label for="responseAlert" class="thasadith"
                                 style="display: inline-flex; align-items: center; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">
                                 Requires immediate attention ?
                             </label>
@@ -340,22 +355,80 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="caveat"
+                        <button type="submit" class="thasadith"
                             style="width: 50%; padding: 10px; background-color: #201f27; color: #fff; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; font-size: 30px;">
                             Submit
                         </button>
 
-                        <!-- Display Form Errors -->
-                        <div style="color: red; margin-top: 10px;">
-                            {{form.errors}}
-                        </div>
+
                     </form>
+                   
+
+
                 </div>
             </div>
         </div>
-
+        <div id="errorPopupOverlay"></div>
+        <div id="errorPopup">
+            <div class="error-popup-header">
+                <span class="thasadith" style="font-size: 20px; font-weight: bold;">Form Error</span>
+                <button class="error-popup-close" onclick="closeErrorPopup()">×</button>
+            </div>
+            <div class="error-popup-icon">⚠️</div>
+            <div id="errorPopupMessage" class="error-popup-message"></div>
+        </div>
+        <!-- Pass form errors to JavaScript -->
+        {% if form.errors or form.non_field_errors %}
         <script>
+            const errorMessages = [];
+            {% for field in form %}
+            {% for error in field.errors %}
+            errorMessages.push("{{ field.label }}: {{ error|escapejs }}");
+            {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+            errorMessages.push("{{ error|escapejs }}");
+            {% endfor %}
+        </script>
+        {% endif %}
+        <script>
+            function showErrorPopup(messages) {
+                const errorPopup = document.getElementById('errorPopup');
+                const errorPopupOverlay = document.getElementById('errorPopupOverlay');
+                const errorPopupMessage = document.getElementById('errorPopupMessage');
+                if (messages && messages.length > 0) {
+                    errorPopupMessage.innerHTML = messages.map(msg => msg.replace(/\n/g, '<br>')).join('<br>');
+                } else {
+                    errorPopupMessage.innerHTML = 'An unknown error occurred. Please try again.';
+                }
+                errorPopup.style.display = 'block';
+                errorPopupOverlay.style.display = 'block';
+            }
+
+            function closeErrorPopup() {
+                const errorPopup = document.getElementById('errorPopup');
+                const errorPopupOverlay = document.getElementById('errorPopupOverlay');
+                errorPopup.style.display = 'none';
+                errorPopupOverlay.style.display = 'none';
+            }
             document.addEventListener('DOMContentLoaded', function () {
+                if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) {
+                    showErrorPopup(errorMessages);
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeErrorPopup();
+                }
+            });
+        </script>
+        <script>
+
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+
                 // Toggle between text and audio review
                 const reviewTypeToggle = document.getElementById('reviewTypeToggle');
                 const textReviewSection = document.getElementById('textReviewSection');
@@ -437,6 +510,7 @@
                     }
                 });
             });
+
 
         </script>
 </body>

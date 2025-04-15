@@ -14,11 +14,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
         body {
-            font-family: 'Caveat';
+
             margin: 0;
             padding: 0;
             color: #31362e;
-            
+            font-family: 'Thasadith';
         }
 
         .container {
@@ -28,15 +28,13 @@
             border-radius: 8px;
             padding: 20px;
             padding-right: -80px;
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
         }
 
-        .container h2 {
+        .pagefont {
             font-family: 'Thasadith';
-            color: #F2EFE7;
-            font-size: 35px;
-            margin-bottom: 10px;
-            text-align: center;
+
+
         }
 
         table {
@@ -52,7 +50,7 @@
             width: 200px;
             margin-right: 0px;
             padding-right: 0px;
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             font-size: 20px;
         }
 
@@ -92,7 +90,7 @@
         }
 
         .btn {
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             display: inline-block;
             background-color: #310708;
             color: white;
@@ -151,6 +149,7 @@
             border-radius: 10px;
             margin-top: 50px;
             margin-bottom: 50px;
+            font-family: 'Thasadith';
         }
 
         /* Reviews container */
@@ -160,6 +159,7 @@
             background-color: #C3C7C6;
             border-radius: 10px;
             padding: 20px;
+            font-family: 'Thasadith';
         }
 
         /* Filter card */
@@ -173,6 +173,7 @@
             min-height: 600px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             background-color: #C3C7C6;
+
         }
 
         .card-title {
@@ -191,7 +192,7 @@
             font-weight: bold;
             color: #F2EFE7;
             margin-bottom: 8px;
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             display: block;
             font-size: 20px;
         }
@@ -202,7 +203,7 @@
             padding: 5px;
             border-radius: 5px;
             width: 100%;
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             font-size: 20px;
             background-color: #fff;
         }
@@ -220,10 +221,7 @@
             background-color: #8f94e3;
         }
 
-        .pagefont {
-            font-family: "Thasadith", sans-serif;
-            color: #345B63;
-        }
+
 
         .filter-form {
             display: flex;
@@ -254,12 +252,23 @@
                 width: 100%;
             }
         }
+        
+        
     </style>
 </head>
+
+
+
 
 <body style="background-color: #526e79;">
     {% include 'Accounts/navbar.html' %}
 
+    <div class="container mt-4"
+        style="margin-bottom: -10px; background-color: #C3C7C6;margin-left: 0px; margin-right: 0px; padding-left: 350px;">
+        <h2 class="thasadith" style="margin-top: -10px; font-size: 28px;margin-left: -200px; color: black;">
+            Dashboard - Making the
+            Imposible Look Routine Since 2015</h2>
+    </div>
 
     <div class="one">
         <table class="graphsTable" style="border: none; border-collapse: collapse;">
@@ -279,8 +288,8 @@
             <tr>
                 <td style="background-color: #526e79;">
                     <div class="container mt-4" style="width: 100%; background-color:#526e79; height: 50px;">
-                        <h2
-                            style="margin-top: -10px; font-size: 28px; margin-left: -100px; margin-right: -150px; color: black;">
+                        <h2 class="pagefont"
+                            style="margin-top: -10px; font-size: 45px; margin-left: -200px; margin-right: -250px; color: black;">
                             Your
                             Dashboard, Where
                             hospitality meets
@@ -310,7 +319,8 @@
         </div>
 
         <div class="container mt-4" style="width: 100%; background-color:#526e79; height: 50px;">
-            <h2 style="margin-top: 20px; font-size: 28px; margin-left: -100px; margin-right: -150px; color: black;">
+            <h2 class="pagefont"
+                style="margin-top: 20px; font-size: 45px; margin-left: -200px; margin-right: -150px; color: black;">
                 Review Management, Separating the Praise From the Panic</h2>
         </div>
 
@@ -340,7 +350,7 @@
                                     <td>{{ i.emotion }}</td>
                                     <td>{{ i.created_at|date:"M d, Y H:i" }}</td>
                                     <td><a class="btn btn-sm btn-danger"
-                                            href="{% url 'remove_review' i.email %}">Remove</a>
+                                            href="{% url 'remove_review' i.reviewID  %}">Remove</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -408,7 +418,7 @@
             </div>
         </div>
     </div>
-
+    
     <script>
         // Get the chart element
         var ctx = document.getElementById('myChart').getContext('2d');
@@ -435,12 +445,12 @@
                     categoryCounts.Price
                 ],
                 backgroundColor: [
-                    '#292D53',
-                    '#ACD3A8',
-                    '#ADC5CE',
-                    '#2E5077',
-                    '#3B919B',
-                    '#DFD0B8'
+                    '#003A6B',
+                    '#1B5886',
+                    '#3776A1',
+                    '#5C8EB4',
+                    '#9AB7CD',
+                    '#C1D1DB'
                 ],
 
                 borderColor: 'black',
@@ -461,7 +471,7 @@
                         font: {
                             size: 35,
                             weight: 'normal',
-                            family: ' merienda'
+                            family: 'Thasadith'
                         },
                         color: 'black'
                     },
@@ -471,7 +481,7 @@
                     labels: {
                         color: 'black', // White color for legend
                         font: {
-                            family: 'Caveat',
+                            family: 'Thasadith',
                             size: 16,
                             weight: 'normal' // Set weight to normal
                         }
@@ -486,7 +496,7 @@
                         font: {
                             size: 14,
                             weight: 'normal',
-                            family: 'Caveat'
+                            family: 'Thasadith'
                         }
 
                     }
@@ -497,7 +507,7 @@
                     ticks: {
                         color: 'black',
                         font: {
-                            family: 'Caveat',
+                            family: 'Thasadith',
                             weight: 'normal',
 
                         }
@@ -516,7 +526,7 @@
                         color: 'black',
 
                         font: {
-                            family: 'Caveat',
+                            family: 'Thasadith',
                             size: 16,
                             weight: 'normal',
                         }
@@ -550,9 +560,9 @@
                     label: 'Reviews Emotions',
                     data: [emotionCounts.positive, emotionCounts.negative, emotionCounts.neutral, emotionCounts.unknown],
                     backgroundColor: [
-                        '#A0C878', // Green for positive
+                        '#306682', // Green for positive
                         '#001F3F', // Maroon for negative
-                        '#F6F8D5', // Grey for neutral
+                        '#AECBD6', // Grey for neutral
                         '#2E5077', // Black for unknown
                     ],
 
@@ -568,7 +578,7 @@
                         labels: {
                             color: 'black', // White color for legend
                             font: {
-                                family: 'Caveat',
+                                family: 'Thasadith',
                                 size: 16,
                                 weight: 'normal' // Set weight to normal
                             }
@@ -579,7 +589,7 @@
                         text: 'Emotion Distribution in Reviews',
                         font: {
                             size: 37,
-                            family: 'merienda',
+                            family: 'Thasadith',
                             weight: 'normal' // Set weight to normal
                         },
                         color: 'black'

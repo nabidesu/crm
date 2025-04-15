@@ -12,10 +12,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
     <style>
-       @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
         body {
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             margin: 0;
             padding: 0;
             background-color: #313131;
@@ -35,34 +35,25 @@
             background-color: #526e79;
         }
 
-        /* Container styling */
-        /* .container {
-            background-color: #526e79;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            opacity: 100%;
-            margin: 20px auto;
 
-        } */
 
         /* Table styling */
         .table-bordered td {
             background-color: white !important;
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             font-size: 18px;
         }
 
         .table th {
             background-color: #130902 !important;
             color: rgb(255, 255, 255) !important;
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             font-size: 20px;
         }
 
         /* Headings */
         h4 {
-            font-family: 'Great Vibes';
+            font-family: ' Thasadith';
             color: #000000;
             font-size: 35px;
             margin-bottom: 20px;
@@ -90,7 +81,7 @@
         .filter-form label {
             font-weight: bold;
             color: #000000;
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             font-size: 20px;
         }
 
@@ -102,13 +93,13 @@
             border: 1px solid #0b0b0b;
             border-radius: 4px;
             background-color: rgb(0, 0, 0);
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             font-size: 18px;
         }
 
         /* Buttons */
         .btn {
-            font-family: 'Caveat';
+            font-family: 'Thasadith';
             background-color: #0a0f1c;
             color: white;
             font-size: 18px;
@@ -128,6 +119,7 @@
             border-radius: 8px;
             margin-bottom: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 600px;
         }
 
         .layout-table {
@@ -144,7 +136,7 @@
         }
 
         .pagefont {
-            font-family: 'Thasadith', sans-serif;
+            font-family: 'Thasadith';
             /* font-family: 'Great Vibes', cursive; */
             color: #000000;
             font-size: 35px;
@@ -161,7 +153,7 @@
             <div class="row">
                 <!-- Line Chart -->
                 <div class="col-md-6">
-                    <div class="chart-container" style="width: 100%; height: 560px; margin-top: 20px;">
+                    <div class="chart-container" style="width: 85%; height: 560px; margin-top: 20px;">
                         <h4 class="pagefont">Weekly Registrations</h4>
                         <canvas id="myChart"></canvas>
                     </div>
@@ -170,7 +162,7 @@
                 <!-- Customer Data Section -->
                 <div class="col-md-6">
                     <div class="container"
-                        style="height: 580px; padding: 25px; background-color: #C3C7C6; width: 700px;border-radius: 10px;">
+                        style="height: 580px; padding: 25px; background-color: #C3C7C6; width: 800px;border-radius: 10px; margin-left: -60px;">
                         <h4 class="pagefont">Customer Data</h4>
 
                         <!-- Filter Form -->
@@ -364,6 +356,7 @@
     </div>
     </div>
     </div>
+    
 
     <script>
 

@@ -6,7 +6,7 @@ import os
 from urllib import request
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import PasswordChangeForm
@@ -16,6 +16,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncWeek
+from datetime import datetime
 
 from crm import settings
 from .models import *
@@ -28,6 +29,7 @@ from django.utils.crypto import get_random_string
 import random
 import string
 from django.shortcuts import get_object_or_404
+from django.utils.dateparse import parse_datetime
 import pickle
 
 import whisper
@@ -400,7 +402,11 @@ def removeUser(request, pk):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin', 'staff'])
 def removeReview(request, pk):
-    reviews = Reviews.objects.get(email=pk)
+    try:
+        reviews = Reviews.objects.get(reviewID=pk)
+    except Reviews.DoesNotExist:
+        raise Http404("Review not found.")
+
     if request.method == "POST":
         reviews.delete()
         return redirect('dashboard')

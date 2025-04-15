@@ -10,7 +10,7 @@
         body {
             padding: 0px;
             margin: 0px;
-            font-family: "Thasadith", sans-serif;
+            font-family: "Thasadith";
             color: rgb(255, 255, 255);
             box-sizing: border-box;
             background: url("{% static 'images/customerreg.jpg' %}") no-repeat center center fixed;
@@ -120,6 +120,65 @@
         .place {
             color: lightgray;
         }
+        /* Error popup styles */
+        #errorPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #errorPopupOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .error-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f5c6cb;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            font-family: 'roboto', sans-serif;
+        }
+
+        .error-popup-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            color: #721c24;
+        }
+
+        .error-popup-message {
+            font-size: 16px;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .error-popup-icon {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 40px;
+        }
     </style>
 </head>
 
@@ -154,7 +213,7 @@
             </div>
 
 
-            {{form.errors}}
+            
             <button type=" submit">REGISTER</button>
 
 
@@ -162,9 +221,63 @@
         </form>
 
     </div>
+<div id="errorPopupOverlay"></div>
+        <div id="errorPopup">
+            <div class="error-popup-header">
+                <span class="thasadith" style="font-size: 20px; font-weight: bold;">Form Error</span>
+                <button class="error-popup-close" onclick="closeErrorPopup()">×</button>
+            </div>
+            <div class="error-popup-icon">⚠️</div>
+            <div id="errorPopupMessage" class="error-popup-message"></div>
+        </div>
+        <!-- Pass form errors to JavaScript -->
+        {% if form.errors or form.non_field_errors %}
+        <script>
+            const errorMessages = [];
+            {% for field in form %}
+            {% for error in field.errors %}
+            errorMessages.push("{{ field.label }}: {{ error|escapejs }}");
+            {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+            errorMessages.push("{{ error|escapejs }}");
+            {% endfor %}
+        </script>
+        {% endif %}
+        
+        <script>
+            function showErrorPopup(messages) {
+                const errorPopup = document.getElementById('errorPopup');
+                const errorPopupOverlay = document.getElementById('errorPopupOverlay');
+                const errorPopupMessage = document.getElementById('errorPopupMessage');
+                if (messages && messages.length > 0) {
+                    errorPopupMessage.innerHTML = messages.map(msg => msg.replace(/\n/g, '<br>')).join('<br>');
+                } else {
+                    errorPopupMessage.innerHTML = 'An unknown error occurred. Please try again.';
+                }
+                errorPopup.style.display = 'block';
+                errorPopupOverlay.style.display = 'block';
+            }
 
-    <!-- var form_fields = document.getElementsByTagName('input') -->
+            function closeErrorPopup() {
+                const errorPopup = document.getElementById('errorPopup');
+                const errorPopupOverlay = document.getElementById('errorPopupOverlay');
+                errorPopup.style.display = 'none';
+                errorPopupOverlay.style.display = 'none';
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) {
+                    showErrorPopup(errorMessages);
+                }
+            });
 
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeErrorPopup();
+                }
+            });
+        </script>
+   
 </body>
 
 </html>

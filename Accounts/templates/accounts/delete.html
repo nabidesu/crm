@@ -2,7 +2,7 @@
 <h2>Are you sure you want to remove this review?</h2>
 <p>{{ item.review }}</p>
 
-<form action="{% url 'remove_review' item.email %}" method="POST">
+<form action="{% url 'remove_review' item.reviewID  %}" method="POST">
     {% csrf_token %}
     <button type="submit" class=" btn btn-danger">Yes, Remove Review</button>
     <a href="{% url 'dashboard' %}" class=" btn btn-secondary">Cancel</a>
