@@ -19,3 +19,14 @@
     <a href="{% url 'main' %}" class=" btn btn-secondary">Cancel</a>
 </form>
 {% endif %}
+
+{% if item.customerEmail %}
+<h2>Are you sure you want to remove this user?</h2>
+<p>{{ item.customerEmail }}</p>
+
+<form action="{% url 'remove_customer' item.customerEmail %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class=" btn btn-danger">Yes, Remove Customer</button>
+    <a href="{% url 'customer_info' %}" class=" btn btn-secondary">Cancel</a>
+</form>
+{% endif %}

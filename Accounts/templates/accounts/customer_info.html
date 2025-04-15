@@ -220,6 +220,7 @@
                                         <th>Token Number</th>
                                         <th>Email Verified</th>
                                         <th>Admin User ID</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -232,6 +233,9 @@
                                         <td>{{ customer.tokenNumber }}</td>
                                         <td>{{ customer.email_verified }}</td>
                                         <td>{{ customer.adminUserID }}</td>
+                                        <td><a class="btn btn-sm btn-danger"
+                                            href="{% url 'remove_customer' customer.customerEmail %}">Remove</a>
+                                    </td>
                                     </tr>
                                     {% empty %}
                                     <tr>

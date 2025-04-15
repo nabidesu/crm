@@ -415,6 +415,21 @@ def removeReview(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'staff'])
+def removeCustomer(request, pk):
+    try:
+        customers = Customer.objects.get(customerEmail=pk)
+    except Customer.DoesNotExist:
+        raise Http404("Customer not found.")
+
+    if request.method == "POST":
+        customers.delete()
+        return redirect('customer_info')
+    context = {'item': customers}
+    return render(request, 'Accounts/delete.html', context)
+
+
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['staff'])
 def staff_profile(request):
     user = request.user

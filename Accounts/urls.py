@@ -11,6 +11,8 @@ urlpatterns = [
     path('give_review/', views.give_review, name='give_review'),
     path('remove_user/<str:pk>/', views.removeUser, name="remove_user"),
     path('remove_review/<str:pk>/', views.removeReview, name="remove_review"),
+    path('remove_customer/<str:pk>/',
+         views.removeCustomer, name='remove_customer'),
     path('staff_profile/', views.staff_profile, name='staff_profile'),
     path('verify_customer/<str:verification_token>/',
          views.verify_customer, name='verify_customer'),
