@@ -17,7 +17,6 @@ from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncWeek
 from datetime import datetime
-
 from crm import settings
 from .models import *
 from .form import *
@@ -39,6 +38,7 @@ import tempfile
 import io
 import soundfile as sf
 import numpy as np
+
 os.environ["FFMPEG_BINARY"] = r"D:\ffmpeg\ffmpeg\bin\ffmpeg.exe"
 os.environ["FFPROBE_BINARY"] = r"D:\ffmpeg\ffmpeg\bin\ffprobe.exe"
 # Additional NLP imports
@@ -113,8 +113,8 @@ def logoutUser(request):
 def main(request):
     users = User.objects.all()
     reviews = Reviews.objects.filter(responseAlert=True).values(
-        'email', 'review', 'created_at')
-    activities = Activity.objects.all().order_by('-timestamp')[:10]
+        'email', 'review', 'created_at')[:3]
+    activities = Activity.objects.all().order_by('-timestamp')[:3]
     context = {
         'users': users,
         'activities': activities,
@@ -308,12 +308,34 @@ def give_review(request):
                 new_review.save()
                 print("Review created successfully.")
 
+                if responseAlert:
+                    base_url = request.scheme + "://" + request.get_host()
+                    admin_dashboard_link = base_url + \
+                        reverse('main')
+                    subject = 'Urgent Review Requiring Immediate Attention'
+                    message = f"""
+                    A new review requires your immediate attention.
+                    Customer Email: {email}
+                    Review: {review_text}
+                    Created At: {new_review.created_at.strftime('%B %d, %Y %H:%M')}
+                    Please review it here: {admin_dashboard_link}
+                    """
+
+                    send_mail(
+                        subject,
+                        message,
+                        'Hotelmanager1302@gmail.com',  # From email
+                        ['a16191631@gmail.com'],  # To email
+                        fail_silently=False,
+                    )
+                    print("Email sent to admin for urgent review.")
+
             except Exception as e:
                 print("Error saving review:", e)
             messages.success(request, "Review submitted successfully!")
 
             # Redirect to a confirmation page or dashboard
-            return redirect('dashboard')
+            return HttpResponse('Thank you for your review!')
 
         else:
             print("Form is not valid:", form.errors)

@@ -1,0 +1,111 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+    #alertPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        padding: 20px;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        font-family: 'thasadith';
+    }
+    #alertPopupOverlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+    .alert-popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f5c6cb;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+    .alert-popup-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+        color: #721c24;
+    }
+    .alert-popup-message {
+        font-size: 16px;
+        text-align: center;
+        padding: 10px 0;
+    }
+    .alert-popup-button {
+        display: block;
+        margin: 10px auto;
+        padding: 8px 15px;
+        background-color: #201f27;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: 'thasadith';
+        font-size: 16px;
+    }
+
+</style>
+    <div id="alertPopupOverlay"></div>
+<div id="alertPopup">
+    <div class="alert-popup-header">
+        <span class="thasadith" style="font-size: 20px; font-weight: bold;">New Urgent Review</span>
+        <button class="alert-popup-close" onclick="closeAlertPopup()">×</button>
+    </div>
+    <div class="alert-popup-message" id="alertPopupMessage"></div>
+    <button id="loginAsAdminButton" class="alert-popup-button" style="display: none;" onclick="window.location.href='{% url 'admin:login' %}'">Login as Admin</button>
+    <button class="alert-popup-button" onclick="closeAlertPopup()">Close</button>
+</div>
+
+<script>
+    function showAlertPopup(message, showLoginButton) {
+        const alertPopup = document.getElementById('alertPopup');
+        const alertPopupOverlay = document.getElementById('alertPopupOverlay');
+        const alertPopupMessage = document.getElementById('alertPopupMessage');
+        const loginButton = document.getElementById('loginAsAdminButton');
+        alertPopupMessage.textContent = message;
+        loginButton.style.display = showLoginButton ? 'block' : 'none';
+        alertPopup.style.display = 'block';
+        alertPopupOverlay.style.display = 'block';
+        
+    }
+
+    function closeAlertPopup() {
+        
+        document.getElementById('alertPopup').style.display = 'none';
+        document.getElementById('alertPopupOverlay').style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        {% if new_alert %}
+            const isAdmin = {{ is_admin|lower }};
+            const message = isAdmin ?
+                "One alert message for admin" :
+                "One alert message for admin. Login as admin?";
+            const showLoginButton = !isAdmin;
+            showAlertPopup(message, showLoginButton);
+        {% endif %}
+    }); 
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeAlertPopup();
+        }
+    });
+</script>
