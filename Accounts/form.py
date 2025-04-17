@@ -89,6 +89,12 @@ class EditProfileForm(forms.ModelForm):
         fields = ['username', 'email']
 
 
+class StaffProfileForm(forms.ModelForm):
+    class Meta:
+        model = StaffProfile
+        fields = ['profile_picture']
+
+
 class CustomerForm(forms.ModelForm):
     customerEmail = forms.EmailField(widget=forms.EmailInput(
         attrs={'placeholder': 'Email Address'}))

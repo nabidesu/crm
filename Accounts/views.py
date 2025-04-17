@@ -456,14 +456,20 @@ def removeCustomer(request, pk):
 def staff_profile(request):
     user = request.user
 
+    staff_profile, created = StaffProfile.objects.get_or_create(user=user)
+    staff_profile = StaffProfile.objects.get(user=user)
+
     password_form = PasswordChangeForm(user)
     profile_form = EditProfileForm(instance=user)
-
+    staff_form = StaffProfileForm(instance=staff_profile)
     if request.method == 'POST':
         if 'update_profile' in request.POST:
             profile_form = EditProfileForm(request.POST, instance=request.user)
-            if profile_form.is_valid():
+            staff_form = StaffProfileForm(
+                request.POST, request.FILES, instance=staff_profile)
+            if profile_form.is_valid() and staff_form.is_valid():
                 profile_form.save()
+                staff_form.save()
                 return redirect('staff_profile')
 
         # Handle password updates
@@ -477,6 +483,7 @@ def staff_profile(request):
 
     context = {
         'profile_form': profile_form,
+        'staff_form': staff_form,
         'password_form': password_form,
         'user': user,
 
@@ -549,6 +556,8 @@ def update_customer_status(customer):
     status_obj.isValid = is_valid
     status_obj.save()
 
+    customer.activityStatus = 1 if is_valid else 0
+    customer.save()
     return status_obj
 
 

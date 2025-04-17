@@ -1,118 +1,104 @@
-
 {% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+        * {
+            box-sizing: border-box;
+        }
 
         body {
-            /* background: url("{% static 'images/1.jpg' %}"); */
             background-color: #c1d8df;
-
-
+            margin: 0;
+            padding: 0;
+            font-family: 'Thasadith', sans-serif;
         }
 
-
-        .form-one {
-            top: 750px;
-            bottom: 750px;
-            background-color: none;
-            /* background: url("{% static 'images/side.jpg' %}");  */
-            background-size: fit;
-            z-index: 1;
-            background-repeat: no-repeat;
-
-
+        .page-background {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.5;
+            object-fit: cover;
         }
 
-        /* Content that sits on top */
+        .page-title {
+            font-size: clamp(24px, 5vw, 40px);
+            color: rgb(18, 18, 18);
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* Content overlay */
         .content-overlay {
             position: relative;
             z-index: 2;
-            padding: 25px 0;
+            padding: 0 15px;
         }
-
-        .form-error-container {
-            padding: 10px;
-            border-radius: 5px;
-            margin: 15px 0;
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            font-family: 'thasadith';
-            font-size: 18px;
-        }
-
-
 
         /* Content wrapper */
         .content-wrapper {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 10px;
-            padding-top: -5px;
         }
 
         /* Form input styles */
         .form-input {
-            width: 50%;
+            width: 100%;
             padding: 10px;
             margin: 5px 0;
             border: 2px solid #201f27;
             border-radius: 5px;
             background-color: #AEBBC3;
             font-size: 16px;
-            font-family: 'thasadith';
+            font-family: 'Thasadith';
             transition: all 0.3s ease;
         }
 
         .form-textarea {
             height: 80px;
             resize: vertical;
-            width: 70%;
+            width: 100%;
         }
 
         /* Testimonial section */
         .testimonial-section {
-            flex: 1;
-            padding-right: 400px;
-            min-width: 0px;
-            margin-left: 200px;
-            padding-top: 10px;
+            width: 100%;
+            padding: 20px 0;
         }
 
         /* Form section */
         .form-section {
-            flex: 1;
-            padding-left: 20px;
-            min-width: 70px;
-            padding-top: 120px;
-            margin-right: 100px;
-        }
-
-
-
-
-        .thasadith {
-            font-family: 'Thasadith';
-
+            width: 100%;
+            padding: 20px 0;
         }
 
         /* Testimonial cards */
         .testimonial-card {
             background-color: #AEBBC3;
-            border-radius: 30px;
-
+            border-radius: 15px;
             margin: 15px 0;
             padding: 15px;
-            box-shadow: 0 0 25px rgb(59, 82, 102);
-            border: 3px solid rgb(76, 110, 123);
+            box-shadow: 0 0 15px rgb(59, 82, 102);
+            border: 2px solid rgb(76, 110, 123);
+        }
+
+        .testimonial-text {
+            color: #080808;
+            font-size: clamp(16px, 3vw, 25px);
+            line-height: 1.3;
+            font-weight: normal;
         }
 
         /* Form container */
@@ -120,18 +106,25 @@
             background-color: #435d6c;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            padding: 20px;
             color: black;
-            margin-right: -30px;
-            margin-top: -20px;
-            margin-left: 200px;
-            width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: clamp(22px, 4vw, 40px);
+            padding-bottom: 5px;
+            color: #201f27;
         }
 
         .review-type-toggle {
             display: flex;
             align-items: center;
+            justify-content: center;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .toggle-switch {
@@ -181,8 +174,7 @@
         }
 
         .toggle-label {
-            font-family: 'thasadith';
-            font-size: 20px;
+            font-size: clamp(16px, 2vw, 20px);
             color: #201f27;
         }
 
@@ -191,6 +183,48 @@
         }
 
         .review-section.active {
+            display: block;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 3px;
+            font-size: clamp(16px, 2vw, 20px);
+            color: #201f27;
+        }
+
+        .recording-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .record-button {
+            padding: 8px;
+            background-color: #201f27;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: clamp(14px, 2vw, 20px);
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .submit-button {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            background-color: #201f27;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: clamp(18px, 3vw, 30px);
+            margin: 10px auto;
             display: block;
         }
 
@@ -207,8 +241,8 @@
             border: 1px solid #f5c6cb;
             border-radius: 5px;
             padding: 20px;
-            max-width: 400px;
-            width: 90%;
+            max-width: 90%;
+            width: 350px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
@@ -230,7 +264,6 @@
             border-bottom: 1px solid #f5c6cb;
             padding-bottom: 10px;
             margin-bottom: 10px;
-            font-family: 'roboto', sans-serif;
         }
 
         .error-popup-close {
@@ -253,54 +286,58 @@
             margin-bottom: 10px;
             font-size: 40px;
         }
+
+        /* Media Queries */
+        @media (min-width: 768px) {
+            .content-wrapper {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .testimonial-section {
+                width: 45%;
+            }
+
+            .form-section {
+                width: 50%;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .form-container {
+                max-width: 800px;
+            }
+        }
     </style>
 </head>
 
+<body>
+    <img src="{% static 'images/1.jpg' %}" alt="Background Image" class="page-background">
 
-<body style="margin: 0; ">
-
-    <img src="{% static 'images/1.jpg' %}" alt="Background Image"
-        style="width: 100%; height: 160%; position: absolute; top: 0; left: 0; z-index: -1; opacity: 0.5;background-repeat: repeat;">
-
-
-    <h1 class="thasadith"
-        style="font-size: 40px;margin-left: 50px; color: rgb(18, 18, 18); padding: 20px; margin-top: 40px;">
-        Discover reviews from guests who’ve enjoyed our comfort, and care.</h1>
-
-
+    <h1 class="page-title">Discover reviews from guests who've enjoyed our comfort, and care.</h1>
 
     <div class="content-overlay">
         <div class="content-wrapper">
-
-
-
+            <!-- Testimonials -->
             <div class="testimonial-section">
-
-                <!-- Testimonials -->
                 {% for i in reviews %}
                 <div class="testimonial-card">
-                    <p class="thasadith" style="color: #080808; font-size: 25px; line-height: 0.2;font-weight: normal;">
-                        {{i.review}}</p>
+                    <p class="testimonial-text">{{i.review}}</p>
                 </div>
                 {% endfor %}
             </div>
 
-        </div>
-
-        <!-- Form Section -->
-        <div class="form-one">
+            <!-- Form Section -->
             <div class="form-section">
-                <h2 class="thasadith" style="text-align: center; font-size: 40px;padding-bottom: 5px; color: #201f27;">
-                    We value your feedback – tell us about your stay.</h2>
-                <div class="form-container" style="padding-top:50px;">
-
+                <h2 class="form-title">We value your feedback – tell us about your stay.</h2>
+                <div class="form-container">
                     <form method="POST" action="{% url 'give_review' %}" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         <!-- Email Field -->
                         <div style="margin-bottom: 15px;">
-                            <label for="name" class="thasadith"
-                                style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">Email</label>
+                            <label for="name" class="form-label">Email</label>
                             {{form.email}}
                         </div>
 
@@ -317,8 +354,7 @@
                         <!-- Text Review Section -->
                         <div id="textReviewSection" class="review-section active">
                             <div style="margin-bottom: 15px;">
-                                <label for="review" class="thasadith"
-                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">Review</label>
+                                <label for="review" class="form-label">Review</label>
                                 {{form.review}}
                             </div>
                         </div>
@@ -326,193 +362,177 @@
                         <!-- Voice Review Section -->
                         <div id="voiceReviewSection" class="review-section">
                             <div style="margin-bottom: 15px;">
-                                <label class="thasadith"
-                                    style="display: block; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">
-                                    Record Your Review
-                                </label>
-                                <button type="button" id="startRecording" class="caveat"
-                                    style="padding: 8px; background-color:#201f27; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px;">
-                                    ▶ Start Recording
-                                </button>
-                                <button type="button" id="stopRecording" disabled class="caveat"
-                                    style="padding: 8px; background-color: #201f27; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 20px; width:100px">
-                                    ⏹ Stop Recording
-                                </button>
-                                <audio id="audioPlayer" controls style="display: none; margin-top: 10px;"></audio>
+                                <label class="form-label">Record Your Review</label>
+                                <div class="recording-buttons">
+                                    <button type="button" id="startRecording" class="record-button">
+                                        ▶ Start Recording
+                                    </button>
+                                    <button type="button" id="stopRecording" disabled class="record-button">
+                                        ⏹ Stop Recording
+                                    </button>
+                                </div>
+                                <audio id="audioPlayer" controls style="display: none; margin-top: 10px; width: 100%;"></audio>
                                 <input type="file" id="audioFile" name="audio" accept="audio/*" style="display: none;">
-                                <p id="recordingStatus" class="caveat"
-                                    style="font-size: 20px; color: #201f27; margin-top: 5px;"></p>
+                                <p id="recordingStatus" style="font-size: clamp(14px, 2vw, 20px); color: #201f27; margin-top: 5px;"></p>
                             </div>
                         </div>
 
                         <!-- Immediate Attention Checkbox -->
                         <div style="margin-bottom: 15px;">
-                            <label for="responseAlert" class="thasadith"
-                                style="display: inline-flex; align-items: center; font-weight: bold; margin-bottom: 3px; font-size: 20px; color: #201f27;">
-                                Requires immediate attention ?
+                            <label for="responseAlert" class="form-label" style="display: inline-flex; align-items: center;">
+                                Requires immediate attention?
                             </label>
                             {{ form.responseAlert }}
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="thasadith"
-                            style="width: 50%; padding: 10px; background-color: #201f27; color: #fff; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; font-size: 30px;">
-                            Submit
-                        </button>
-
-
+                        <button type="submit" class="submit-button">Submit</button>
                     </form>
-                   
-
-
                 </div>
             </div>
         </div>
-        <div id="errorPopupOverlay"></div>
-        <div id="errorPopup">
-            <div class="error-popup-header">
-                <span class="thasadith" style="font-size: 20px; font-weight: bold;">Form Error</span>
-                <button class="error-popup-close" onclick="closeErrorPopup()">×</button>
-            </div>
-            <div class="error-popup-icon">⚠️</div>
-            <div id="errorPopupMessage" class="error-popup-message"></div>
+    </div>
+
+    <!-- Error Popup -->
+    <div id="errorPopupOverlay"></div>
+    <div id="errorPopup">
+        <div class="error-popup-header">
+            <span style="font-size: 20px; font-weight: bold;">Form Error</span>
+            <button class="error-popup-close" onclick="closeErrorPopup()">×</button>
         </div>
-        <!-- Pass form errors to JavaScript -->
-        {% if form.errors or form.non_field_errors %}
-        <script>
-            const errorMessages = [];
-            {% for field in form %}
+        <div class="error-popup-icon">⚠️</div>
+        <div id="errorPopupMessage" class="error-popup-message"></div>
+    </div>
+
+    <!-- Pass form errors to JavaScript -->
+    {% if form.errors or form.non_field_errors %}
+    <script>
+        const errorMessages = [];
+        {% for field in form %}
             {% for error in field.errors %}
-            errorMessages.push("{{ field.label }}: {{ error|escapejs }}");
+                errorMessages.push("{{ field.label }}: {{ error|escapejs }}");
             {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
             errorMessages.push("{{ error|escapejs }}");
-            {% endfor %}
-        </script>
-        {% endif %}
-        <script>
-            function showErrorPopup(messages) {
-                const errorPopup = document.getElementById('errorPopup');
-                const errorPopupOverlay = document.getElementById('errorPopupOverlay');
-                const errorPopupMessage = document.getElementById('errorPopupMessage');
-                if (messages && messages.length > 0) {
-                    errorPopupMessage.innerHTML = messages.map(msg => msg.replace(/\n/g, '<br>')).join('<br>');
-                } else {
-                    errorPopupMessage.innerHTML = 'An unknown error occurred. Please try again.';
-                }
-                errorPopup.style.display = 'block';
-                errorPopupOverlay.style.display = 'block';
+        {% endfor %}
+    </script>
+    {% endif %}
+
+    <script>
+        function showErrorPopup(messages) {
+            const errorPopup = document.getElementById('errorPopup');
+            const errorPopupOverlay = document.getElementById('errorPopupOverlay');
+            const errorPopupMessage = document.getElementById('errorPopupMessage');
+            if (messages && messages.length > 0) {
+                errorPopupMessage.innerHTML = messages.map(msg => msg.replace(/\n/g, '<br>')).join('<br>');
+            } else {
+                errorPopupMessage.innerHTML = 'An unknown error occurred. Please try again.';
+            }
+            errorPopup.style.display = 'block';
+            errorPopupOverlay.style.display = 'block';
+        }
+
+        function closeErrorPopup() {
+            const errorPopup = document.getElementById('errorPopup');
+            const errorPopupOverlay = document.getElementById('errorPopupOverlay');
+            errorPopup.style.display = 'none';
+            errorPopupOverlay.style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) {
+                showErrorPopup(errorMessages);
             }
 
-            function closeErrorPopup() {
-                const errorPopup = document.getElementById('errorPopup');
-                const errorPopupOverlay = document.getElementById('errorPopupOverlay');
-                errorPopup.style.display = 'none';
-                errorPopupOverlay.style.display = 'none';
-            }
-            document.addEventListener('DOMContentLoaded', function () {
-                if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) {
-                    showErrorPopup(errorMessages);
-                }
-            });
+            // Toggle between text and audio review
+            const reviewTypeToggle = document.getElementById('reviewTypeToggle');
+            const textReviewSection = document.getElementById('textReviewSection');
+            const voiceReviewSection = document.getElementById('voiceReviewSection');
 
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape') {
-                    closeErrorPopup();
-                }
-            });
-        </script>
-        <script>
+            if (reviewTypeToggle) {
+                reviewTypeToggle.addEventListener('change', function () {
+                    textReviewSection.classList.toggle('active', !this.checked);
+                    voiceReviewSection.classList.toggle('active', this.checked);
 
-
-            document.addEventListener('DOMContentLoaded', function () {
-
-
-                // Toggle between text and audio review
-                const reviewTypeToggle = document.getElementById('reviewTypeToggle');
-                const textReviewSection = document.getElementById('textReviewSection');
-                const voiceReviewSection = document.getElementById('voiceReviewSection');
-
-                if (reviewTypeToggle) {
-                    reviewTypeToggle.addEventListener('change', function () {
-                        textReviewSection.classList.toggle('active', !this.checked);
-                        voiceReviewSection.classList.toggle('active', this.checked);
-
-                        // Clear the non-active input
-                        if (this.checked) {
-                            document.getElementById('id_review').value = '';
-                        } else {
-                            const audioFile = document.getElementById('audioFile');
-                            if (audioFile) audioFile.value = '';
-                            const audioPlayer = document.getElementById('audioPlayer');
-                            if (audioPlayer) {
-                                audioPlayer.src = '';
-                                audioPlayer.style.display = 'none';
-                            }
+                    // Clear the non-active input
+                    if (this.checked) {
+                        document.getElementById('id_review').value = '';
+                    } else {
+                        const audioFile = document.getElementById('audioFile');
+                        if (audioFile) audioFile.value = '';
+                        const audioPlayer = document.getElementById('audioPlayer');
+                        if (audioPlayer) {
+                            audioPlayer.src = '';
+                            audioPlayer.style.display = 'none';
                         }
-                    });
+                    }
+                });
+            }
+
+            // Audio recording functionality
+            let mediaRecorder;
+            let audioChunks = [];
+
+            document.getElementById('startRecording')?.addEventListener('click', async function () {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+
+                    mediaRecorder.ondataavailable = event => {
+                        if (event.data.size > 0) {
+                            audioChunks.push(event.data);
+                        }
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+
+                        // Update audio player
+                        const audioPlayer = document.getElementById('audioPlayer');
+                        audioPlayer.src = audioUrl;
+                        audioPlayer.style.display = 'block';
+
+                        // Create file and assign to hidden input
+                        const file = new File([audioBlob], `recording_${Date.now()}.wav`, {
+                            type: 'audio/wav'
+                        });
+
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        document.getElementById('audioFile').files = dataTransfer.files;
+
+                        // Clean up
+                        stream.getTracks().forEach(track => track.stop());
+                    };
+
+                    mediaRecorder.start();
+                    document.getElementById('stopRecording').disabled = false;
+                    this.disabled = true;
+
+                } catch (error) {
+                    console.error('Recording error:', error);
+                    alert('Could not access microphone. Please check permissions.');
                 }
-
-                // Audio recording functionality
-                let mediaRecorder;
-                let audioChunks = [];
-
-                document.getElementById('startRecording')?.addEventListener('click', async function () {
-                    try {
-                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                        mediaRecorder = new MediaRecorder(stream);
-                        audioChunks = [];
-
-                        mediaRecorder.ondataavailable = event => {
-                            if (event.data.size > 0) {
-                                audioChunks.push(event.data);
-                            }
-                        };
-
-                        mediaRecorder.onstop = () => {
-                            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                            const audioUrl = URL.createObjectURL(audioBlob);
-
-                            // Update audio player
-                            const audioPlayer = document.getElementById('audioPlayer');
-                            audioPlayer.src = audioUrl;
-                            audioPlayer.style.display = 'block';
-
-                            // Create file and assign to hidden input
-                            const file = new File([audioBlob], `recording_${Date.now()}.wav`, {
-                                type: 'audio/wav'
-                            });
-
-                            const dataTransfer = new DataTransfer();
-                            dataTransfer.items.add(file);
-                            document.getElementById('audioFile').files = dataTransfer.files;
-
-                            // Clean up
-                            stream.getTracks().forEach(track => track.stop());
-                        };
-
-                        mediaRecorder.start();
-                        document.getElementById('stopRecording').disabled = false;
-                        this.disabled = true;
-
-                    } catch (error) {
-                        console.error('Recording error:', error);
-                        alert('Could not access microphone. Please check permissions.');
-                    }
-                });
-
-                document.getElementById('stopRecording')?.addEventListener('click', function () {
-                    if (mediaRecorder && mediaRecorder.state === 'recording') {
-                        mediaRecorder.stop();
-                        this.disabled = true;
-                        document.getElementById('startRecording').disabled = false;
-                    }
-                });
             });
 
+            document.getElementById('stopRecording')?.addEventListener('click', function () {
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                    this.disabled = true;
+                    document.getElementById('startRecording').disabled = false;
+                }
+            });
+        });
 
-        </script>
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeErrorPopup();
+            }
+        });
+    </script>
 </body>
 
 </html>
