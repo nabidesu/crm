@@ -397,7 +397,7 @@
     <div id="errorPopupOverlay"></div>
     <div id="errorPopup">
         <div class="error-popup-header">
-            <span style="font-size: 20px; font-weight: bold;">Form Error</span>
+            <span style="font-size: 20px; font-weight: bold;">Error</span>
             <button class="error-popup-close" onclick="closeErrorPopup()">×</button>
         </div>
         <div class="error-popup-icon">⚠️</div>
@@ -405,7 +405,7 @@
     </div>
 
     <!-- Pass form errors to JavaScript -->
-    {% if form.errors or form.non_field_errors %}
+    {% if form.errors or form.non_field_errors or message  %}
     <script>
         const errorMessages = [];
         {% for field in form %}
@@ -416,6 +416,11 @@
         {% for error in form.non_field_errors %}
             errorMessages.push("{{ error|escapejs }}");
         {% endfor %}
+       
+        {% if message %}
+        errorMessages.push("{{ message|escapejs }}");
+        {% endif %}
+       
     </script>
     {% endif %}
 

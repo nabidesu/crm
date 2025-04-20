@@ -292,9 +292,8 @@ def give_review(request):
             # print("Existing review count for this customer:", reviews_count)
             # if reviews_count >= 2:
             #     messages.error(
-            #         request,
-            #         "You have already submitted the maximum allowed reviews."
-            #     )
+            #         request, "You have already submitted the maximum allowed reviews.")
+
             #     return render(request, "Accounts/give_review.html", {"form": form})
 
             # Create the review and assign the respective customer (linking via the foreign key)
