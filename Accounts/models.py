@@ -1,8 +1,6 @@
 
-
 from sqlite3.dbapi2 import Timestamp
 from django.db import models
-
 from django.contrib.auth.models import User
 # Create your models here.
 
@@ -43,7 +41,7 @@ class Customer(models.Model):
     verification_token = models.CharField(max_length=32, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        """Automatically calculate total charge based on room type and days."""
+        # Automatically calculate total charge based on room type and days.
         self.charge = self.noOfDays * self.ROOM_PRICES.get(self.roomType, 0)
         super().save(*args, **kwargs)
 

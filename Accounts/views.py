@@ -17,7 +17,7 @@ from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncWeek
 from datetime import datetime
-from crm import settings
+from REVIEWANALYSER import settings
 from .models import *
 from .form import *
 from .utils import clean_data
