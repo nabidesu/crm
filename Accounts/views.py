@@ -85,7 +85,7 @@ def loginPage(request):
                 activity_type='login',
                 description=f"{user.username} logged in."
             )
-            messages.success(request, "Login successful!")
+            # messages.success(request, "Login successful!")
             return redirect('dashboard')
 
         else:
