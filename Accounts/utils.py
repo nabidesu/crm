@@ -1,16 +1,15 @@
 # Additional NLP imports
 
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
 import re
 import nltk
 nltk.download('punkt')  # Example: Download the punkt tokenizer
 nltk.download('stopwords')
 nltk.download('wordnet')
-nltk.download('tokenize') 
- # Example: Download the WordNet lemmatizer
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
 
+# Example: Download the WordNet lemmatizer
 
 
 def clean_data(text):
