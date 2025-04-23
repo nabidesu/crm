@@ -2,9 +2,15 @@
 
 import re
 import nltk
+nltk.download('punkt')  # Example: Download the punkt tokenizer
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('tokenize') 
+ # Example: Download the WordNet lemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
+
 
 
 def clean_data(text):
