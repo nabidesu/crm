@@ -118,17 +118,13 @@
             color: rgb(72, 169, 189);
         }
         
-   
+
     </style>
 </head>
 
 <body>
-
     <!-- for background -->
     <div class="background"></div>
-
-
-
     <div class="container">
         <h2>Login</h2>
         <form method="post" action="{% url 'login' %}">
@@ -148,14 +144,8 @@
             {% for message in messages %}
             <p id="messages">{{message}}</p>
             {% endfor %}
-
             <p>New User ? <a href="/register"> Create an Account</a></p>
-
         </form>
-
-
     </div>
-    
 </body>
-
 </html>

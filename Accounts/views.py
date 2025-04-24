@@ -85,7 +85,6 @@ def loginPage(request):
                 activity_type='login',
                 description=f"{user.username} logged in."
             )
-            # messages.success(request, "Login successful!")
             return redirect('dashboard')
 
         else:
@@ -125,28 +124,23 @@ def main(request):
 
 os.environ["PATH"] += os.pathsep + os.path.dirname(r"D:\ffmpeg\ffmpeg\bin")
 # Load Whisper model
-# You can use "small", "medium", or "large" for better accuracy
 whisper_model = whisper.load_model("base")
 
 
 def process_audio(audio_file):
-    """Convert voice recording to text using Whisper model."""
     try:
-        # Ensure we're at the start of the file
+        # the start of the file
         audio_file.seek(0)
 
-        # Create a temporary file for the original audio
+        # a temporary file for the original audio is created
         with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as tmp_file:
             for chunk in audio_file.chunks():
                 tmp_file.write(chunk)
             original_path = tmp_file.name
 
-        print(f"Original file created at: {original_path}")
-
-        # Create a path for the converted file
+        #  a path for the converted file is also created
         converted_path = original_path + ".pcm.wav"
-
-        # Convert using explicit ffmpeg path
+        # explicit ffmpeg path is used for conversion
         ffmpeg_path = r"D:\ffmpeg\ffmpeg\bin\ffmpeg.exe"
         cmd = [
             ffmpeg_path, "-y",
@@ -157,7 +151,6 @@ def process_audio(audio_file):
             "-ar", "16000",
             converted_path
         ]
-
         try:
             result = subprocess.run(cmd, check=True, capture_output=True)
             print(f"Conversion successful, output file: {converted_path}")
@@ -165,15 +158,14 @@ def process_audio(audio_file):
             print(f"FFmpeg error: {e.stderr.decode()}")
             raise
 
-        # Now manually load the audio using numpy
+        # Audio is loaded manually using numpy
         audio_data = np.fromfile(
             converted_path, np.int16).astype(np.float32) / 32768.0
 
-        # Process with Whisper, bypassing its load_audio function
+        # Processing with Whisper, bypassing its load_audio function
         transcription = whisper_model.transcribe(audio_data)
         transcribed_text = transcription["text"].strip()
 
-        # Clean up
         try:
             os.unlink(original_path)
             os.unlink(converted_path)
@@ -202,29 +194,6 @@ with open(model_path, 'rb') as file:
     voting_clf = pickle.load(file)
 
 
-# def predict_emotion(text):
-
-#     try:
-#         if not isinstance(text, str):
-#             text = str(text)
-#         if not text.strip():
-#             return "unknown"
-
-#         clean_text = clean_data(text)
-#         print(f"Original text: {text}")
-#         print(f"Cleaned text: {clean_text}")
-#         text_vector = tfidf_vectorizer.transform([clean_text])
-#         prediction = voting_clf.predict(text_vector)
-#         mapping = {1: "positive", 0: "neutral", -1: "negative"}
-#         predicted_emotion = mapping.get(prediction[0], "unknown")
-#         print(f"Predicted emotion: {predicted_emotion}")
-#         return predicted_emotion
-#     except Exception as e:
-#         print(f"Error in predict_emotion: {str(e)}")
-#         import traceback
-#         traceback.print_exc()
-#         return "unknown"
-
 def predict_emotion(user_input):
     clean_input = clean_data(user_input)
     user_input_tfidf = tfidf_vectorizer.transform([clean_input])
@@ -233,7 +202,6 @@ def predict_emotion(user_input):
     return predicted_emotion
 
 
-# @allowed_users(allowed_roles=['admin', 'customer'])
 def give_review(request):
     form = ReviewForm()
 

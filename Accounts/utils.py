@@ -5,9 +5,9 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 import re
 import nltk
-nltk.download('punkt')  # Example: Download the punkt tokenizer
-nltk.download('stopwords')
-nltk.download('wordnet')
+# nltk.download('punkt')  # Example: Download the punkt tokenizer
+# nltk.download('stopwords')
+# nltk.download('wordnet')
 
 # Example: Download the WordNet lemmatizer
 
