@@ -32,23 +32,15 @@ from django.utils.dateparse import parse_datetime
 import pickle
 
 import whisper
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
+
 import tempfile
 import io
 import soundfile as sf
 import numpy as np
 
-os.environ["FFMPEG_BINARY"] = r"D:\ffmpeg\ffmpeg\bin\ffmpeg.exe"
-os.environ["FFPROBE_BINARY"] = r"D:\ffmpeg\ffmpeg\bin\ffprobe.exe"
-# Additional NLP imports
-AudioSegment.converter = r"D:\ffmpeg\ffmpeg\bin\ffmpeg.exe"
-AudioSegment.ffprobe = r"D:\ffmpeg\ffmpeg\bin\ffprobe.exe"
-
 
 @unauthenticated_user
 def registerPage(request):
-
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
@@ -76,7 +68,6 @@ def loginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -122,62 +113,34 @@ def main(request):
     return render(request, 'Accounts/main.html', context)
 
 
-os.environ["PATH"] += os.pathsep + os.path.dirname(r"D:\ffmpeg\ffmpeg\bin")
 # Load Whisper model
 whisper_model = whisper.load_model("base")
 
 
 def process_audio(audio_file):
     try:
-        # the start of the file
+        # Reset file pointer
         audio_file.seek(0)
 
-        # a temporary file for the original audio is created
+        # Save uploaded file to temporary WAV
         with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as tmp_file:
             for chunk in audio_file.chunks():
                 tmp_file.write(chunk)
-            original_path = tmp_file.name
+            temp_path = tmp_file.name
 
-        #  a path for the converted file is also created
-        converted_path = original_path + ".pcm.wav"
-        # explicit ffmpeg path is used for conversion
-        ffmpeg_path = r"D:\ffmpeg\ffmpeg\bin\ffmpeg.exe"
-        cmd = [
-            ffmpeg_path, "-y",
-            "-i", original_path,
-            "-f", "s16le",
-            "-ac", "1",
-            "-acodec", "pcm_s16le",
-            "-ar", "16000",
-            converted_path
-        ]
-        try:
-            result = subprocess.run(cmd, check=True, capture_output=True)
-            print(f"Conversion successful, output file: {converted_path}")
-        except subprocess.CalledProcessError as e:
-            print(f"FFmpeg error: {e.stderr.decode()}")
-            raise
-
-        # Audio is loaded manually using numpy
-        audio_data = np.fromfile(
-            converted_path, np.int16).astype(np.float32) / 32768.0
-
-        # Processing with Whisper, bypassing its load_audio function
-        transcription = whisper_model.transcribe(audio_data)
+        # Use Whisper's built-in audio loading
+        audio = whisper.load_audio(temp_path)
+        # Transcribe directly
+        transcription = whisper_model.transcribe(audio)
         transcribed_text = transcription["text"].strip()
 
-        try:
-            os.unlink(original_path)
-            os.unlink(converted_path)
-        except Exception as e:
-            print(f"Warning: Could not delete temp files: {e}")
+        # Clean up
+        os.unlink(temp_path)
 
         return transcribed_text
 
     except Exception as e:
         print(f"Audio processing error: {str(e)}")
-        import traceback
-        traceback.print_exc()
         return ""
 
 
@@ -185,19 +148,19 @@ def process_audio(audio_file):
 tfidf_path = os.path.join(settings.BASE_DIR, 'Accounts',
                           'ml_models', 'tfidf_vectorizer.pkl')
 model_path = os.path.join(settings.BASE_DIR, 'Accounts',
-                          'ml_models', 'voting_classifier_model.pkl')
+                          'ml_models', 'logistic_Regression.pkl')
 
 with open(tfidf_path, 'rb') as file:
     tfidf_vectorizer = pickle.load(file)
 
 with open(model_path, 'rb') as file:
-    voting_clf = pickle.load(file)
+    logistic_regression = pickle.load(file)
 
 
 def predict_emotion(user_input):
     clean_input = clean_data(user_input)
     user_input_tfidf = tfidf_vectorizer.transform([clean_input])
-    prediction = voting_clf.predict(user_input_tfidf)
+    prediction = logistic_regression.predict(user_input_tfidf)
     predicted_emotion = prediction[0]
     return predicted_emotion
 
@@ -206,13 +169,16 @@ def give_review(request):
     form = ReviewForm()
 
     if request.method == "POST":
-        # Make sure to include request.FILES
         form = ReviewForm(request.POST, request.FILES)
 
         if form.is_valid():
             email = form.cleaned_data.get('email')
             responseAlert = form.cleaned_data.get('responseAlert')
             review_text = ""
+            if form.cleaned_data.get('review') and len(form.cleaned_data.get('review')) > 100:
+                messages.error(
+                    request, "Text review must be less than 500 characters.")
+                return render(request, "Accounts/give_review.html", {"form": form})
 
             # Process audio file if uploaded
             if 'audio' in request.FILES and request.FILES['audio']:
@@ -240,8 +206,6 @@ def give_review(request):
                     request, "This email is not registered. Please register your account through the reception.")
                 return render(request, "Accounts/give_review.html", {"form": form})
 
-            # Check that the review window is still open (if verified_at is set)
-
             if customer.verified_at:
                 allowed_review_period = customer.verified_at + \
                     timezone.timedelta(days=customer.noOfDays + 1)
@@ -255,22 +219,22 @@ def give_review(request):
                     return render(request, "Accounts/give_review.html", {"form": form})
 
             # Check if the customer has already submitted 2 reviews
-            # reviews_count = Reviews.objects.filter(
-            #     email=customer.customerEmail).count()
-            # print("Existing review count for this customer:", reviews_count)
-            # if reviews_count >= 2:
-            #     messages.error(
-            #         request, "You have already submitted the maximum allowed reviews.")
+            reviews_count = Reviews.objects.filter(
+                email=customer.customerEmail).count()
+            print("Existing review count for this customer:", reviews_count)
+            if reviews_count >= 2:
+                messages.error(
+                    request, "You have already submitted the maximum allowed reviews.")
 
-            #     return render(request, "Accounts/give_review.html", {"form": form})
+                return render(request, "Accounts/give_review.html", {"form": form})
 
-            # Create the review and assign the respective customer (linking via the foreign key)
+            # Create the review and assign the respective customer via the foreign key
             try:
                 new_review = Reviews.objects.create(
                     review=review_text,
                     emotion=predict_emotion(review_text),
                     responseAlert=responseAlert,
-                    email=email  # This links the review to the customer instance
+                    email=email  # This links the review to the customer
                 )
                 new_review.save()
                 print("Review created successfully.")
@@ -463,9 +427,6 @@ def send_verification_email(request, customer):
     verification_token = get_random_string(length=32)
     customer.verification_token = verification_token
     customer.save()
-    # base_url = request.scheme + "://" + request.get_host()
-    # base_url = 'http://127.0.0.1:8000'
-    # verification_link = f"{base_url}/verify-email/{verification_token}/"
     base_url = request.scheme + "://" + request.get_host()
     verification_link = base_url + \
         reverse('verify_customer', args=[verification_token])
@@ -507,7 +468,6 @@ def generate_token():
 
 def update_customer_status(customer):
     allowed_review_period = None
-
     # Check if customer.verified_at is not None before calculating allowed review period
     if customer.verified_at:
         allowed_review_period = customer.verified_at + \
@@ -560,11 +520,9 @@ def customer_info(request):
     status = Status.objects.all()
     customer_filter = CustomerFilter(request.GET, queryset=customers)
     status_filter = StatusFilter(request.GET, queryset=status)
-
     # Sorting
     sort_by_customer = request.GET.get('sort_customer', '')
     sort_by_status = request.GET.get('sort_status', '')
-
     if sort_by_customer:
         customers = customer_filter.qs.order_by(sort_by_customer)
     else:
@@ -574,8 +532,7 @@ def customer_info(request):
         status = status_filter.qs.order_by(sort_by_status)
     else:
         status = status_filter.qs
-
-    # Update each customer's status validity dynamically
+    # Update each customer's status validity
     for customer in customers:
         update_customer_status(customer)
 

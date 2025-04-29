@@ -1,14 +1,14 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
     #alertPopup {
-        display: none;
+        display: none; /* hidden by default */
         position: fixed;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);/* positioning it in center */
         z-index: 1000;
         background-color: #f8d7da;
-        color: #721c24;
+        color: #721c24;/* text color*/
         border: 1px solid #f5c6cb;
         border-radius: 5px;
         padding: 20px;
@@ -18,7 +18,7 @@
         font-family: 'thasadith';
     }
     #alertPopupOverlay {
-        display: none;
+        display: none;/* hidden by default */
         position: fixed;
         top: 0;
         left: 0;
@@ -69,32 +69,41 @@
         <button class="alert-popup-close" onclick="closeAlertPopup()">×</button>
     </div>
     <div class="alert-popup-message" id="alertPopupMessage"></div>
-    <button id="loginAsAdminButton" class="alert-popup-button" style="display: none;" onclick="window.location.href='{% url 'admin:login' %}'">Login as Admin</button>
+    {% comment %} if not admin shows login option to admin  {% endcomment %}
+    <button id="loginAsAdminButton" class="alert-popup-button" style="display: none;" onclick="window.location.href='{% url 'login' %}'">Login as Admin</button>
     <button class="alert-popup-button" onclick="closeAlertPopup()">Close</button>
 </div>
 
 <script>
+    // Function to show the alert popup with a message and an optional login button
     function showAlertPopup(message, showLoginButton) {
         const alertPopup = document.getElementById('alertPopup');
         const alertPopupOverlay = document.getElementById('alertPopupOverlay');
         const alertPopupMessage = document.getElementById('alertPopupMessage');
         const loginButton = document.getElementById('loginAsAdminButton');
+        //set the alert message
         alertPopupMessage.textContent = message;
+        //show login button only if needed
         loginButton.style.display = showLoginButton ? 'block' : 'none';
+        //makeng the popup and overlay visible
         alertPopup.style.display = 'block';
         alertPopupOverlay.style.display = 'block';
         
     }
-
+// Function to hide/ close the popup
     function closeAlertPopup() {
         
         document.getElementById('alertPopup').style.display = 'none';
         document.getElementById('alertPopupOverlay').style.display = 'none';
     }
-
+//when the page loads
     document.addEventListener('DOMContentLoaded', function () {
+        //this block is rendered only if "new_alert" is true
         {% if new_alert %}
-            const isAdmin = {{ is_admin|lower }};
+            const isAdmin = {{ is_admin|lower }}; // true or false as boolean
+            //set the message based on the user type
+            //if admin show the alert message
+            //if not admin show the alert message and login button
             const message = isAdmin ?
                 "One alert message for admin" :
                 "One alert message for admin. Login as admin?";
@@ -103,9 +112,6 @@
         {% endif %}
     }); 
 
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-            closeAlertPopup();
-        }
-    });
+    
+    
 </script>

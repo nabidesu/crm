@@ -179,7 +179,6 @@
                     <form method="POST">
                         {% csrf_token %}
                         {{ password_form.as_p }}
-                        <!-- This renders the password change form, which includes the old password field -->
                         <div class="mt-5 text-right">
                             <button class="btn btn-danger profile-button" type="submit" name="change_password">Change
                                 Password</button>
