@@ -1,0 +1,11 @@
+services:
+- type: web
+  name: crm
+  runtime: python
+  repo: https://github.com/nabidesu/crm
+  plan: free
+  region: oregon
+  buildCommand: pip install -r requirements.txt
+  startCommand: gunicorn crm.wsgi:application
+  autoDeployTrigger: commit
+version: "1"
