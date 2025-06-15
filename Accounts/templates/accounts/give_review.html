@@ -311,6 +311,17 @@
                 max-width: 800px;
             }
         }
+        /* Hide caret globally */
+* {
+  caret-color: transparent;
+}
+
+/* Show caret only in input and textarea fields */
+input,
+textarea {
+  caret-color: auto;
+}
+
     </style>
 </head>
 
@@ -375,6 +386,9 @@
                                     </button>
                                     <button type="button" id="stopRecording" disabled class="record-button">
                                         ⏹ Stop Recording
+                                    </button>
+                                    <button type="button" id="cancelRecording" disabled class="record-button">
+                                      🗑 Cancel 
                                     </button>
                                 </div>
                                 <audio id="audioPlayer" controls style="display: none; margin-top: 10px; width: 100%;"></audio>
@@ -533,7 +547,10 @@
                             audioChunks.push(event.data);
                         }
                     };
-
+                    mediaRecorder.onstart = () => {
+                    document.getElementById('recordingStatus').textContent = 'Recording...';
+                    document.getElementById('cancelRecording').disabled = true;
+                        };
                     mediaRecorder.onstop = () => {
                         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
                         const audioUrl = URL.createObjectURL(audioBlob);
@@ -551,14 +568,23 @@
                         const dataTransfer = new DataTransfer();
                         dataTransfer.items.add(file);
                         document.getElementById('audioFile').files = dataTransfer.files;
-
+                        // Update UI
+                        document.getElementById('recordingStatus').textContent = 'Recording saved';
+                        document.getElementById('stopRecording').disabled = true;
+                        document.getElementById('startRecording').disabled = false;
+                        document.getElementById('cancelRecording').disabled = false;
                         // Clean up
                         stream.getTracks().forEach(track => track.stop());
                     };
-
                     mediaRecorder.start();
+                    document.getElementById('recordingStatus').textContent = 'Recording...';
                     document.getElementById('stopRecording').disabled = false;
+                    document.getElementById('cancelRecording').disabled = true;
                     this.disabled = true;
+
+                    {% comment %} mediaRecorder.start();
+                    document.getElementById('stopRecording').disabled = false;
+                    this.disabled = true; {% endcomment %}
 
                 } catch (error) {
                     console.error('Recording error:', error);
@@ -573,7 +599,38 @@
                     document.getElementById('startRecording').disabled = false;
                 }
             });
+            document.getElementById('cancelRecording')?.addEventListener('click', function () {
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioFile = document.getElementById('audioFile');
+    const recordingStatus = document.getElementById('recordingStatus');
+    const startButton = document.getElementById('startRecording');
+    const stopButton = document.getElementById('stopRecording');
+
+    // Clear audio player and file input
+    if (audioPlayer.src) {
+        URL.revokeObjectURL(audioPlayer.src); // Free memory
+        audioPlayer.src = '';
+    }
+    audioPlayer.style.display = 'none';
+    audioFile.value = '';
+
+    // Reset media recorder state
+    if (mediaRecorder) {
+        if (mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+        }
+        mediaRecorder = null;
+        audioChunks = [];
+    }
+
+            // Reset UI
+            recordingStatus.textContent = 'Ready to record';
+            this.disabled = true;
+            startButton.disabled = false;
+            stopButton.disabled = true;
         });
+        });
+            
 
     </script>
 </body>

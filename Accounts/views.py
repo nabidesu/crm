@@ -39,6 +39,13 @@ import soundfile as sf
 import numpy as np
 
 
+def root_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # redirect to dashboard if logged in
+    else:
+        return redirect('login')      # redirect to login otherwise
+
+
 @unauthenticated_user
 def registerPage(request):
     form = CreateUserForm()
@@ -80,9 +87,8 @@ def loginPage(request):
 
         else:
             messages.error(
-                request, "Please check your username or password again.")
+                request, "Please check your username or password again.", extra_tags='login')
 
-    # context = {}
     return render(request, 'Accounts/login.html')
 
 
@@ -165,6 +171,7 @@ def predict_emotion(user_input):
     return predicted_emotion
 
 
+@unauthenticated_user
 def give_review(request):
     form = ReviewForm()
 
@@ -175,7 +182,7 @@ def give_review(request):
             email = form.cleaned_data.get('email')
             responseAlert = form.cleaned_data.get('responseAlert')
             review_text = ""
-            if form.cleaned_data.get('review') and len(form.cleaned_data.get('review')) > 100:
+            if form.cleaned_data.get('review') and len(form.cleaned_data.get('review')) > 500:
                 messages.error(
                     request, "Text review must be less than 500 characters.")
                 return render(request, "Accounts/give_review.html", {"form": form})
@@ -203,7 +210,7 @@ def give_review(request):
 
             except Customer.DoesNotExist:
                 messages.error(
-                    request, "This email is not registered. Please register your account through the reception.")
+                    request, "This email might not be registered or token has expired . Please contact  the reception.")
                 return render(request, "Accounts/give_review.html", {"form": form})
 
             if customer.verified_at:
@@ -218,15 +225,15 @@ def give_review(request):
                     )
                     return render(request, "Accounts/give_review.html", {"form": form})
 
-            # Check if the customer has already submitted 2 reviews
-            reviews_count = Reviews.objects.filter(
-                email=customer.customerEmail).count()
-            print("Existing review count for this customer:", reviews_count)
-            if reviews_count >= 2:
-                messages.error(
-                    request, "You have already submitted the maximum allowed reviews.")
+            # # Check if the customer has already submitted 2 reviews
+            # reviews_count = Reviews.objects.filter(
+            #     email=customer.customerEmail).count()
+            # print("Existing review count for this customer:", reviews_count)
+            # if reviews_count >= 2:
+            #     messages.error(
+            #         request, "You have already submitted the maximum allowed reviews.")
 
-                return render(request, "Accounts/give_review.html", {"form": form})
+            #     return render(request, "Accounts/give_review.html", {"form": form})
 
             # Create the review and assign the respective customer via the foreign key
             try:
@@ -317,7 +324,7 @@ def dashboard(request):
         'Food': ['food', 'meal', 'dish', 'taste', 'yummy'],
         'Experience': ['experience', 'visit', 'time', 'trip'],
         'Ambience': ['ambience', 'atmosphere', 'vibe', 'environment'],
-        'Hygiene': ['hygiene', 'clean', 'sanitary', 'cleanliness', 'dirty'],
+        'Hygiene': ['hygiene', 'clean', 'sanitary', 'cleanliness', 'dirty', 'mouse', 'stain', 'bugs', 'cockroach'],
         'Price': ['price', 'cost', 'expensive', 'cheap', 'costly'],
     }
 
@@ -438,6 +445,8 @@ def send_verification_email(request, customer):
               fail_silently=False,)
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'staff'])
 def register_customer(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
@@ -452,7 +461,7 @@ def register_customer(request):
             send_verification_email(request, customer)
             messages.success(
                 request, f'Verification email is sent to {customer.customerEmail}.')
-            return redirect('dashboard')
+            return redirect('customer_info')
     else:
         form = CustomerForm()
     return render(request, 'Accounts/customer_registration.html', {'form': form})
@@ -515,6 +524,8 @@ def confirmation_page(request):
     return render(request, 'Accounts/confirmation_page.html')
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'staff'])
 def customer_info(request):
     customers = Customer.objects.all()
     status = Status.objects.all()

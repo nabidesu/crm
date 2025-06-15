@@ -118,6 +118,16 @@
             color: rgb(72, 169, 189);
         }
         
+        /* Hide caret globally */
+* {
+  caret-color: transparent;
+}
+
+/* Show caret only in input and textarea fields */
+input,
+textarea {
+  caret-color: auto;
+}
 
     </style>
 </head>
@@ -142,7 +152,9 @@
 
             <button type="submit">LOGIN</button>
             {% for message in messages %}
-            <p id="messages">{{message}}</p>
+               {% if 'login' in message.tags %}
+                   <p id="messages">{{message}}</p>
+               {% endif %}
             {% endfor %}
             <p>New User ? <a href="/register"> Create an Account</a></p>
         </form>

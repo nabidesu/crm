@@ -23,6 +23,16 @@
             margin-top: 0px;
         }
 
+        /* Hide caret globally */
+* {
+  caret-color: transparent;
+}
+
+/* Show caret only in input and textarea fields */
+input,
+textarea {
+  caret-color: auto;
+}
 
 
         /* styling the main container of the form with transparent bg */
@@ -166,7 +176,8 @@
 <body>
 
     <!-- main form container for registration -->
-    <div class="container">
+    <div class="container" >
+
         <h2>Customer Registration</h2>
         <!-- form for customer registration data input -->
         <form method="post">
