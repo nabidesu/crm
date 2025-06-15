@@ -3,6 +3,7 @@ from django.urls import path, include
 from .import views
 from django.contrib.auth import views as auth_views
 urlpatterns = [
+    path('', views.root_redirect, name='root_redirect'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('main/', views.main, name='main'),
     path('login/', views.loginPage, name='login'),

@@ -7,13 +7,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <!-- Load Bootstrap CSS for responsive styling -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+    <!-- Load Chart.js and datalabels plugin for charts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <style>
+        /* Import Thasadith font for consistent typography */
         @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+        /* General body styles */
         body {
 
             margin: 0;
@@ -21,7 +25,7 @@
             color: #31362e;
             font-family: 'Thasadith';
         }
-
+        /* Style containers for charts and text */
         .container {
             max-width: 750px;
             margin: 20px auto;
@@ -31,18 +35,29 @@
             padding-right: -80px;
             font-family: 'Thasadith';
         }
-
+        /* Style for the page font */
         .pagefont {
             font-family: 'Thasadith';
 
 
         }
-
+        /* Style for the table */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
+        /* Hide caret globally */
+* {
+  caret-color: transparent;
+}
+
+/* Show caret only in input and textarea fields */
+input,
+textarea {
+  caret-color: auto;
+}
+
 
         table th,
         table td {
@@ -74,7 +89,7 @@
             background-color: #1E201E;
             z-index: 10;
         }
-
+        /* Style for the reviews table wrapper for fixed container with scrollable feature */
         .reviews-table-wrapper {
             min-height: 600px;
             margin-bottom: 20px;
@@ -89,7 +104,7 @@
             background-color: white;
 
         }
-
+        /* Style for the button */
         .btn {
             font-family: 'Thasadith';
             display: inline-block;
@@ -114,9 +129,8 @@
             opacity: 95%;
             width: 300px;
         }
-
+        /* Style for the main dashboard section */
         .one {
-            /* background: url("{% static 'images/dashboardImg1.jpg' %}") no-repeat center center fixed; */
             background-color: #526e79;
             background-size: cover;
             height: 100%;
@@ -125,18 +139,6 @@
             padding-bottom: 50px;
         }
 
-        /* Layout table */
-        .dashboard-layout {
-            width: 100%;
-            border: none;
-            border-collapse: collapse;
-            background-color: #bdb5aa;
-        }
-
-        .dashboard-layout td {
-            border: none;
-            vertical-align: top;
-        }
 
         /* Reviews and filter section - side by side layout */
         .reviews-filter-container {
@@ -183,7 +185,7 @@
             margin-bottom: 20px;
             font-family: 'Thasadith';
         }
-
+        /* Style form groups in the filter form */
         .form-group {
             margin-bottom: 15px;
             position: relative;
@@ -223,7 +225,7 @@
         }
 
 
-
+        /* Style the filter form layout */
         .filter-form {
             display: flex;
             flex-direction: column;
@@ -235,14 +237,14 @@
             text-align: right;
         }
 
-        /* Reviews table wrapper */
+        /* Reviews table wrapper for scrolling */
         .reviews-table-wrapper {
             min-height: 200px;
             max-height: 500px;
             overflow-y: auto;
         }
 
-        /* Responsive adjustments */
+        {% comment %} /* Responsive adjustments for smaller screen i.e. phone*/
         @media (max-width: 992px) {
             .reviews-filter-container {
                 flex-direction: column;
@@ -252,7 +254,7 @@
             .filter-card {
                 width: 100%;
             }
-        }
+        } {% endcomment %}
        
         
     </style>
@@ -263,7 +265,7 @@
 
 <body style="background-color: #526e79;">
     {% include 'Accounts/navbar.html' %}
-
+   <!-- Dashboard header -->
     <div class="container mt-4"
         style="margin-bottom: -10px; background-color: #C3C7C6;margin-left: 0px; margin-right: 0px; padding-left: 350px;">
         <h2 class="thasadith" style="margin-top: -10px; font-size: 28px;margin-left: -200px; color: black;">
@@ -272,11 +274,12 @@
     </div>
 
     <div class="one">
+        <!-- Table for organizing charts -->
         <table class="graphsTable" style="border: none; border-collapse: collapse;">
 
             <tr>
                 <td style="border: none;">
-                    <!-- Graph Containers -->
+                    <!-- Bar chart container -->
                     <div class="container mt-4"
                         style="margin-left: 400px; max-width: 750px; height: 420px; color: white;">
                         <div style="width: 700px; height: 300px; margin-bottom: 50px; margin-right: -100px;">
@@ -299,10 +302,10 @@
                 </td>
             </tr>
         </table>
-
+        <!-- Pie chart and image section -->
         <div style="background-color: #526e79;">
             <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
-                <!-- Pie Chart -->
+                <!-- Pie Chart container-->
                 <div class="pie container mt-4"
                     style="max-width: 600px; width: 100%; background-color: #C3C7C6; color: #0056b3; padding: 80px; margin-left: 70px; margin-right: -10px;">
                     <div
@@ -371,7 +374,7 @@
 
                     <!-- Filter Form for Reviews -->
                     <form method="get" class="filter-form">
-                        <!-- Emotion -->
+                        <!-- filter by review limit-->
                         <div class="form-group">
                             <label for="limit">Show</label>
                             <select id="limit" name="limit" class="form-control">
@@ -380,7 +383,7 @@
                                 <option value="5">Top 5</option>
                             </select>
                         </div>
-
+                         <!-- filter by emotion-->
                         <div class="form-group">
                             <label for="emotion">Emotion</label>
                             <select id="emotion" name="emotion" class="form-control">
@@ -391,14 +394,14 @@
                             </select>
                         </div>
 
-                        <!-- Review -->
+                        <!-- search by Review -->
                         <div class="form-group">
                             <label for="review">Review</label>
                             <input type="text" id="review" name="review" class="form-control"
                                 placeholder="Search by review">
                         </div>
 
-                        <!-- Created At (Date Range) -->
+                        <!-- filter for Created At (Date Range) -->
                         <div class="form-group">
                             <label for="created_at_after">From</label>
                             <input type="date" id="created_at_after" name="created_at_after" class="form-control">
@@ -419,9 +422,9 @@
             </div>
         </div>
     </div>
-    
+    <!-- JavaScript for rendering charts -->
     <script>
-        // Get the chart element
+        // bar chart for category counts
         var ctx = document.getElementById('myChart').getContext('2d');
         var categoryCounts = {
             Service: "{{category_counts.Service|default:0}}",
@@ -431,7 +434,7 @@
             Hygiene: "{{category_counts.Hygiene|default:0}}",
             Price: "{{category_counts.Price|default:0}}"
         };
-        // Create the chart
+        // Creating the chart
         var barData = {
             labels: ['Service', 'Food', 'Experience', 'Ambience', 'Hygiene', 'Price'],
 
@@ -459,7 +462,7 @@
             }]
         };
 
-        // Create the bar chart
+        // Creating the bar chart
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: barData,
@@ -480,7 +483,7 @@
 
                     },
                     labels: {
-                        color: 'black', // White color for legend
+                        color: 'black', // Black color for legend
                         font: {
                             family: 'Thasadith',
                             size: 16,
@@ -488,7 +491,7 @@
                         }
                     },
                     datalabels: {
-                        anchor: 'end',  // Position the label at the top of the bar
+                        anchor: 'end',  
                         align: 'top',   // Align the label at the top
                         color: '#F2EFE7',
                         formatter: function (value) {
@@ -542,7 +545,7 @@
             },
             plugins: [ChartDataLabels]
         });
-
+        // Pie chart for emotion distribution
         var emotionCounts = {
             positive: Number("{{emotion_counts.positive|default:0}}"),
             negative: Number("{{emotion_counts.negative|default:0}}"),
@@ -619,13 +622,11 @@
             },
             plugins: [ChartDataLabels]
         });
-
+        // Reset filter form and reload page
         function resetForm() {
-            // Reset the form
             document.querySelector('form').reset();
-
             // Reload the page to clear filters
-            window.location.href = window.location.pathname; // Reloads the current URL without query parameters
+            window.location.href = window.location.pathname; 
         }
     </script>
 

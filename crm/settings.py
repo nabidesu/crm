@@ -32,10 +32,10 @@ SECRET_KEY = 'django-insecure-x%4rvym_o-8a*l2%x3bl!l5=-2+__#qzuw!vnu5n38-s=i)wmj
 
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1',
-                 '100.64.246.44']
+                 '100.64.246.44', '192.168.1.6', '192.168.1.93', '100.64.201.118', '172.20.10.5']
 
 
-DEBUG = False
+DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [

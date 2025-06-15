@@ -6,19 +6,21 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        /* Import Thasadith font for design */
         @import url('https://fonts.googleapis.com/css2?family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
+        
+        /* Ensure all elements use border-box for consistent sizing */
         * {
             box-sizing: border-box;
         }
-
+        /* Body styling */
         body {
             background-color: #c1d8df;
             margin: 0;
             padding: 0;
             font-family: 'Thasadith', sans-serif;
         }
-
+        /* Background image styling */
         .page-background {
             width: 100%;
             height: 100%;
@@ -45,7 +47,7 @@
             padding: 0 15px;
         }
 
-        /* Content wrapper */
+        /* Content wrapper for restimonial cards and form*/
         .content-wrapper {
             display: flex;
             flex-direction: column;
@@ -53,7 +55,12 @@
             margin: 0 auto;
         }
 
-        /* Form input styles */
+        .form-textarea {
+            height: 80px;
+            resize: vertical;
+            width: 100%;
+        }
+        /* Form input style */
         .form-input {
             width: 100%;
             padding: 10px;
@@ -64,12 +71,6 @@
             font-size: 16px;
             font-family: 'Thasadith';
             transition: all 0.3s ease;
-        }
-
-        .form-textarea {
-            height: 80px;
-            resize: vertical;
-            width: 100%;
         }
 
         /* Testimonial section */
@@ -84,7 +85,7 @@
             padding: 20px 0;
         }
 
-        /* Testimonial cards */
+        /* Testimonial cards to display review */
         .testimonial-card {
             background-color: #AEBBC3;
             border-radius: 15px;
@@ -93,7 +94,8 @@
             box-shadow: 0 0 15px rgb(59, 82, 102);
             border: 2px solid rgb(76, 110, 123);
         }
-
+        
+        /* Style testimonial text with responsive font size */
         .testimonial-text {
             color: #080808;
             font-size: clamp(16px, 3vw, 25px);
@@ -101,7 +103,7 @@
             font-weight: normal;
         }
 
-        /* Form container */
+        /* Style Form container */
         .form-container {
             background-color: #435d6c;
             border-radius: 20px;
@@ -118,7 +120,7 @@
             padding-bottom: 5px;
             color: #201f27;
         }
-
+        /* Style the review type toggle switch */
         .review-type-toggle {
             display: flex;
             align-items: center;
@@ -126,7 +128,7 @@
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
-
+        /* Style the toggle switch container */
         .toggle-switch {
             position: relative;
             display: inline-block;
@@ -152,7 +154,7 @@
             transition: .4s;
             border-radius: 34px;
         }
-
+        /* Style the toggle slider knob */
         .toggle-slider:before {
             position: absolute;
             content: "";
@@ -164,7 +166,7 @@
             transition: .4s;
             border-radius: 50%;
         }
-
+        /* Style the toggle when checked */
         input:checked+.toggle-slider {
             background-color: #201f27;
         }
@@ -193,7 +195,7 @@
             font-size: clamp(16px, 2vw, 20px);
             color: #201f27;
         }
-
+        /* Style recording buttons container */
         .recording-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -228,7 +230,7 @@
             display: block;
         }
 
-        /* Error popup styles */
+        /* styling the error popup part */
         #errorPopup {
             display: none;
             position: fixed;
@@ -287,7 +289,7 @@
             font-size: 40px;
         }
 
-        /* Media Queries */
+        /* Responsize layout for small screen */
         @media (min-width: 768px) {
             .content-wrapper {
                 flex-direction: row;
@@ -303,12 +305,23 @@
                 width: 50%;
             }
         }
-
+        /* Responsize layout for large screen */
         @media (min-width: 992px) {
             .form-container {
                 max-width: 800px;
             }
         }
+        /* Hide caret globally */
+* {
+  caret-color: transparent;
+}
+
+/* Show caret only in input and textarea fields */
+input,
+textarea {
+  caret-color: auto;
+}
+
     </style>
 </head>
 
@@ -316,10 +329,10 @@
     <img src="{% static 'images/1.jpg' %}" alt="Background Image" class="page-background">
 
     <h1 class="page-title">Discover reviews from guests who've enjoyed our comfort, and care.</h1>
-
+    <!-- Content overlay for visibility -->
     <div class="content-overlay">
         <div class="content-wrapper">
-            <!-- Testimonials -->
+            <!-- Testimonialsection for displaying reviews -->
             <div class="testimonial-section">
                 {% for i in reviews %}
                 <div class="testimonial-card">
@@ -328,20 +341,20 @@
                 {% endfor %}
             </div>
 
-            <!-- Form Section -->
+            <!-- Form Section for submitting reviews-->
             <div class="form-section">
                 <h2 class="form-title">We value your feedback – tell us about your stay.</h2>
                 <div class="form-container">
                     <form method="POST" action="{% url 'give_review' %}" enctype="multipart/form-data">
                         {% csrf_token %}
 
-                        <!-- Email Field -->
+                        <!-- Email input Field -->
                         <div style="margin-bottom: 15px;">
                             <label for="name" class="form-label">Email</label>
                             {{form.email}}
                         </div>
 
-                        <!-- Review Type Toggle -->
+                        <!-- Toggle between text and voice review -->
                         <div class="review-type-toggle">
                             <span class="toggle-label">Text Review</span>
                             <label class="toggle-switch">
@@ -356,6 +369,10 @@
                             <div style="margin-bottom: 15px;">
                                 <label for="review" class="form-label">Review</label>
                                 {{form.review}}
+                                <div class="character-counter">
+                                    <span id="charCount">0</span>/500 characters
+                                </div>
+                        
                             </div>
                         </div>
 
@@ -369,6 +386,9 @@
                                     </button>
                                     <button type="button" id="stopRecording" disabled class="record-button">
                                         ⏹ Stop Recording
+                                    </button>
+                                    <button type="button" id="cancelRecording" disabled class="record-button">
+                                      🗑 Cancel 
                                     </button>
                                 </div>
                                 <audio id="audioPlayer" controls style="display: none; margin-top: 10px; width: 100%;"></audio>
@@ -393,7 +413,7 @@
         </div>
     </div>
 
-    <!-- Error Popup -->
+    <!-- Error Popup for form validation error-->
     <div id="errorPopupOverlay"></div>
     <div id="errorPopup">
         <div class="error-popup-header">
@@ -404,9 +424,11 @@
         <div id="errorPopupMessage" class="error-popup-message"></div>
     </div>
 
-    <!-- Pass form errors to JavaScript -->
+    <!-- Using JavaScript for error handling -->
     {% if form.errors or form.non_field_errors or message  %}
     <script>
+        /// Pass form errors to JavaScript
+        {% load static %}
         const errorMessages = [];
         {% for field in form %}
             {% for error in field.errors %}
@@ -425,6 +447,7 @@
     {% endif %}
 
     <script>
+        // Show error popup with messages
         function showErrorPopup(messages) {
             const errorPopup = document.getElementById('errorPopup');
             const errorPopupOverlay = document.getElementById('errorPopupOverlay');
@@ -438,6 +461,7 @@
             errorPopupOverlay.style.display = 'block';
         }
 
+        // Close error popup
         function closeErrorPopup() {
             const errorPopup = document.getElementById('errorPopup');
             const errorPopupOverlay = document.getElementById('errorPopupOverlay');
@@ -449,6 +473,38 @@
             if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) {
                 showErrorPopup(errorMessages);
             }
+             // Get the textarea element from form field)
+            const reviewTextarea = document.getElementById('id_review');
+    
+            // Initialize character count on page load
+            if (reviewTextarea) {
+             const charCountSpan = document.getElementById('charCount');
+            if (charCountSpan) {
+            charCountSpan.textContent = reviewTextarea.value.length;
+             }
+        
+        // Add input event listener to update character count as user types
+        reviewTextarea.addEventListener('input', function() {
+            const maxLength = 500;
+            const currentLength = this.value.length;
+            
+            // Update the character count display
+            if (charCountSpan) {
+                charCountSpan.textContent = currentLength;
+            }
+            
+            // Limit text to max length
+            if (currentLength > maxLength) {
+                this.value = this.value.substring(0, maxLength);
+                if (charCountSpan) {
+                    charCountSpan.textContent = maxLength;
+                }
+                // Show error popup
+                showErrorPopup(['Your review cannot exceed 500 characters.']);
+            }
+        });
+    }
+    
 
             // Toggle between text and audio review
             const reviewTypeToggle = document.getElementById('reviewTypeToggle');
@@ -478,6 +534,7 @@
             // Audio recording functionality
             let mediaRecorder;
             let audioChunks = [];
+            const maxRecordingDuration = 60 * 1000; // 1 minute
 
             document.getElementById('startRecording')?.addEventListener('click', async function () {
                 try {
@@ -490,7 +547,10 @@
                             audioChunks.push(event.data);
                         }
                     };
-
+                    mediaRecorder.onstart = () => {
+                    document.getElementById('recordingStatus').textContent = 'Recording...';
+                    document.getElementById('cancelRecording').disabled = true;
+                        };
                     mediaRecorder.onstop = () => {
                         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
                         const audioUrl = URL.createObjectURL(audioBlob);
@@ -500,7 +560,7 @@
                         audioPlayer.src = audioUrl;
                         audioPlayer.style.display = 'block';
 
-                        // Create file and assign to hidden input
+                        // Create file and assign to  input
                         const file = new File([audioBlob], `recording_${Date.now()}.wav`, {
                             type: 'audio/wav'
                         });
@@ -508,14 +568,23 @@
                         const dataTransfer = new DataTransfer();
                         dataTransfer.items.add(file);
                         document.getElementById('audioFile').files = dataTransfer.files;
-
+                        // Update UI
+                        document.getElementById('recordingStatus').textContent = 'Recording saved';
+                        document.getElementById('stopRecording').disabled = true;
+                        document.getElementById('startRecording').disabled = false;
+                        document.getElementById('cancelRecording').disabled = false;
                         // Clean up
                         stream.getTracks().forEach(track => track.stop());
                     };
-
                     mediaRecorder.start();
+                    document.getElementById('recordingStatus').textContent = 'Recording...';
                     document.getElementById('stopRecording').disabled = false;
+                    document.getElementById('cancelRecording').disabled = true;
                     this.disabled = true;
+
+                    {% comment %} mediaRecorder.start();
+                    document.getElementById('stopRecording').disabled = false;
+                    this.disabled = true; {% endcomment %}
 
                 } catch (error) {
                     console.error('Recording error:', error);
@@ -530,13 +599,39 @@
                     document.getElementById('startRecording').disabled = false;
                 }
             });
-        });
+            document.getElementById('cancelRecording')?.addEventListener('click', function () {
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioFile = document.getElementById('audioFile');
+    const recordingStatus = document.getElementById('recordingStatus');
+    const startButton = document.getElementById('startRecording');
+    const stopButton = document.getElementById('stopRecording');
 
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closeErrorPopup();
-            }
+    // Clear audio player and file input
+    if (audioPlayer.src) {
+        URL.revokeObjectURL(audioPlayer.src); // Free memory
+        audioPlayer.src = '';
+    }
+    audioPlayer.style.display = 'none';
+    audioFile.value = '';
+
+    // Reset media recorder state
+    if (mediaRecorder) {
+        if (mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+        }
+        mediaRecorder = null;
+        audioChunks = [];
+    }
+
+            // Reset UI
+            recordingStatus.textContent = 'Ready to record';
+            this.disabled = true;
+            startButton.disabled = false;
+            stopButton.disabled = true;
         });
+        });
+            
+
     </script>
 </body>
 

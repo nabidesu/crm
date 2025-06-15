@@ -57,3 +57,4 @@ watchdog==4.0.0
 websockets==12.0
 zipp==3.18.1
 openai-whisper==20240930
+nltk

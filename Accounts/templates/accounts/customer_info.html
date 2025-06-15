@@ -142,6 +142,17 @@
             color: #000000;
             font-size: 35px;
         }
+        /* Hide caret globally */
+* {
+  caret-color: transparent;
+}
+
+/* Show caret only in input and textarea fields */
+input,
+textarea {
+  caret-color: auto;
+}
+
     </style>
 </head>
 
@@ -168,7 +179,7 @@
 
                         <!-- Filter Form -->
                         <div class="filter-form"
-                            style="background-color: #f5fffc; padding: 15px; border-radius: 5px; color: #fbfdfd;">
+                            style="background-color: #f5fffc; padding: 15px; border-radius: 5px; color: #fbfdfd; margin-left: 0px;">
                             <form method="get">
                                 <div class="row">
                                     <!-- Email -->
@@ -306,19 +317,12 @@
                                     </div>
                                 </div>
 
-                                <!-- Customer Email -->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="customerEmail">Customer Email</label>
-                                        <input type="text" id="customerEmail" name="customerEmail" class="form-control"
-                                            placeholder="Search by email">
-                                    </div>
-                                </div>
+                                
                             </div>
 
                             <!-- Buttons -->
                             <div class="row">
-                                <div class="col-md-12 text-right" style="margin-left: -650px; margin-top: -50px;">
+                                <div class="col-md-12 text-right" style="margin-left: 0px; margin-top: 0px;">
                                     <button type="reset" class="btn btn-secondary" onclick="resetForm()">Reset</button>
                                     <button type="submit" class="btn btn-primary">Search</button>
                                 </div>

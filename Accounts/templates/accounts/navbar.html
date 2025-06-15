@@ -47,6 +47,17 @@
         .navbar-inverse .navbar-nav>li>a:hover {
             color: #fff;
         }
+        /* Hide caret globally */
+* {
+  caret-color: transparent;
+}
+
+/* Show caret only in input and textarea fields */
+input,
+textarea {
+  caret-color: auto;
+}
+
     </style>
 </head>
 
@@ -55,14 +66,15 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Moodify</a>
+                <a class="navbar-brand" href="/dashboard">Moodify</a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="/main">Admin</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/give_review">Review</a></li>
+                <li><a href="/customer_info">Customers</a></li>
+                {% comment %} <li><a href="/give_review">Review</a></li> {% endcomment %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                 <li><a href="/customer_registration">Register</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="/staff_profile"><i class="fas fa-user-circle" aria-hidden="true"></i> Profile</a></li>
                 <li><a href="/logout">Logout {{ request.user }}</a></li>

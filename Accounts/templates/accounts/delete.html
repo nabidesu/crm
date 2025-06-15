@@ -1,7 +1,9 @@
+<!--Check if the item has a review (to delete a review)-->
 {% if item.review %}
 <h2>Are you sure you want to remove this review?</h2>
 <p>{{ item.review }}</p>
 
+<!-- Form to confirm deletion of the review -->
 <form action="{% url 'remove_review' item.reviewID  %}" method="POST">
     {% csrf_token %}
     <button type="submit" class=" btn btn-danger">Yes, Remove Review</button>
@@ -9,10 +11,12 @@
 </form>
 {% endif %}
 
+
+<!--Check if the item has a username (to delete a staff)-->
 {% if item.username %}
 <h2>Are you sure you want to remove this user?</h2>
 <p>{{ item.username }}</p>
-
+<!-- Form to confirm deletion of the staff -->
 <form action="{% url 'remove_user' item.username %}" method="POST">
     {% csrf_token %}
     <button type="submit" class=" btn btn-danger">Yes, Remove User</button>
@@ -20,10 +24,12 @@
 </form>
 {% endif %}
 
+
+<!--Check if the item has a username (to delete a customer)-->
 {% if item.customerEmail %}
 <h2>Are you sure you want to remove this user?</h2>
 <p>{{ item.customerEmail }}</p>
-
+<!-- Form to confirm deletion of the customer -->
 <form action="{% url 'remove_customer' item.customerEmail %}" method="POST">
     {% csrf_token %}
     <button type="submit" class=" btn btn-danger">Yes, Remove Customer</button>

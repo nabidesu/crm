@@ -17,7 +17,7 @@ from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncWeek
 from datetime import datetime
-from REVIEWANALYSER import settings
+from crm import settings
 from .models import *
 from .form import *
 from .utils import clean_data
@@ -32,23 +32,22 @@ from django.utils.dateparse import parse_datetime
 import pickle
 
 import whisper
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
+
 import tempfile
 import io
 import soundfile as sf
 import numpy as np
 
-os.environ["FFMPEG_BINARY"] = r"D:\ffmpeg\ffmpeg\bin\ffmpeg.exe"
-os.environ["FFPROBE_BINARY"] = r"D:\ffmpeg\ffmpeg\bin\ffprobe.exe"
-# Additional NLP imports
-AudioSegment.converter = r"D:\ffmpeg\ffmpeg\bin\ffmpeg.exe"
-AudioSegment.ffprobe = r"D:\ffmpeg\ffmpeg\bin\ffprobe.exe"
+
+def root_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # redirect to dashboard if logged in
+    else:
+        return redirect('login')      # redirect to login otherwise
 
 
 @unauthenticated_user
 def registerPage(request):
-
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
@@ -76,7 +75,6 @@ def loginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -85,14 +83,12 @@ def loginPage(request):
                 activity_type='login',
                 description=f"{user.username} logged in."
             )
-            messages.success(request, "Login successful!")
             return redirect('dashboard')
 
         else:
             messages.error(
-                request, "Please check your username or password again.")
+                request, "Please check your username or password again.", extra_tags='login')
 
-    # context = {}
     return render(request, 'Accounts/login.html')
 
 
@@ -123,69 +119,34 @@ def main(request):
     return render(request, 'Accounts/main.html', context)
 
 
-os.environ["PATH"] += os.pathsep + os.path.dirname(r"D:\ffmpeg\ffmpeg\bin")
 # Load Whisper model
-# You can use "small", "medium", or "large" for better accuracy
 whisper_model = whisper.load_model("base")
 
 
 def process_audio(audio_file):
-    """Convert voice recording to text using Whisper model."""
     try:
-        # Ensure we're at the start of the file
+        # Reset file pointer
         audio_file.seek(0)
 
-        # Create a temporary file for the original audio
+        # Save uploaded file to temporary WAV
         with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as tmp_file:
             for chunk in audio_file.chunks():
                 tmp_file.write(chunk)
-            original_path = tmp_file.name
+            temp_path = tmp_file.name
 
-        print(f"Original file created at: {original_path}")
-
-        # Create a path for the converted file
-        converted_path = original_path + ".pcm.wav"
-
-        # Convert using explicit ffmpeg path
-        ffmpeg_path = r"D:\ffmpeg\ffmpeg\bin\ffmpeg.exe"
-        cmd = [
-            ffmpeg_path, "-y",
-            "-i", original_path,
-            "-f", "s16le",
-            "-ac", "1",
-            "-acodec", "pcm_s16le",
-            "-ar", "16000",
-            converted_path
-        ]
-
-        try:
-            result = subprocess.run(cmd, check=True, capture_output=True)
-            print(f"Conversion successful, output file: {converted_path}")
-        except subprocess.CalledProcessError as e:
-            print(f"FFmpeg error: {e.stderr.decode()}")
-            raise
-
-        # Now manually load the audio using numpy
-        audio_data = np.fromfile(
-            converted_path, np.int16).astype(np.float32) / 32768.0
-
-        # Process with Whisper, bypassing its load_audio function
-        transcription = whisper_model.transcribe(audio_data)
+        # Use Whisper's built-in audio loading
+        audio = whisper.load_audio(temp_path)
+        # Transcribe directly
+        transcription = whisper_model.transcribe(audio)
         transcribed_text = transcription["text"].strip()
 
         # Clean up
-        try:
-            os.unlink(original_path)
-            os.unlink(converted_path)
-        except Exception as e:
-            print(f"Warning: Could not delete temp files: {e}")
+        os.unlink(temp_path)
 
         return transcribed_text
 
     except Exception as e:
         print(f"Audio processing error: {str(e)}")
-        import traceback
-        traceback.print_exc()
         return ""
 
 
@@ -193,58 +154,38 @@ def process_audio(audio_file):
 tfidf_path = os.path.join(settings.BASE_DIR, 'Accounts',
                           'ml_models', 'tfidf_vectorizer.pkl')
 model_path = os.path.join(settings.BASE_DIR, 'Accounts',
-                          'ml_models', 'voting_classifier_model.pkl')
+                          'ml_models', 'logistic_Regression.pkl')
 
 with open(tfidf_path, 'rb') as file:
     tfidf_vectorizer = pickle.load(file)
 
 with open(model_path, 'rb') as file:
-    voting_clf = pickle.load(file)
+    logistic_regression = pickle.load(file)
 
-
-# def predict_emotion(text):
-
-#     try:
-#         if not isinstance(text, str):
-#             text = str(text)
-#         if not text.strip():
-#             return "unknown"
-
-#         clean_text = clean_data(text)
-#         print(f"Original text: {text}")
-#         print(f"Cleaned text: {clean_text}")
-#         text_vector = tfidf_vectorizer.transform([clean_text])
-#         prediction = voting_clf.predict(text_vector)
-#         mapping = {1: "positive", 0: "neutral", -1: "negative"}
-#         predicted_emotion = mapping.get(prediction[0], "unknown")
-#         print(f"Predicted emotion: {predicted_emotion}")
-#         return predicted_emotion
-#     except Exception as e:
-#         print(f"Error in predict_emotion: {str(e)}")
-#         import traceback
-#         traceback.print_exc()
-#         return "unknown"
 
 def predict_emotion(user_input):
     clean_input = clean_data(user_input)
     user_input_tfidf = tfidf_vectorizer.transform([clean_input])
-    prediction = voting_clf.predict(user_input_tfidf)
+    prediction = logistic_regression.predict(user_input_tfidf)
     predicted_emotion = prediction[0]
     return predicted_emotion
 
 
-# @allowed_users(allowed_roles=['admin', 'customer'])
+@unauthenticated_user
 def give_review(request):
     form = ReviewForm()
 
     if request.method == "POST":
-        # Make sure to include request.FILES
         form = ReviewForm(request.POST, request.FILES)
 
         if form.is_valid():
             email = form.cleaned_data.get('email')
             responseAlert = form.cleaned_data.get('responseAlert')
             review_text = ""
+            if form.cleaned_data.get('review') and len(form.cleaned_data.get('review')) > 500:
+                messages.error(
+                    request, "Text review must be less than 500 characters.")
+                return render(request, "Accounts/give_review.html", {"form": form})
 
             # Process audio file if uploaded
             if 'audio' in request.FILES and request.FILES['audio']:
@@ -269,10 +210,8 @@ def give_review(request):
 
             except Customer.DoesNotExist:
                 messages.error(
-                    request, "This email is not registered. Please register your account through the reception.")
+                    request, "This email might not be registered or token has expired . Please contact  the reception.")
                 return render(request, "Accounts/give_review.html", {"form": form})
-
-            # Check that the review window is still open (if verified_at is set)
 
             if customer.verified_at:
                 allowed_review_period = customer.verified_at + \
@@ -286,7 +225,7 @@ def give_review(request):
                     )
                     return render(request, "Accounts/give_review.html", {"form": form})
 
-            # Check if the customer has already submitted 2 reviews
+            # # Check if the customer has already submitted 2 reviews
             # reviews_count = Reviews.objects.filter(
             #     email=customer.customerEmail).count()
             # print("Existing review count for this customer:", reviews_count)
@@ -296,13 +235,13 @@ def give_review(request):
 
             #     return render(request, "Accounts/give_review.html", {"form": form})
 
-            # Create the review and assign the respective customer (linking via the foreign key)
+            # Create the review and assign the respective customer via the foreign key
             try:
                 new_review = Reviews.objects.create(
                     review=review_text,
                     emotion=predict_emotion(review_text),
                     responseAlert=responseAlert,
-                    email=email  # This links the review to the customer instance
+                    email=email  # This links the review to the customer
                 )
                 new_review.save()
                 print("Review created successfully.")
@@ -385,7 +324,7 @@ def dashboard(request):
         'Food': ['food', 'meal', 'dish', 'taste', 'yummy'],
         'Experience': ['experience', 'visit', 'time', 'trip'],
         'Ambience': ['ambience', 'atmosphere', 'vibe', 'environment'],
-        'Hygiene': ['hygiene', 'clean', 'sanitary', 'cleanliness', 'dirty'],
+        'Hygiene': ['hygiene', 'clean', 'sanitary', 'cleanliness', 'dirty', 'mouse', 'stain', 'bugs', 'cockroach'],
         'Price': ['price', 'cost', 'expensive', 'cheap', 'costly'],
     }
 
@@ -495,9 +434,6 @@ def send_verification_email(request, customer):
     verification_token = get_random_string(length=32)
     customer.verification_token = verification_token
     customer.save()
-    # base_url = request.scheme + "://" + request.get_host()
-    # base_url = 'http://127.0.0.1:8000'
-    # verification_link = f"{base_url}/verify-email/{verification_token}/"
     base_url = request.scheme + "://" + request.get_host()
     verification_link = base_url + \
         reverse('verify_customer', args=[verification_token])
@@ -509,6 +445,8 @@ def send_verification_email(request, customer):
               fail_silently=False,)
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'staff'])
 def register_customer(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
@@ -523,7 +461,7 @@ def register_customer(request):
             send_verification_email(request, customer)
             messages.success(
                 request, f'Verification email is sent to {customer.customerEmail}.')
-            return redirect('dashboard')
+            return redirect('customer_info')
     else:
         form = CustomerForm()
     return render(request, 'Accounts/customer_registration.html', {'form': form})
@@ -539,7 +477,6 @@ def generate_token():
 
 def update_customer_status(customer):
     allowed_review_period = None
-
     # Check if customer.verified_at is not None before calculating allowed review period
     if customer.verified_at:
         allowed_review_period = customer.verified_at + \
@@ -587,16 +524,16 @@ def confirmation_page(request):
     return render(request, 'Accounts/confirmation_page.html')
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'staff'])
 def customer_info(request):
     customers = Customer.objects.all()
     status = Status.objects.all()
     customer_filter = CustomerFilter(request.GET, queryset=customers)
     status_filter = StatusFilter(request.GET, queryset=status)
-
     # Sorting
     sort_by_customer = request.GET.get('sort_customer', '')
     sort_by_status = request.GET.get('sort_status', '')
-
     if sort_by_customer:
         customers = customer_filter.qs.order_by(sort_by_customer)
     else:
@@ -606,8 +543,7 @@ def customer_info(request):
         status = status_filter.qs.order_by(sort_by_status)
     else:
         status = status_filter.qs
-
-    # Update each customer's status validity dynamically
+    # Update each customer's status validity
     for customer in customers:
         update_customer_status(customer)
 
